@@ -1,22 +1,42 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:offbeat_pravasi_v2/firebase_options.dart';
+import 'package:offbeat_pravasi_v2/router/router.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MainApp());
+import 'modules/module_exports.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => AuthServices()),
+    ],
+    child: Phoenix(
+      child: const MyApp(),
+    ),
+  ));
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text(
-            'Hello World!',
-          ),
-        ),
-      ),
+    return MaterialApp.router(
+      title: 'Offbeat Pravasi',
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      routerConfig: router,
     );
   }
 }

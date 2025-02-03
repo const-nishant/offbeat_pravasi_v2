@@ -4,10 +4,11 @@ ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(
     surface: Color(0xFFFFFFFF), // Background color
     onSurface: Color(0xFFE7E8A6), // Foreground color
-    primary: Color(0x008d4612), // Primary Button Color
-    secondary: Color(0x00ff9800), // Secondary Button Color
-    tertiary: Color(0x00939598), // Tertiary Color
-    inversePrimary: Colors.grey.shade900,
+    primary: Colors.grey.shade900,
+    onPrimary: Color(0xFF8d4612), // Primary Button Color
+    secondary: Color(0xFFff9800), // Secondary Button Color
+    tertiary: Color(0xFF939598), // Tertiary Color
+    inversePrimary: Colors.white,
   ),
   dialogTheme: DialogTheme(
     titleTextStyle: TextStyle(color: Colors.grey.shade500),
@@ -20,17 +21,17 @@ ThemeData lightTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Color(0x008d4612), // Primary Button Color
+      backgroundColor: Color(0xFF8d4612), // Primary Button Color
       foregroundColor: Colors.white,
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      foregroundColor: Color(0x00ff9800), // Secondary Button Color
-      side: BorderSide(color: Color(0x00ff9800)),
+      foregroundColor: Color(0xFFff9800), // Secondary Button Color
+      side: BorderSide(color: Color(0xFFff9800)),
     ),
   ),
   progressIndicatorTheme: ProgressIndicatorThemeData(
-    color: Color(0x00ff9800), // CircularProgressIndicator color
+    color: Color(0xFFff9800), // CircularProgressIndicator color
   ),
 );
