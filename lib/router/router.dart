@@ -7,10 +7,10 @@ final GoRouter router = GoRouter(
       path: '/',
       builder: (context, state) => const Authwrapper(),
     ),
-    // GoRoute(
-    //   path: '/login',
-    //   builder: (context, state) => const LoginPage(),
-    // ),
+    GoRoute(
+      path: '/forgot_password',
+      builder: (context, state) => const ForgotPassword(),
+    ),
     // GoRoute(
     //   path: '/signup',
     //   builder: (context, state) => const SignupPage(),

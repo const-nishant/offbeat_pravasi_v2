@@ -93,6 +93,33 @@ class AuthServices with ChangeNotifier {
     notifyListeners();
   }
 
+//Reset password function
+  Future resetPassword(String email, BuildContext context) async {
+    bool isLinksent = false;
+    _showLoader(context);
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      isLinksent = true;
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      isLinksent = false;
+      if (context.mounted) {
+        _showError(context, e.toString());
+      }
+    } finally {
+      if (context.mounted) {
+        if (isLinksent) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Password reset link sent to your email'),
+            ),
+          );
+        }
+      }
+    }
+  }
+
   //loader
   void _showLoader(BuildContext context) {
     Future.microtask(() {

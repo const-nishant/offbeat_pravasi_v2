@@ -6,3 +6,4 @@ export 'data/models/userdata.dart';
 export 'widgets/continue_with_google.dart';
 export 'widgets/customdivider.dart';
 export 'data/services/loginorsignup.dart';
+export 'pages/forgot_password.dart';
