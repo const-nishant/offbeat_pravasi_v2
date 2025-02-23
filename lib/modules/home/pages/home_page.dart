@@ -15,7 +15,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Center(
         child: TextButton(
-            child: Text("Home Page"),
+            child: Text(
+              "Home Page",
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+            ),
             onPressed: () {
               Provider.of<AuthServices>(context, listen: false).logout(context);
             }));

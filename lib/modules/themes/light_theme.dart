@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(
     surface: Color(0xFFFFFFFF), // Background color
-    onSurface: Color(0xFFE7E8A6), // Foreground color
+    onInverseSurface: Color(0xFFE7E8A6), // Foreground color
     primary: Colors.grey.shade900,
     onPrimary: Color(0xFF8d4612), // Primary Button Color
     secondary: Color(0xFFff9800), // Secondary Button Color
@@ -33,5 +33,29 @@ ThemeData lightTheme = ThemeData(
   ),
   progressIndicatorTheme: ProgressIndicatorThemeData(
     color: Color(0xFFff9800), // CircularProgressIndicator color
+  ),
+  radioTheme: RadioThemeData(),
+  unselectedWidgetColor: Colors.grey.shade900,
+  datePickerTheme: DatePickerThemeData(
+    backgroundColor: Colors.white,
+    headerBackgroundColor: Color(0xFF8d4612),
+    headerForegroundColor: Colors.white,
+    inputDecorationTheme: InputDecorationTheme(),
+    cancelButtonStyle: ButtonStyle(
+      foregroundColor: WidgetStateProperty.all(Color(0xFF8d4612)),
+    ),
+    confirmButtonStyle: ButtonStyle(
+      foregroundColor: WidgetStateProperty.all(Color(0xFF8d4612)),
+    ),
+    // dayForegroundColor: WidgetStatePropertyAll(Colors.transparent),
+    dayOverlayColor: WidgetStatePropertyAll(Color(0xFFff9800)),
+    dayBackgroundColor: WidgetStatePropertyAll(Colors.transparent),
+    dayStyle: TextStyle(color: Colors.pink),
+    todayBackgroundColor: WidgetStatePropertyAll(Colors.transparent),
+    dayShape: WidgetStatePropertyAll(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
   ),
 );

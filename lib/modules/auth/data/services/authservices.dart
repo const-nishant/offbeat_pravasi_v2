@@ -6,23 +6,31 @@ import 'package:offbeat_pravasi_v2/modules/module_exports.dart';
 
 class AuthServices with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? get user => _auth.currentUser;
+  String? get uid => _auth.currentUser?.uid;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-//login function
+  // // Get user document from Firestore
+  // Future<DocumentSnapshot> getUserDocument(String uid) async {
+  //   return await _firestore.collection('users').doc(uid).get();
+  // }
+
+  // Login function
   Future login(String email, String password, BuildContext context) async {
     _showLoader(context);
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } catch (e) {
-      // ignore: use_build_context_synchronously
-      _showError(context, e.toString());
+    } on FirebaseAuthException catch (e) {
+      if (context.mounted) {
+        _showError(context, e.message ?? 'An error occurred');
+      }
     } finally {
       if (context.mounted) Navigator.pop(context); // Close the loader
     }
     notifyListeners();
   }
 
-  //signup function
+  // Signup function
   Future signup(String username, String email, String password,
       BuildContext context) async {
     _showSignupLoader(context);
@@ -31,10 +39,15 @@ class AuthServices with ChangeNotifier {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       UserData userInfo = UserData(
+        dob: '',
+        gender: '',
+        name: '',
         username: username,
         email: email,
         phone: '', // Add phone if available
         uid: userCredential.user!.uid,
+        authProvider: 'email',
+        isSignup: true,
         profileImage: '', // Add profile image if available
       );
 
@@ -56,8 +69,27 @@ class AuthServices with ChangeNotifier {
     notifyListeners();
   }
 
-//continue with google function
+  // Check signup status
+  Future<bool> checkSignupStatus(String uid, BuildContext context) async {
+    try {
+      DocumentSnapshot userSnapshot =
+          await _firestore.collection('users').doc(uid).get();
+
+      if (userSnapshot.exists) {
+        return userSnapshot['isSignup'] ?? false;
+      }
+    } catch (e) {
+      if (context.mounted) {
+        _showError(context, e.toString());
+      }
+    }
+    notifyListeners();
+    return false;
+  }
+
+  // Continue with Google function
   Future<dynamic> continueWithGoogle(BuildContext context) async {
+    _showSignupLoader(context);
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -68,44 +100,58 @@ class AuthServices with ChangeNotifier {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
-      UserData googleUserInfo = UserData(
-        username: googleUser.displayName!,
-        email: googleUser.email,
-        phone: '', // Add phone if available
-        uid: _auth.currentUser?.uid ?? googleUser.id,
-        profileImage:
-            googleUser.photoUrl ?? '', // Add profile image if available
-      );
-
-      await _firestore
-          .collection('users')
-          .doc(_auth.currentUser?.uid ?? googleUser.id)
-          .set(googleUserInfo.toMap());
-
       await _auth.signInWithCredential(credential);
+
+      DocumentSnapshot userSnapshot = await _firestore
+          .collection('users')
+          .doc(_auth.currentUser?.uid ?? '')
+          .get();
+      if (!userSnapshot.exists) {
+        UserData googleUserInfo = UserData(
+          username: '',
+          dob: '',
+          gender: '',
+          name: googleUser.displayName!,
+          email: googleUser.email,
+          phone: '', // Add phone if available
+          uid: _auth.currentUser?.uid ?? '',
+          authProvider: 'google',
+          profileImage:
+              googleUser.photoUrl ?? '', // Add profile image if available
+          isSignup: true,
+        );
+
+        await _firestore
+            .collection('users')
+            .doc(_auth.currentUser?.uid ?? googleUser.id)
+            .set(googleUserInfo.toMap());
+      }
     } on FirebaseAuthException catch (e) {
       if (context.mounted) {
-        _showError(context, e.toString());
+        _showError(context, e.message ?? 'An error occurred');
+      }
+    } finally {
+      if (_dialogContext != null && _dialogContext!.mounted) {
+        Navigator.pop(_dialogContext!); // Close the loader
+        _dialogContext = null; // Reset after closing
       }
     }
 
     notifyListeners();
   }
 
-//Reset password function
+  // Reset password function
   Future resetPassword(String email, BuildContext context) async {
     bool isLinksent = false;
     _showLoader(context);
     try {
       await _auth.sendPasswordResetEmail(email: email);
       isLinksent = true;
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context);
+      if (context.mounted) Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       isLinksent = false;
       if (context.mounted) {
-        _showError(context, e.toString());
+        _showError(context, e.message ?? 'An error occurred');
       }
     } finally {
       if (context.mounted) {
@@ -120,7 +166,7 @@ class AuthServices with ChangeNotifier {
     }
   }
 
-  //loader
+  // Loader
   void _showLoader(BuildContext context) {
     Future.microtask(() {
       showDialog(
@@ -134,7 +180,7 @@ class AuthServices with ChangeNotifier {
 
   BuildContext? _dialogContext; // Store context of dialog
 
-  //loader for signup
+  // Loader for signup
   void _showSignupLoader(BuildContext context) {
     showDialog(
       context: context,
@@ -146,7 +192,7 @@ class AuthServices with ChangeNotifier {
     );
   }
 
-  //error function
+  // Error function
   void _showError(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -155,10 +201,9 @@ class AuthServices with ChangeNotifier {
     );
   }
 
-  //logout function
+  // Logout function
   void logout(BuildContext context) async {
     await _auth.signOut();
-
     notifyListeners();
   }
 }
