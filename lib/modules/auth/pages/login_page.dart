@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,13 @@ class _LoginPageState extends State<LoginPage> {
         context,
       );
     }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -97,8 +105,10 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       },
                       icon: obscureText
-                          ? Icon(Icons.visibility_off,
-                              color: Theme.of(context).colorScheme.primary,)
+                          ? Icon(
+                              Icons.visibility_off,
+                              color: Theme.of(context).colorScheme.primary,
+                            )
                           : Icon(
                               Icons.visibility,
                               color: Theme.of(context).colorScheme.primary,
@@ -153,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigate to Forgot Password Screen
+                          context.go("/forgot_password");
                         },
                         child: Text(
                           "Forgot Password?",

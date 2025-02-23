@@ -38,6 +38,15 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   @override
+  void dispose() {
+    usernameTextEditingController.dispose();
+    emailTextEditingController.dispose();
+    passwordTextEditingController.dispose();
+    confirmPasswordTextEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
