@@ -1,0 +1,33 @@
+name: Flutter Build
+
+on:
+  push:
+    branches:
+      - main
+      
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.x"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build app
+        env:
+          APPWRITE_ENDPOINT: ${{ secrets.APPWRITE_ENDPOINT }}
+          APPWRITE_PROJECTID: ${{ secrets.APPWRITE_PROJECTID }}
+          APPWRITE_USERSTORAGE_BUCKET: ${{ secrets.APPWRITE_USERSTORAGE_BUCKET }}
+        run: flutter build apk
