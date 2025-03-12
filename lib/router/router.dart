@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import '../modules/auth/auth_exports.dart';
+import '../modules/module_exports.dart';
 
 final GoRouter router = GoRouter(
   routes: [
@@ -18,6 +18,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/about',
       builder: (context, state) => const AboutPage(),
+    ),
+    GoRoute(
+      path: '/search',
+      builder: (context, state) => const Searchscreen(),
     ),
   ],
 );

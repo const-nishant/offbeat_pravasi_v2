@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
 import 'package:offbeat_pravasi_v2/modules/auth/auth_exports.dart';
@@ -47,7 +46,9 @@ class _AboutPageState extends State<AboutPage> {
               image: image,
               context: context);
       // ignore: use_build_context_synchronously
-      Phoenix.rebirth(context);
+      // setState(() {
+      //   Phoenix.rebirth(context);
+      // });
     }
   }
 
@@ -230,6 +231,15 @@ class _AboutPageState extends State<AboutPage> {
                   readOnly: true,
                   obscureText: false,
                   keyboardType: TextInputType.datetime,
+                  onTap: () async {
+                    await helperServices.datePicker(context);
+                    setState(() {
+                      if (helperServices.date != null) {
+                        dobTextEditingController.text =
+                            helperServices.formatDate(helperServices.date!);
+                      }
+                    });
+                  },
                   suffixIcon: IconButton(
                       onPressed: () async {
                         await helperServices.datePicker(context);

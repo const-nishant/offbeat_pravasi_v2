@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:offbeat_pravasi_v2/modules/home/home_exports.dart';
+import 'package:offbeat_pravasi_v2/router/navbar.dart';
 import 'package:provider/provider.dart';
 import '../../auth_exports.dart';
 
@@ -49,7 +49,7 @@ class _AuthwrapperState extends State<Authwrapper> {
                   if (snapshot.hasError || !snapshot.hasData) {
                     return Authwrapper();
                   } else {
-                    return snapshot.data! ? const OnboardingPage() : HomePage();
+                    return snapshot.data! ? const OnboardingPage() : Navbar();
                   }
                 });
           });

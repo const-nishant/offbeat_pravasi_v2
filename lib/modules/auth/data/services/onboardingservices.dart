@@ -3,7 +3,6 @@ import 'package:appwrite/appwrite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:go_router/go_router.dart';
 import 'package:offbeat_pravasi_v2/config/configs.dart';
 import 'package:offbeat_pravasi_v2/main.dart';
@@ -119,7 +118,7 @@ class OnboardingServices extends ChangeNotifier {
     required String gender,
     required BuildContext context,
   }) async {
-    _showLoader(context);
+    _showSignupLoader(context);
     try {
       if (image != null) {
         await storage.createFile(
@@ -163,11 +162,15 @@ class OnboardingServices extends ChangeNotifier {
           Navigator.pop(context);
         }
         // ignore: use_build_context_synchronously
-        Phoenix.rebirth(context);
+        //  Phoenix.rebirth(context);
       }
     } catch (e) {
+      if (context.mounted) {
+        _showError(context, e.toString());
+      }
+    } finally {
       // ignore: use_build_context_synchronously
-      _showError(context, e.toString());
+      context.go('/');
     }
     notifyListeners();
   }
@@ -191,5 +194,19 @@ void _showError(BuildContext context, String message) {
     SnackBar(
       content: Text(message),
     ),
+  );
+}
+
+// ignore: unused_element
+BuildContext? _dialogContext;
+
+void _showSignupLoader(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (dialogContext) {
+      _dialogContext = dialogContext; // Store context of dialog
+      return const Center(child: CircularProgressIndicator());
+    },
   );
 }

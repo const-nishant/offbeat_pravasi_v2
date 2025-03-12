@@ -23,6 +23,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => AuthServices()),
       ChangeNotifierProvider(create: (_) => OnboardingServices()),
       ChangeNotifierProvider(create: (_) => Helperservices()),
+      ChangeNotifierProvider(create: (_) => HomeServices()),
     ],
     child: Phoenix(
       child: const MyApp(),
