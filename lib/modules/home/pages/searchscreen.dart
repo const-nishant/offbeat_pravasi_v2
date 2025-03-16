@@ -37,7 +37,7 @@ class _SearchscreenState extends State<Searchscreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      context.push('/');
+                      context.pop();
                     },
                     child: Text(
                       'Cancel',

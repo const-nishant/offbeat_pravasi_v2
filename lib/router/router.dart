@@ -31,11 +31,22 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/trekdetails',
-      name: 'trekdetails',
       pageBuilder: (context, state) => NoTransitionPage(
         child: Trekdetails(),
       ),
     ),
+    GoRoute(
+        path: '/viewitinery',
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, String>;
+          return NoTransitionPage(
+            child: ViewItinerary(
+              trekName: extra["trekname"]!,
+              itineraryData: extra["itinerary"]!,
+              recommendationData: extra["recommendations"]!,
+            ),
+          );
+        }),
   ],
 );
 
