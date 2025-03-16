@@ -8,3 +8,5 @@ export 'widgets/recent_tab.dart';
 export 'widgets/toprated_tabs.dart';
 export 'pages/searchscreen.dart';
 export 'widgets/popularsearches.dart';
+export 'pages/trekdetails.dart';
+export 'widgets/imagesliderwithindicator.dart';

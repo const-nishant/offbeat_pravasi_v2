@@ -21,11 +21,14 @@ dependencies:
   cloud_firestore: ^5.6.2
   firebase_storage: ^12.4.1
   flutter_phoenix: ^1.1.1
-  appwrite: ^14.0.0
+  appwrite: ^15.0.0
   image_picker: ^1.1.2
-  lucide_icons_flutter: ^1.2.7
+  lucide_icons_flutter: ^2.0.0
   percent_indicator: ^4.2.4
   google_nav_bar: ^5.0.7
+  flutter_rating_bar: ^4.0.1
+  flutter_image_slideshow: ^0.1.6
+  flutter_markdown: ^0.7.6+2
 
 dev_dependencies:
   flutter_test:

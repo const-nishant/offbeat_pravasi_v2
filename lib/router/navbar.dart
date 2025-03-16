@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:offbeat_pravasi_v2/modules/home/pages/home_page.dart';
+import '../modules/module_exports.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({super.key});
@@ -13,7 +13,7 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   List<Widget> screens = [
     const HomePage(),
-    const Placeholder(), //community screen
+    const Communityscreen(), //community screen
     const Placeholder(), //leaderboard screen
     const Placeholder(), //profile screen
   ];

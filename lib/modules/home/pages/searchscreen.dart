@@ -37,7 +37,7 @@ class _SearchscreenState extends State<Searchscreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      context.pop();
+                      context.push('/');
                     },
                     child: Text(
                       'Cancel',
@@ -115,7 +115,7 @@ class _SearchscreenState extends State<Searchscreen> {
               ),
               //popular searches
               SizedBox(
-                height: 190,
+                height: 200,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 8,

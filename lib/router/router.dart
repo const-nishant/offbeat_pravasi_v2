@@ -1,27 +1,52 @@
 import 'package:go_router/go_router.dart';
 import '../modules/module_exports.dart';
+import 'package:flutter/material.dart';
 
 final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const Authwrapper(),
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: const Authwrapper()),
     ),
     GoRoute(
       path: '/forgot_password',
-      builder: (context, state) => const ForgotPassword(),
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: const ForgotPassword()),
     ),
     GoRoute(
       path: '/home',
-      builder: (context, state) => const SignupPage(),
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: const SignupPage()),
     ),
     GoRoute(
       path: '/about',
-      builder: (context, state) => const AboutPage(),
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: const AboutPage()),
     ),
     GoRoute(
       path: '/search',
-      builder: (context, state) => const Searchscreen(),
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: const Searchscreen()),
+    ),
+    GoRoute(
+      path: '/trekdetails',
+      name: 'trekdetails',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: Trekdetails(),
+      ),
     ),
   ],
 );
+
+class NoTransitionPage extends CustomTransitionPage {
+  // ignore: use_super_parameters
+  NoTransitionPage({required Widget child})
+      : super(
+          child: child,
+          transitionDuration: Duration.zero,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return child;
+          },
+        );
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class PopularTab extends StatefulWidget {
@@ -110,7 +111,9 @@ class _PopularTabState extends State<PopularTab> {
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        onPressed: () {}, // Add navigation logic here
+                        onPressed: () {
+                          context.push("/trekdetails");
+                        }, // Add navigation logic here
                         icon: Icon(
                           LucideIcons.moveRight,
                           size: 24,
