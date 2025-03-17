@@ -36,6 +36,12 @@ final GoRouter router = GoRouter(
       ),
     ),
     GoRoute(
+      path: '/change-password',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const Changepassword(),
+      ),
+    ),
+    GoRoute(
         path: '/viewitinery',
         pageBuilder: (context, state) {
           final extra = state.extra as Map<String, String>;

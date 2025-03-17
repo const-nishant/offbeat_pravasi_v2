@@ -164,7 +164,11 @@ class _HomePageState extends State<HomePage> {
                               Row(
                                 children: [
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      //filter here
+                                      //temp
+                                      context.push('/change-password');
+                                    },
                                     iconSize: 24,
                                     style: ButtonStyle(
                                       fixedSize: WidgetStatePropertyAll(

@@ -12,3 +12,4 @@ export 'data/services/onboardingservices.dart';
 export 'pages/onboarding_page.dart';
 export 'widgets/onboarding_radiolist.dart';
 export 'data/models/onboarding_answers.dart';
+export 'pages/changepassword.dart';

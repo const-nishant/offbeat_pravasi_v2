@@ -166,6 +166,30 @@ class AuthServices with ChangeNotifier {
     }
   }
 
+//change password
+  Future<void> changePassword(
+      String currentPassword, String newPassword, BuildContext context) async {
+    _showSignupLoader(context);
+    try {
+      if (user == null || user!.email == null) {
+        throw Exception('User not Found');
+      }
+
+      //re-authenticate user
+      final credential = EmailAuthProvider.credential(
+          email: user!.email!, password: currentPassword);
+      await user!.reauthenticateWithCredential(credential);
+      await _auth.currentUser?.updatePassword(newPassword);
+      if (context.mounted) Navigator.pop(context);
+      notifyListeners();
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.pop(context);
+        _showError(context, e.toString());
+      }
+    }
+  }
+
   // Loader
   void _showLoader(BuildContext context) {
     Future.microtask(() {
