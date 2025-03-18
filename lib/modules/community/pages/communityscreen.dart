@@ -46,6 +46,7 @@ class _CommunityscreenState extends State<Communityscreen> {
             ),
           ),
           body: const TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
               Feedtab(),
               Eventtab(),

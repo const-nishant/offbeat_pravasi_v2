@@ -204,7 +204,10 @@ class _HomePageState extends State<HomePage> {
                                   Stack(
                                     children: [
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          //notifications here
+                                          context.push('/notificationscreen');
+                                        },
                                         iconSize: 24,
                                         style: ButtonStyle(
                                           fixedSize: WidgetStatePropertyAll(

@@ -29,6 +29,8 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_image_slideshow: ^0.1.6
   flutter_markdown: ^0.7.6+2
+  flutter_card_swiper: ^7.0.2
+  flutter_slidable: ^4.0.0
 
 dev_dependencies:
   flutter_test:

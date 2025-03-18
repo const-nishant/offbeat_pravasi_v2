@@ -53,6 +53,12 @@ final GoRouter router = GoRouter(
             ),
           );
         }),
+    GoRoute(
+      path: '/notificationscreen',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const Notificationscreen(),
+      ),
+    ),
   ],
 );
 

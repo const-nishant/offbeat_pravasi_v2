@@ -11,3 +11,4 @@ export 'widgets/popularsearches.dart';
 export 'pages/trekdetails.dart';
 export 'widgets/imagesliderwithindicator.dart';
 export 'widgets/viewitinery.dart';
+export 'pages/notificationscreen.dart';
