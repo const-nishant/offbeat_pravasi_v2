@@ -167,7 +167,12 @@ class _HomePageState extends State<HomePage> {
                                     onPressed: () {
                                       //filter here
                                       //temp
-                                      context.push('/change-password');
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                Mainonboarding(),
+                                          ));
                                     },
                                     iconSize: 24,
                                     style: ButtonStyle(
