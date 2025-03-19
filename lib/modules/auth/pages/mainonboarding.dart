@@ -57,6 +57,7 @@ class _MainonboardingState extends State<Mainonboarding> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool firstTime = prefs.getBool("isFirstTime") ?? true;
     if (!firstTime) {
+      // ignore: use_build_context_synchronously
       Future.delayed(Duration.zero, () => context.go('/'));
     } else {
       setState(() => isLoading = false);
