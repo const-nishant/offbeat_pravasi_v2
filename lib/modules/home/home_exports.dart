@@ -12,3 +12,7 @@ export 'pages/trekdetails.dart';
 export 'widgets/imagesliderwithindicator.dart';
 export 'widgets/viewitinery.dart';
 export 'pages/notificationscreen.dart';
+export 'pages/reviewscreen.dart';
+export 'widgets/ratingcard.dart';
+export 'widgets/reviewtile.dart';
+export 'widgets/addreview.dart';

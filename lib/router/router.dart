@@ -54,6 +54,12 @@ final GoRouter router = GoRouter(
           );
         }),
     GoRoute(
+      path: '/reviewscreen',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const Reviewscreen(),
+      ),
+    ),
+    GoRoute(
       path: '/notificationscreen',
       pageBuilder: (context, state) => NoTransitionPage(
         child: const Notificationscreen(),
