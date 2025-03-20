@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+
 import '../modules/module_exports.dart';
 import 'package:flutter/material.dart';
 
@@ -35,6 +36,10 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => NoTransitionPage(
         child: Trekdetails(),
       ),
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const ProfilePage(),
     ),
   ],
 );

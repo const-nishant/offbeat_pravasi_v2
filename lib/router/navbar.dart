@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+
 import '../modules/module_exports.dart';
 
 class Navbar extends StatefulWidget {
@@ -15,7 +16,7 @@ class _NavbarState extends State<Navbar> {
     const HomePage(),
     const Communityscreen(), //community screen
     const Placeholder(), //leaderboard screen
-    const Placeholder(), //profile screen
+    const ProfilePage(), //profile screen
   ];
   int widgetIndex = 0;
 

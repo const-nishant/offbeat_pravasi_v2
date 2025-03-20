@@ -1,9 +1,9 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:offbeat_pravasi_v2/common/common_exports.dart';
 import 'package:offbeat_pravasi_v2/modules/home/widgets/imagesliderwithindicator.dart';
 
 class Trekdetails extends StatefulWidget {
