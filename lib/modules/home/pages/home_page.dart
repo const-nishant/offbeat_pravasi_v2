@@ -164,7 +164,16 @@ class _HomePageState extends State<HomePage> {
                               Row(
                                 children: [
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      //filter here
+                                      //temp
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                Mainonboarding(),
+                                          ));
+                                    },
                                     iconSize: 24,
                                     style: ButtonStyle(
                                       fixedSize: WidgetStatePropertyAll(
@@ -200,7 +209,10 @@ class _HomePageState extends State<HomePage> {
                                   Stack(
                                     children: [
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          //notifications here
+                                          context.push('/notificationscreen');
+                                        },
                                         iconSize: 24,
                                         style: ButtonStyle(
                                           fixedSize: WidgetStatePropertyAll(

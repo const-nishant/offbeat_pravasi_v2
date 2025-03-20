@@ -32,14 +32,9 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/trekdetails',
-      name: 'trekdetails',
       pageBuilder: (context, state) => NoTransitionPage(
         child: Trekdetails(),
       ),
-    ),
-    GoRoute(
-      path: '/profile',
-      builder: (context, state) => const ProfilePage(),
     ),
   ],
 );

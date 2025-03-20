@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
 import 'package:provider/provider.dart';
 
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                     readOnly: false,
                     obscureText: false,
                     keyboardType: TextInputType.emailAddress,
-                    prefixIcon: Icon(Icons.email),
+                    prefixIcon: Icon(LucideIcons.mail),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your email';
@@ -96,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                     readOnly: false,
                     obscureText: obscureText,
                     keyboardType: TextInputType.visiblePassword,
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: Icon(LucideIcons.lockKeyhole),
                     suffixIcon: IconButton(
                       color: Theme.of(context).colorScheme.primary,
                       onPressed: () {

@@ -16,7 +16,7 @@ class _NavbarState extends State<Navbar> {
     const HomePage(),
     const Communityscreen(), //community screen
     const Placeholder(), //leaderboard screen
-    const ProfilePage(), //profile screen
+    const Placeholder(), //profile screen
   ];
   int widgetIndex = 0;
 

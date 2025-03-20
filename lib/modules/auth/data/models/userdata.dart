@@ -11,6 +11,8 @@ class UserData {
   final String? gender;
   final String? dob;
   final String? name;
+  final String? notificationToken;
+  final bool? isOrganizer;
 
   UserData({
     required this.username,
@@ -19,7 +21,8 @@ class UserData {
     required this.uid,
     required this.authProvider,
     required this.isSignup,
-  
+    this.notificationToken,
+    this.isOrganizer,
     required this.profileImage,
     required this.gender,
     required this.dob,
@@ -35,7 +38,9 @@ class UserData {
       'uid': uid,
       'authProvider': authProvider,
       'isSignup': isSignup,
+      'isOrganizer': isOrganizer,
       'profileImage': profileImage,
+      'notificationToken': notificationToken,
       'gender': gender,
       'dob': dob,
       'name': name,
@@ -55,7 +60,8 @@ class UserData {
       gender: map['gender'] ?? '',
       dob: map['dob'] ?? '',
       name: map['name'] ?? '',
-      
+      notificationToken: map['notificationToken'] ?? '',
+      isOrganizer: map['isOrganizer'] ?? false,
     );
   }
 

@@ -16,6 +16,52 @@ class Trekdetails extends StatefulWidget {
 class _TrekdetailsState extends State<Trekdetails> {
   @override
   Widget build(BuildContext context) {
+//temp
+    final String itineraryData = """
+## Schedule:
+
+### **Day 1: Travel & Base Camp**
+- **5:00 AM**: Depart from Mumbai/Pune
+- **9:00 AM**: Breakfast at Mahad
+- **11:00 AM**: Start Trek from Pachad
+- **1:00 PM**: Reach & Rest
+- **2:00 PM**: Lunch at the Fort
+- **3:00 PM**: Explore Key Fort Attractions
+- **6:00 PM**: Sunset at Takmak Tok
+- **8:00 PM**: Set up Camp & Dinner
+
+### **Day 2: Exploration & Descent**
+- **6:00 AM**: Sunrise
+- **7:00 AM**: Breakfast
+- **10:00 AM**: Start Descent
+- **11:00 AM**: Arrive at Pachad Village
+- **12:00 PM**: Recovery Descent
+- **1:00 PM**: Lunch at Mahad
+- **2:00 PM**: Return to Mumbai/Pune
+- **6:00 PM**: Trip Ends
+""";
+
+    final String recommendationData = """
+## Recommended Gear/Things:
+
+### **Gear:**
+- 🎒 Backpack
+- 👟 Trekking Shoes
+- 🥾 Rain Gear (If needed)
+- 🚶‍♂️ Trekking Pole (Optional)
+- 🔦 Torch/Headlamp
+- 🗺️ Map/Guidebook
+
+### **Essentials:**
+- 💧 Water (2-3L)
+- 🍫 Snacks
+- 🏥 First Aid Kit
+- 🌞 Sun Protection (Sunscreen, Hat)
+- 📱 Mobile Phone & Power Bank
+- 🆔 Personal ID & Emergency Cash
+- 🗑️ Garbage Bag (Leave No Trace)
+""";
+
     final String markdownText = """
 Raigad Fort, located in the Raigad district of Maharashtra, India, is a historically significant fort and a popular trekking destination. Perched at an elevation of 2,700 feet (820 meters) in the Sahyadri mountain range, it is known as the capital of the Maratha Empire under Chhatrapati Shivaji Maharaj.
 
@@ -151,7 +197,7 @@ The trek to Raigad Fort is popular among history buffs, trekkers, and nature lov
                           ),
                           SizedBox(width: 20),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () => context.push('/reviewscreen'),
                             style: ButtonStyle(
                               iconColor: WidgetStateProperty.all(
                                   Theme.of(context).colorScheme.primary),
@@ -194,7 +240,13 @@ The trek to Raigad Fort is popular among history buffs, trekkers, and nature lov
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.push('/viewitinery', extra: {
+                                "trekname": '[trekName]',
+                                "itinerary": itineraryData,
+                                "recommendations": recommendationData,
+                              });
+                            },
                             style: ButtonStyle(
                               iconColor: WidgetStateProperty.all(
                                   Theme.of(context).colorScheme.primary),
@@ -264,13 +316,13 @@ The trek to Raigad Fort is popular among history buffs, trekkers, and nature lov
               Container(
                 height: MediaQuery.of(context).size.height * 0.18,
                 margin: EdgeInsets.all(14),
-                padding: const EdgeInsets.all(22.0),
+                padding: const EdgeInsets.all(18.0),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.onInverseSurface,
                   borderRadius: BorderRadius.all(Radius.circular(22)),
                 ),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
@@ -279,17 +331,24 @@ The trek to Raigad Fort is popular among history buffs, trekkers, and nature lov
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           const Text(
+                            "🔥 Limited Slots!",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          const Text(
                             "Starting from ",
                             style: TextStyle(
-                              fontSize: 16, // Slightly reduced font size
+                              fontSize: 20, // Slightly reduced font size
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                           Text(
-                            "{widget.trekprice}", // Fixed string interpolation
+                            "{widget.trekprice}",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 20, // Slightly reduced font size
+                              fontSize: 16, // Slightly reduced font size
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
@@ -303,115 +362,7 @@ The trek to Raigad Fort is popular among history buffs, trekkers, and nature lov
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          FittedBox(
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 120,
-                                  height: 40,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      side: BorderSide(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
-                                      ),
-                                    ),
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.call,
-                                          size: 16,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
-                                        ),
-                                        SizedBox(width: 4), // Added spacing
-                                        Text(
-                                          'Call now',
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 6),
-                                SizedBox(
-                                  width: 80,
-                                  height: 40,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      side: BorderSide(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
-                                      ),
-                                    ),
-                                    onPressed: () {},
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.ios_share_sharp,
-                                          size: 14,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
-                                        ),
-                                        SizedBox(width: 4), // Added spacing
-                                        Text(
-                                          'Share',
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          SizedBox(
-                            height: 40,
-                            width: 100,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.onPrimary,
-                              ),
-                              child: const Text(
-                                'Book Now',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        children: [],
                       ),
                     ),
                   ],
