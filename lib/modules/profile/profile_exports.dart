@@ -1,2 +1,11 @@
+export 'pages/achivements_screen.dart';
+export 'pages/addposts.dart';
+export 'pages/addstory.dart';
+export 'pages/becometrekorganizer.dart';
+export 'pages/editprofile_screen.dart';
+export 'pages/points_screen.dart';
 export 'pages/profile_page.dart';
-export 'widgets/addpost.dart';
+export 'pages/savedtreks.dart';
+export 'widgets/createpostscreen.dart';
+export 'widgets/postorstoryswitcher.dart';
+export 'widgets/settings_drawer.dart';

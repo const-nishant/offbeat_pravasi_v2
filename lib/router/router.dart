@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../modules/module_exports.dart';
-import 'package:flutter/material.dart';
 
 final GoRouter router = GoRouter(
   routes: [
@@ -35,6 +35,58 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => NoTransitionPage(
         child: Trekdetails(),
       ),
+    ),
+    GoRoute(
+      path: '/notificationscreen',
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: const Notificationscreen()),
+    ),
+    GoRoute(
+      path: '/reviewscreen',
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: const Reviewscreen()),
+    ),
+    GoRoute(
+      path: '/editprofilescreen',
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: EditprofileScreen()),
+    ),
+    GoRoute(
+      path: '/achivementscreen',
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: AchievementsScreen()),
+    ),
+    GoRoute(
+      path: '/pointscreen',
+      pageBuilder: (context, state) => NoTransitionPage(child: PointsScreen()),
+    ),
+    GoRoute(
+      path: '/addposts',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const AddPost(),
+      ),
+    ),
+    GoRoute(
+      path: '/addstorys',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const AddStory(),
+      ),
+    ),
+    GoRoute(
+      path: '/change_password',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const Changepassword(),
+      ),
+    ),
+    GoRoute(
+      path: '/becometrekorganizer',
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: const BecomeTrekOrganizerScreen()),
+    ),
+    GoRoute(
+      path: '/savedtreks',
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: const Savedtreks()),
     ),
   ],
 );
