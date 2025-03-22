@@ -15,8 +15,8 @@ class _NavbarState extends State<Navbar> {
   List<Widget> screens = [
     const HomePage(),
     const Communityscreen(), //community screen
-    const Placeholder(), //leaderboard screen
-    const Placeholder(), //profile screen
+    const Leaderboardscreen(), //leaderboard screen
+    const ProfilePage(), //profile screen
   ];
   int widgetIndex = 0;
 
