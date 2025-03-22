@@ -37,56 +37,40 @@ final GoRouter router = GoRouter(
       ),
     ),
     GoRoute(
-      path: '/notificationscreen',
-      pageBuilder: (context, state) =>
-          NoTransitionPage(child: const Notificationscreen()),
-    ),
-    GoRoute(
-      path: '/reviewscreen',
-      pageBuilder: (context, state) =>
-          NoTransitionPage(child: const Reviewscreen()),
-    ),
-    GoRoute(
-      path: '/editprofilescreen',
-      pageBuilder: (context, state) =>
-          NoTransitionPage(child: EditprofileScreen()),
-    ),
-    GoRoute(
-      path: '/achivementscreen',
-      pageBuilder: (context, state) =>
-          NoTransitionPage(child: AchievementsScreen()),
-    ),
-    GoRoute(
-      path: '/pointscreen',
-      pageBuilder: (context, state) => NoTransitionPage(child: PointsScreen()),
-    ),
-    GoRoute(
-      path: '/addposts',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: const AddPost(),
-      ),
-    ),
-    GoRoute(
-      path: '/addstorys',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: const AddStory(),
-      ),
-    ),
-    GoRoute(
-      path: '/change_password',
+      path: '/change-password',
       pageBuilder: (context, state) => NoTransitionPage(
         child: const Changepassword(),
       ),
     ),
     GoRoute(
-      path: '/becometrekorganizer',
-      pageBuilder: (context, state) =>
-          NoTransitionPage(child: const BecomeTrekOrganizerScreen()),
+        path: '/viewitinery',
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, String>;
+          return NoTransitionPage(
+            child: ViewItinerary(
+              trekName: extra["trekname"]!,
+              itineraryData: extra["itinerary"]!,
+              recommendationData: extra["recommendations"]!,
+            ),
+          );
+        }),
+    GoRoute(
+      path: '/reviewscreen',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const Reviewscreen(),
+      ),
     ),
     GoRoute(
-      path: '/savedtreks',
-      pageBuilder: (context, state) =>
-          NoTransitionPage(child: const Savedtreks()),
+      path: '/notificationscreen',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const Notificationscreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/addtreks',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const Addtreks(),
+      ),
     ),
   ],
 );
