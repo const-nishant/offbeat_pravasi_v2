@@ -1,3 +1,5 @@
+export 'data/model/profilemodel.dart';
+export 'data/services/profileservices.dart';
 export 'pages/achivements_screen.dart';
 export 'pages/addposts.dart';
 export 'pages/addstory.dart';

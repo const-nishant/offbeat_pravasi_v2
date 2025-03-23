@@ -2,14 +2,15 @@ import 'package:appwrite/appwrite.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:offbeat_pravasi_v2/config/configs.dart';
 import 'package:offbeat_pravasi_v2/firebase_options.dart';
 import 'package:offbeat_pravasi_v2/helpers/helper_exports.dart';
 import 'package:offbeat_pravasi_v2/router/router.dart';
 import 'package:provider/provider.dart';
-import 'modules/module_exports.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'modules/module_exports.dart';
 
 Client client = Client();
 

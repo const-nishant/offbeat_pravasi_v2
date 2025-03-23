@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
+import 'package:provider/provider.dart';
+
+import '../../../helpers/helper_exports.dart';
 
 class EditprofileScreen extends StatefulWidget {
   const EditprofileScreen({super.key});
@@ -15,8 +20,13 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
   final usernameController = TextEditingController(text: "JadhavAnsh");
   final phoneController = TextEditingController(text: "8380948968");
   final locationController = TextEditingController(text: "Mumbai, Maharashtra");
+
+  File? _image;
+  File? get image => _image;
+
   @override
   Widget build(BuildContext context) {
+    final helperServices = Provider.of<Helperservices>(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -38,7 +48,7 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                         Theme.of(context).colorScheme.inversePrimary,
                       ),
                     ),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.chevron_left_rounded,
                       size: 28,
                       color: Colors.black,
@@ -47,8 +57,8 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                       context.pop();
                     },
                   ),
-                  SizedBox(width: 22.0),
-                  Text(
+                  const SizedBox(width: 22.0),
+                  const Text(
                     'Edit Profile',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
@@ -56,7 +66,7 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(width: 40.0),
+                  const Spacer(),
                   ElevatedButton(
                     onPressed: () {
                       // Add banner logic
@@ -76,34 +86,83 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                   ),
                 ],
               ),
-              // Profile Image with Edit Icon
+
+              const SizedBox(height: 30),
+
+              // Banner and Floating Profile Picture
               Stack(
-                alignment: Alignment.bottomRight,
+                clipBehavior: Clip.none,
                 children: [
-                  const CircleAvatar(
-                    radius: 60,
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      LucideIcons.circleUserRound,
-                      size: 80,
-                      color: Colors.black,
+                  // Banner Preview
+                  Container(
+                    height: 160,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onInverseSurface,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Banner Preview',
+                        style: TextStyle(color: Colors.black, fontSize: 16),
+                      ),
                     ),
                   ),
+
+                  // Circular Avatar floating
                   Positioned(
-                    bottom: 8,
-                    right: 8,
-                    child: CircleAvatar(
-                      backgroundColor: Theme.of(context).colorScheme.onPrimary,
-                      radius: 16,
-                      child:
-                          const Icon(Icons.edit, color: Colors.white, size: 16),
+                    bottom: -68, // Half of avatar radius to float
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          CircleAvatar(
+                            radius: 68,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: helperServices.image != null
+                                ? FileImage(helperServices.image!)
+                                : null,
+                            child: helperServices.image == null
+                                ? Icon(
+                                    LucideIcons.circleUserRound,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    size: 100,
+                                  )
+                                : null,
+                          ),
+                          Positioned(
+                            bottom: 8,
+                            right: 12,
+                            child: GestureDetector(
+                              onTap: () async {
+                                await helperServices.pickImage();
+                                setState(() {
+                                  _image = helperServices.image;
+                                });
+                              },
+                              child: CircleAvatar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.onPrimary,
+                                radius: 18,
+                                child: const Icon(Icons.edit,
+                                    color: Colors.white, size: 16),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
 
-              // Using CommonTextfield
+              const SizedBox(
+                  height: 80), // Space to accommodate the floating avatar
+
+              // Text Fields
               _buildLabel("Name:"),
               CommonTextfield(
                 hintText: "",
@@ -140,7 +199,7 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                 obscureText: false,
               ),
 
-              const SizedBox(height: 170),
+              const SizedBox(height: 50),
 
               // Save Button
               LargeButton(onPressed: () {}, text: "Save"),

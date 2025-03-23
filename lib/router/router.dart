@@ -66,12 +66,12 @@ final GoRouter router = GoRouter(
         child: const Notificationscreen(),
       ),
     ),
-    GoRoute(
-      path: '/addtreks',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: const Addtreks(),
-      ),
-    ),
+    // GoRoute(
+    //   path: '/addtreks',
+    //   pageBuilder: (context, state) => NoTransitionPage(
+    //     child: const Addtreks(),
+    //   ),
+    // ),
   ],
 );
 
