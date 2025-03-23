@@ -11,3 +11,12 @@ export 'pages/savedtreks.dart';
 export 'widgets/createpostscreen.dart';
 export 'widgets/postorstoryswitcher.dart';
 export 'widgets/settings_drawer.dart';
+
+export 'widgets/addpost.dart';
+export 'widgets/addtreks.dart';
+export 'widgets/uploadphoto.dart';
+export 'widgets/customdropdown.dart';
+export 'data/services/trekservices.dart';
+export 'data/models/trekdata.dart';
+export 'widgets/trekpreview.dart';
+export 'widgets/imagesliderwithindicatorwithassets.dart';

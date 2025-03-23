@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../modules/module_exports.dart';
@@ -50,10 +49,35 @@ final GoRouter router = GoRouter(
             child: ViewItinerary(
               trekName: extra["trekname"]!,
               itineraryData: extra["itinerary"]!,
-              recommendationData: extra["recommendations"]!,
+              recommendedEssentials: extra["essentials"],
+              recommendedGear: extra["gear"],
             ),
           );
         }),
+    GoRoute(
+      path: '/trekpreview',
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>;
+
+        return NoTransitionPage(
+          child: TrekPreview(
+            trekName: extra["trekName"] as String,
+            trekLocation: extra["trekLocation"] as String,
+            trekDate: DateTime.parse(
+                extra["trekDate"] as String), // Convert from String
+            trekOverview: extra["trekOverview"] as String,
+            trekImages: extra["trekImages"] as List<File>,
+            trekDuration: extra["trekDuration"] as String,
+            trekDistance: double.parse(extra["trekDistance"] as String),
+            trekElevation: double.parse(extra["trekElevation"] as String),
+            trekDifficulty: extra["trekDifficulty"] as String,
+            trekItinerary: extra["trekItinerary"] as String,
+            recommendedGear: extra["recommendedGear"] as String,
+            recommendedEssentials: extra["recommendedEssentials"] as String,
+          ),
+        );
+      },
+    ),
     GoRoute(
       path: '/reviewscreen',
       pageBuilder: (context, state) => NoTransitionPage(

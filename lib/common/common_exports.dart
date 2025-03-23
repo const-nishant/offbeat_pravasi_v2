@@ -5,3 +5,4 @@ export 'small_button.dart';
 export 'roundediconbutton.dart';
 export 'common_largebutton.dart';
 export 'common_exitbutton.dart';
+export 'common_largetextfield.dart';

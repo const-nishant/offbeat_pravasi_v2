@@ -97,7 +97,7 @@ class _NavbarState extends State<Navbar> {
 //        -trekuploadtimestamp
 //        -trekoverview
 //        -trekimages(list of images)
-//        -trekrating(starts and reviews)
+//        -trekrating(stars and reviews)
 //        -trekreviews
 //        -trekaltitude(in ft)
 //        -trekdifficulty
@@ -105,8 +105,8 @@ class _NavbarState extends State<Navbar> {
 //        -trekdistance
 //        -trekcost
 //        -trekiterinary
-//            -recommended gear list
-//            -Recommended essentials
+//        -recommended gear list
+//        -Recommended essentials
 //        -trekorganizer
 //        -trekorganizercontact
 

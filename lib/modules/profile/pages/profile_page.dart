@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../profile_exports.dart';
@@ -113,6 +114,40 @@ class _ProfilePageState extends State<ProfilePage> {
 
                   SizedBox(height: 15),
 
+                      // Buttons (Add Story & Edit Profile)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          // Add Story Button
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                //temp
+                                context.push("/addtreks");
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(50), // More rounded
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 12, horizontal: 20),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.add,
+                                      size: 18, color: Colors.white),
+                                  SizedBox(width: 1.5),
+                                  Text("Add Story",
+                                      style: TextStyle(color: Colors.white)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 12),
                   // Buttons (Add Story & Edit Profile)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
