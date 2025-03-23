@@ -15,6 +15,7 @@ class _CreatepostscreenState extends State<Createpostscreen> {
 
   void _post() {
     // Handle the post logic here
+    // ignore: avoid_print
     print("Posted with caption: ${_captionController.text}");
     Navigator.pop(context);
   }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-
 import '../profile_exports.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -20,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
-            //  Background Banner
+            // Background Banner
             Container(
               height: 460,
               decoration: BoxDecoration(
@@ -58,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
 
-            //  Main White Curved Container
+            // Main White Curved Container
             Container(
               margin: EdgeInsets.only(top: 180),
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
@@ -114,40 +112,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
                   SizedBox(height: 15),
 
-                      // Buttons (Add Story & Edit Profile)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          // Add Story Button
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                //temp
-                                context.push("/addtreks");
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(50), // More rounded
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 12, horizontal: 20),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.add,
-                                      size: 18, color: Colors.white),
-                                  SizedBox(width: 1.5),
-                                  Text("Add Story",
-                                      style: TextStyle(color: Colors.white)),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 12),
                   // Buttons (Add Story & Edit Profile)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -156,21 +120,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const AddPostStorySwitcher(
-                                        startWithStory: true),
-                              ),
-                            );
-                            // context.push('/addstorys');
+                            //temp
+                            context.push("/addtreks");
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.secondary,
+                            backgroundColor: Colors.orange,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
+                              borderRadius:
+                                  BorderRadius.circular(50), // More rounded
                             ),
                             padding: EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
@@ -329,7 +286,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
 
-            //  Profile Avatar (Overlapping)
+            // Profile Avatar (Overlapping)
             Positioned(
               top: 120,
               child: CircleAvatar(

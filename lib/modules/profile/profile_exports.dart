@@ -11,8 +11,6 @@ export 'pages/savedtreks.dart';
 export 'widgets/createpostscreen.dart';
 export 'widgets/postorstoryswitcher.dart';
 export 'widgets/settings_drawer.dart';
-
-export 'widgets/addpost.dart';
 export 'widgets/addtreks.dart';
 export 'widgets/uploadphoto.dart';
 export 'widgets/customdropdown.dart';

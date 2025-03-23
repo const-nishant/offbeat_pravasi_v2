@@ -1,5 +1,6 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import '../modules/module_exports.dart';
 
 final GoRouter router = GoRouter(
@@ -36,35 +37,34 @@ final GoRouter router = GoRouter(
       ),
     ),
     GoRoute(
-      path: '/change-password',
+      path: '/change_password',
       pageBuilder: (context, state) => NoTransitionPage(
         child: const Changepassword(),
       ),
     ),
     GoRoute(
-        path: '/viewitinery',
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, String>;
-          return NoTransitionPage(
-            child: ViewItinerary(
-              trekName: extra["trekname"]!,
-              itineraryData: extra["itinerary"]!,
-              recommendedEssentials: extra["essentials"],
-              recommendedGear: extra["gear"],
-            ),
-          );
-        }),
+      path: '/viewitinery',
+      pageBuilder: (context, state) {
+        final extra = state.extra as Map<String, String>;
+        return NoTransitionPage(
+          child: ViewItinerary(
+            trekName: extra["trekname"]!,
+            itineraryData: extra["itinerary"]!,
+            recommendedEssentials: extra["essentials"],
+            recommendedGear: extra["gear"],
+          ),
+        );
+      },
+    ),
     GoRoute(
       path: '/trekpreview',
       pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
-
         return NoTransitionPage(
           child: TrekPreview(
             trekName: extra["trekName"] as String,
             trekLocation: extra["trekLocation"] as String,
-            trekDate: DateTime.parse(
-                extra["trekDate"] as String), // Convert from String
+            trekDate: DateTime.parse(extra["trekDate"] as String),
             trekOverview: extra["trekOverview"] as String,
             trekImages: extra["trekImages"] as List<File>,
             trekDuration: extra["trekDuration"] as String,
@@ -90,12 +90,54 @@ final GoRouter router = GoRouter(
         child: const Notificationscreen(),
       ),
     ),
-    // GoRoute(
-    //   path: '/addtreks',
-    //   pageBuilder: (context, state) => NoTransitionPage(
-    //     child: const Addtreks(),
-    //   ),
-    // ),
+    GoRoute(
+      path: '/addtreks',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const Addtreks(),
+      ),
+    ),
+    GoRoute(
+      path: '/editprofilescreen',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: EditprofileScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/achivementscreen',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: AchievementsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/pointscreen',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: PointsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/addposts',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const AddPost(),
+      ),
+    ),
+    GoRoute(
+      path: '/addstorys',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const AddStory(),
+      ),
+    ),
+    GoRoute(
+      path: '/becometrekorganizer',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const BecomeTrekOrganizerScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/savedtreks',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const Savedtreks(),
+      ),
+    ),
   ],
 );
 
