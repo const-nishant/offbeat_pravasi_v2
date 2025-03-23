@@ -12,7 +12,7 @@ class Addreview extends StatefulWidget {
 
 class _AddreviewState extends State<Addreview> {
   double _rating = 0.0;
-  TextEditingController _reviewController = TextEditingController();
+  final TextEditingController _reviewController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
