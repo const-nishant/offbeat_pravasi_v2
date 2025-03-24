@@ -108,6 +108,9 @@ class SettingsDrawer extends StatelessWidget {
               LucideIcons.mountain,
               'My Treks',
               trailing: LucideIcons.chevronRight,
+              onTap: () {
+                dialogContext.push('/mytreks');
+              },
             ),
             buildListTile(
               context,
