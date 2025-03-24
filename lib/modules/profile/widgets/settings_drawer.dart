@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
+
+import '../../auth/auth_exports.dart';
 
 class SettingsDrawer extends StatelessWidget {
   final BuildContext dialogContext;
@@ -149,8 +152,8 @@ class SettingsDrawer extends StatelessWidget {
               ),
               label: const Text('Sign Out'),
               onPressed: () {
-                Navigator.pop(context);
-                // TODO: Add your logout logic here
+                Provider.of<AuthServices>(context, listen: false)
+                    .logout(context);
               },
             ),
           ],

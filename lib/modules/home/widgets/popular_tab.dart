@@ -4,9 +4,23 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/modules/home/home_exports.dart';
 import 'package:provider/provider.dart';
 
-//TODO: add elevation
-class PopularTab extends StatelessWidget {
+class PopularTab extends StatefulWidget {
   const PopularTab({super.key});
+
+  @override
+  State<PopularTab> createState() => _PopularTabState();
+}
+
+class _PopularTabState extends State<PopularTab> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      //the query here 
+      // ignore: use_build_context_synchronously
+      context.read<HomeServices>().listenToTreks(field: '', value: '');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +162,6 @@ class PopularTab extends StatelessWidget {
                             onPressed: () {
                               context.push("/trekdetails", extra: {
                                 'trekId': trek.trekId,
-                                'treklocation': trek.trekLocation,
                               });
                             },
                             icon: Icon(

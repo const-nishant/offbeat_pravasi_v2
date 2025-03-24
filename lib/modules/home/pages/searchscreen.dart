@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
 import 'package:offbeat_pravasi_v2/modules/home/home_exports.dart';
+import 'package:provider/provider.dart';
 
 class Searchscreen extends StatefulWidget {
   const Searchscreen({super.key});
@@ -13,6 +14,15 @@ class Searchscreen extends StatefulWidget {
 
 class _SearchscreenState extends State<Searchscreen> {
   TextEditingController searchController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      //the query here
+      // ignore: use_build_context_synchronously
+      context.read<HomeServices>().listenToTreks(field: '', value: '');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +109,7 @@ class _SearchscreenState extends State<Searchscreen> {
                   },
                 ),
               ),
+
               SizedBox(
                 height: 14,
               ),
@@ -114,17 +125,35 @@ class _SearchscreenState extends State<Searchscreen> {
                 height: 16,
               ),
               //popular searches
-              SizedBox(
-                height: 200,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 8,
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Popularsearches(),
+              Consumer<HomeServices>(builder: (context, trekProvider, child) {
+                if (trekProvider.isLoading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                final treks = trekProvider.treks;
+
+                if (treks.isEmpty) {
+                  return Center(child: Text("No treks available"));
+                }
+                return SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: treks.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Popularsearches(
+                        trekElevation: treks[index].trekAltitude.toString(),
+                        trekId: treks[index].trekId,
+                        trekLocation: treks[index].trekLocation,
+                        trekName: treks[index].trekName,
+                        trekRating: treks[index].trekRating.toString(),
+                        trekImageUrl: treks[index].trekImages.first,
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                );
+              }),
             ],
           ),
         ),

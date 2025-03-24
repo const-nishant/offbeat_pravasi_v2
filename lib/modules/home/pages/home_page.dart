@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
-import 'package:offbeat_pravasi_v2/modules/auth/auth_exports.dart';
 import 'package:offbeat_pravasi_v2/modules/home/home_exports.dart';
 import 'package:provider/provider.dart';
 
@@ -37,109 +36,129 @@ class _HomePageState extends State<HomePage> {
                 width: double.maxFinite,
                 child: Column(
                   children: [
-                    //user info
                     Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
+                          //user info
+                          Consumer<HomeServices>(
+                            builder: (context, userProvider, child) {
+                              if (userProvider.isLoading) {
+                                return CircularProgressIndicator();
+                              }
+
+                              final user = userProvider.userData;
+
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  CircleAvatar(
-                                    radius: 28,
-                                    backgroundColor: Colors.transparent,
-                                    child: Icon(
-                                      LucideIcons.circleUserRound,
-                                      size: 48,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 14,
-                                  ),
-                                  Column(
+                                  Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 4),
-                                      Text(
-                                        "Hi !👋 , [name]",
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      CircleAvatar(
+                                        radius: 28,
+                                        backgroundImage: user?.profileImage !=
+                                                    null &&
+                                                user!.profileImage!.isNotEmpty
+                                            ? NetworkImage(user.profileImage!)
+                                            : null,
+                                        backgroundColor: Colors.transparent,
+                                        child: user?.profileImage == null ||
+                                                user!.profileImage!.isEmpty
+                                            ? Icon(
+                                                LucideIcons.circleUserRound,
+                                                size: 48,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              )
+                                            : null,
                                       ),
-                                      Row(
+                                      SizedBox(width: 14),
+                                      Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          Icon(
-                                            Icons.location_on_outlined,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .tertiary,
-                                          ),
+                                          SizedBox(height: 4),
                                           Text(
-                                            "New York, USA",
+                                            "Hi !👋 , ${user!.name ?? 'Guest'}",
                                             style: TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme
-                                                  .tertiary,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
+                                                  .primary,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
                                             ),
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                Icons.location_on_outlined,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiary,
+                                              ),
+                                              Text(
+                                                user.location?.isNotEmpty ==
+                                                        true
+                                                    ? user.location!
+                                                    : "Unknown Location",
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .tertiary,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width / 6,
-                                child: IconButton(
-                                  onPressed: () {
-                                    Provider.of<AuthServices>(context,
-                                            listen: false)
-                                        .logout(context);
-                                  }, //sos logic here
-                                  style: ButtonStyle(
-                                    backgroundColor: WidgetStatePropertyAll(
-                                        Theme.of(context)
-                                            .colorScheme
-                                            .inversePrimary),
-                                    iconColor:
-                                        WidgetStatePropertyAll(Colors.red),
-                                    shape: WidgetStatePropertyAll(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(20),
-                                        ),
-                                        side: BorderSide(
-                                          color: Theme.of(context)
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width / 6,
+                                    child: IconButton(
+                                      onPressed: () {}, // SOS logic here
+                                      style: ButtonStyle(
+                                        backgroundColor: WidgetStatePropertyAll(
+                                          Theme.of(context)
                                               .colorScheme
-                                              .primary,
+                                              .inversePrimary,
+                                        ),
+                                        iconColor:
+                                            WidgetStatePropertyAll(Colors.red),
+                                        shape: WidgetStatePropertyAll(
+                                          RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20)),
+                                            side: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                          ),
                                         ),
                                       ),
+                                      icon: Icon(Icons.sos_sharp),
                                     ),
                                   ),
-                                  icon: Icon(Icons.sos_sharp),
-                                ),
-                              ),
-                            ],
+                                ],
+                              );
+                            },
                           ),
+                          //search bar
                           SizedBox(height: 14),
                           //search bar row
                           Row(
