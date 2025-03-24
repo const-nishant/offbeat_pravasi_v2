@@ -31,11 +31,16 @@ final GoRouter router = GoRouter(
           NoTransitionPage(child: const Searchscreen()),
     ),
     GoRoute(
-      path: '/trekdetails',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: Trekdetails(),
-      ),
-    ),
+        path: '/trekdetails',
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, String>;
+          return NoTransitionPage(
+            child: Trekdetails(
+              trekId: extra["trekId"]!,
+              trekLocation: extra["treklocation"]!,
+            ),
+          );
+        }),
     GoRoute(
       path: '/change_password',
       pageBuilder: (context, state) => NoTransitionPage(

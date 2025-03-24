@@ -160,12 +160,7 @@ class Trekservices extends ChangeNotifier {
         trekOrganizerContact: trekOrganizerContact,
       );
 
-      await _firestore
-          .collection('treks')
-          .doc(trekLocation)
-          .collection('trekslist')
-          .doc(trekId)
-          .set(trek.toMap());
+      await _firestore.collection('treks').doc(trekId).set(trek.toMap());
 
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(

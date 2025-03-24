@@ -1,5 +1,5 @@
 export 'pages/home_page.dart';
-export 'data/services/homeservices.dart';
+export 'data/dataexports.dart';
 export 'widgets/statecard.dart';
 export 'widgets/popular_tab.dart';
 export 'widgets/seasonal_tabs.dart';

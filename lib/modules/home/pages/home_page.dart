@@ -166,13 +166,6 @@ class _HomePageState extends State<HomePage> {
                                   IconButton(
                                     onPressed: () {
                                       //filter here
-                                      //temp
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                Mainonboarding(),
-                                          ));
                                     },
                                     iconSize: 24,
                                     style: ButtonStyle(
