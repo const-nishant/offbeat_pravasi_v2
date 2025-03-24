@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class Createpostscreen extends StatefulWidget {
   final File imageFile;
@@ -24,31 +26,66 @@ class _CreatepostscreenState extends State<Createpostscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.black),
-        title: Text("Create Post", style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
-        elevation: 1,
+        title: Text(
+          'Create Post',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        leading: IconButton(
+          style: ButtonStyle(
+            side: WidgetStateProperty.all(
+              BorderSide(
+                color: Theme.of(context).colorScheme.onInverseSurface,
+                width: 2,
+              ),
+            ),
+            iconColor: WidgetStateProperty.all(
+              Theme.of(context).colorScheme.inversePrimary,
+            ),
+          ),
+          icon: Icon(
+            LucideIcons.chevronLeft,
+            size: 20,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            context.pop();
+          },
+        ),
+        centerTitle: true,
         actions: [
-          TextButton(
-            onPressed: _post,
-            child: Text(
-              "Post",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
-                fontSize: 16,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                _post();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 0,
+              ),
+              child: const Text(
+                "Post",
+                style: TextStyle(color: Colors.black),
               ),
             ),
           ),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.file(widget.imageFile,
-                  width: double.infinity, height: 250, fit: BoxFit.cover),
+                  width: double.infinity, height: 450, fit: BoxFit.cover),
             ),
             SizedBox(height: 20),
             TextField(
