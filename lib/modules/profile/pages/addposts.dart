@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:offbeat_pravasi_v2/modules/profile/widgets/createpostscreen.dart';
+
 import '../../../main.dart';
 
 class AddPost extends StatefulWidget {
@@ -46,31 +50,36 @@ class _AddPostState extends State<AddPost> {
     _startCamera(_selectedCameraIndex);
   }
 
+  final storage = Storage(client);
+
   Future<void> _capturePost() async {
     if (_cameraController != null && _cameraController!.value.isInitialized) {
       final image = await _cameraController!.takePicture();
       debugPrint('Captured Post: ${image.path}');
-      // uploadPost(File(image.path)) if needed
+
+      // Navigate to CreatePostScreen with the captured image
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Createpostscreen(imageFile: File(image.path)),
+        ),
+      );
     }
   }
 
-  final storage = Storage(client);
   Future<void> _pickFromGallery() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      debugPrint('Gallery Post: ${pickedFile.path}');
-      //temp
-      // String fileId = DateTime.now().millisecondsSinceEpoch.toString();
-      // await storage.createFile(
-      //   bucketId: Configs.appWriteTrekImageStorageBucketId,
-      //   fileId: fileId,
-      //   file: InputFile.fromPath(path: pickedFile.path),
-      // );
-      // final imageUrl = await storage.getFileDownload(
-      //   bucketId: Configs.appWriteTrekImageStorageBucketId,
-      //   fileId: fileId,
-      // );
-      // debugPrint('Image URL: $imageUrl');
+      print('Gallery Post: ${pickedFile.path}');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              Createpostscreen(imageFile: File(pickedFile.path)),
+        ),
+      );
+    } else {
+      print('No image selected.');
     }
   }
 

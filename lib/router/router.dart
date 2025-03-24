@@ -1,6 +1,8 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import '../modules/module_exports.dart';
 
 final GoRouter router = GoRouter(
@@ -141,6 +143,12 @@ final GoRouter router = GoRouter(
       path: '/savedtreks',
       pageBuilder: (context, state) => NoTransitionPage(
         child: const Savedtreks(),
+      ),
+    ),
+    GoRoute(
+      path: '/mytreks',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const MyTreks(),
       ),
     ),
   ],
