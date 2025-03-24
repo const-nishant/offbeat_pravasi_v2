@@ -1,4 +1,3 @@
-export 'data/model/profilemodel.dart';
 export 'data/models/trekdata.dart';
 export 'data/services/profileservices.dart';
 export 'data/services/trekservices.dart';
