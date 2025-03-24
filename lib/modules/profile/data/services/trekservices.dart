@@ -1,6 +1,18 @@
+import 'dart:io';
+import 'package:appwrite/appwrite.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:offbeat_pravasi_v2/modules/module_exports.dart';
+import '../../../../config/configs.dart';
+import '../../../../main.dart';
 
 class Trekservices extends ChangeNotifier {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final storage = Storage(client);
+  BuildContext? _dialogContext;
+
   List<String> get states => _states;
 
   final List<String> _states = [
@@ -79,12 +91,11 @@ class Trekservices extends ChangeNotifier {
 
   Future<void> addTreks({
     required BuildContext context,
-    required String trekId,
     required String trekName,
     required String trekLocation,
     required DateTime trekDate,
     required String trekOverview,
-    required List<String> trekImages,
+    required List<File> trekImages,
     required double trekRating,
     required List<String> trekReviews,
     required int trekAltitude,
@@ -93,19 +104,104 @@ class Trekservices extends ChangeNotifier {
     required double trekDistance,
     required double trekCost,
     required String trekItinerary,
-    required List<String> recommendedGear,
-    required List<String> recommendedEssentials,
-    required String trekOrganizer,
-    required String trekOrganizerContact,
+    required String recommendedGear,
+    required String recommendedEssentials,
   }) async {
+    _showLoader(context);
     try {
+      // Generate a unique trekId
+      String trekId =
+          '$trekLocation${DateTime.now().millisecondsSinceEpoch.toString()}';
+      // Upload trek images
+      List<String> trekImagesUrls = [];
+      for (File image in trekImages) {
+        String fileId =
+            '${trekName.replaceAll(' ', '_')}_${DateTime.now().microsecondsSinceEpoch.toString().substring(0, 3)}_${image.path.split('/').last}';
+        await storage.createFile(
+          bucketId: Configs.appWriteTrekImageStorageBucketId,
+          fileId: fileId,
+          file: InputFile.fromPath(path: image.path),
+        );
+        // Get the image URL
+        String imageUrl =
+            'https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteTrekImageStorageBucketId}/files/$fileId/view?project=${Configs.appWriteProjectId}&mode=admin';
+        // Add the image URL to the list
+        trekImagesUrls.add(imageUrl);
+      }
+      final DocumentSnapshot userSnapshot = await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .get();
+      final userData = userSnapshot.data() as Map<String, dynamic>?;
+
+      String trekOrganizer = userData?['name'] ?? 'Unknown';
+      String trekOrganizerContact = userData?['contact'] ?? 'not available';
+
+      Trek trek = Trek(
+        isEvent: false,
+        trekId: trekId,
+        trekName: trekName,
+        trekLocation: trekLocation,
+        trekDate: trekDate,
+        trekOverview: trekOverview,
+        trekImages: trekImagesUrls,
+        trekRating: trekRating,
+        trekReviews: trekReviews,
+        trekAltitude: trekAltitude,
+        trekDifficulty: trekDifficulty,
+        trekDuration: trekDuration,
+        trekDistance: trekDistance,
+        trekCost: trekCost,
+        trekItinerary: trekItinerary,
+        recommendedGear: recommendedGear,
+        recommendedEssentials: recommendedEssentials,
+        trekOrganizer: trekOrganizer,
+        trekUploadTimestamp: Timestamp.now(),
+        trekOrganizerContact: trekOrganizerContact,
+      );
+
+      await _firestore
+          .collection('treks')
+          .doc(trekLocation)
+          .collection('trekslist')
+          .doc(trekId)
+          .set(trek.toMap());
+
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Trek added successfully!')),
       );
+      notifyListeners();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error adding trek: $e')),
-      );
+      if (context.mounted) {
+        _showError(context, e.toString());
+      }
+    } finally {
+      if (_dialogContext != null && _dialogContext!.mounted) {
+        Navigator.pop(_dialogContext!); // Close the loader
+        _dialogContext = null; // Reset after closing
+      }
     }
+  }
+
+// Loader
+  void _showLoader(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        _dialogContext = dialogContext; // Store context of dialog
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  // Error function
+  void _showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 }
