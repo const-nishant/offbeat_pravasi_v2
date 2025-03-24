@@ -12,6 +12,7 @@ class UserData {
   final String? dob;
   final String? name;
   final String? notificationToken;
+  final String? location;
   final bool? isOrganizer;
 
   UserData({
@@ -23,6 +24,7 @@ class UserData {
     required this.isSignup,
     this.notificationToken,
     this.isOrganizer,
+    this.location,
     required this.profileImage,
     required this.gender,
     required this.dob,
@@ -44,6 +46,7 @@ class UserData {
       'gender': gender,
       'dob': dob,
       'name': name,
+      'location': location
     };
   }
 
@@ -62,6 +65,7 @@ class UserData {
       name: map['name'] ?? '',
       notificationToken: map['notificationToken'] ?? '',
       isOrganizer: map['isOrganizer'] ?? false,
+      location: map['location'] ?? '',
     );
   }
 

@@ -150,6 +150,9 @@ class OnboardingServices extends ChangeNotifier {
           phone: phone,
           dob: dob,
           gender: gender,
+          isOrganizer: false,
+          location: '',
+          notificationToken: '',
           username: existingData['username'],
         );
 

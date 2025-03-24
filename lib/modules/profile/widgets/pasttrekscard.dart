@@ -29,7 +29,7 @@ class PastTreksCard extends StatelessWidget {
             height: 200,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.black.withOpacity(0.5), Colors.transparent],
+                colors: [Colors.black26, Colors.transparent],
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
               ),
@@ -107,7 +107,7 @@ class PastTreksCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.85),
+        color: Colors.white24,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
@@ -128,7 +128,7 @@ Widget _infoChip(
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
     decoration: BoxDecoration(
-      color: Colors.white.withOpacity(0.8),
+      color: Colors.white30,
       borderRadius: BorderRadius.circular(8),
     ),
     child: Row(

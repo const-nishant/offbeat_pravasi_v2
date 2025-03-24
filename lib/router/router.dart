@@ -39,7 +39,6 @@ final GoRouter router = GoRouter(
           return NoTransitionPage(
             child: Trekdetails(
               trekId: extra["trekId"]!,
-              trekLocation: extra["treklocation"]!,
             ),
           );
         }),

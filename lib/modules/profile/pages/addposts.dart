@@ -59,6 +59,7 @@ class _AddPostState extends State<AddPost> {
 
       // Navigate to CreatePostScreen with the captured image
       Navigator.push(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
           builder: (context) => Createpostscreen(imageFile: File(image.path)),
@@ -70,8 +71,9 @@ class _AddPostState extends State<AddPost> {
   Future<void> _pickFromGallery() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      print('Gallery Post: ${pickedFile.path}');
+      debugPrint('Gallery Post: ${pickedFile.path}');
       Navigator.push(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
           builder: (context) =>
@@ -79,7 +81,7 @@ class _AddPostState extends State<AddPost> {
         ),
       );
     } else {
-      print('No image selected.');
+      debugPrint('No image selected.');
     }
   }
 
