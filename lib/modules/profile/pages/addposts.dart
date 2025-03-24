@@ -1,7 +1,9 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../../../main.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key});
@@ -52,11 +54,23 @@ class _AddPostState extends State<AddPost> {
     }
   }
 
+  final storage = Storage(client);
   Future<void> _pickFromGallery() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       debugPrint('Gallery Post: ${pickedFile.path}');
-      // uploadPost(File(pickedFile.path)) if needed
+      //temp
+      // String fileId = DateTime.now().millisecondsSinceEpoch.toString();
+      // await storage.createFile(
+      //   bucketId: Configs.appWriteTrekImageStorageBucketId,
+      //   fileId: fileId,
+      //   file: InputFile.fromPath(path: pickedFile.path),
+      // );
+      // final imageUrl = await storage.getFileDownload(
+      //   bucketId: Configs.appWriteTrekImageStorageBucketId,
+      //   fileId: fileId,
+      // );
+      // debugPrint('Image URL: $imageUrl');
     }
   }
 

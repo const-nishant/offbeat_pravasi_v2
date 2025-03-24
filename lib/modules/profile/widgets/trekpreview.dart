@@ -76,7 +76,7 @@ class _TrekdetailsState extends State<TrekPreview> {
                                 ),
                               ),
                               iconColor: WidgetStateProperty.all(
-                                Theme.of(context).colorScheme.inversePrimary,
+                                Theme.of(context).colorScheme.primary,
                               ),
                             ),
                             icon: Icon(
@@ -92,8 +92,7 @@ class _TrekdetailsState extends State<TrekPreview> {
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 20,
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                           IconButton(
@@ -102,8 +101,7 @@ class _TrekdetailsState extends State<TrekPreview> {
                             },
                             icon: Icon(
                               LucideIcons.bookmark,
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ],

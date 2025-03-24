@@ -1,7 +1,9 @@
 import 'dart:io';
-
+import "package:path_provider/path_provider.dart";
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import "package:path/path.dart";
 
 class Helperservices extends ChangeNotifier {
   File? _image;
@@ -11,6 +13,20 @@ class Helperservices extends ChangeNotifier {
   File? get image => _image;
   DateTime? get date => _date;
   List<File> get images => _images;
+
+  //image compreser
+  Future<File?> compressImage(File file) async {
+    final dir = await getTemporaryDirectory();
+    final targetPath = '${dir.absolute.path}/${basename(file.path)}.jpg';
+
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path, // Input file path
+      targetPath, // Output file path
+      quality: 70, // Adjust quality (0-100)
+    );
+
+    return result != null ? File(result.path) : null;
+  }
 
   /// Pick up to 4 images
   Future<bool> pickImages(BuildContext context) async {

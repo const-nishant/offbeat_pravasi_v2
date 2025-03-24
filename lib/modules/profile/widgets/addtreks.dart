@@ -1,5 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
 import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +17,7 @@ class Addtreks extends StatefulWidget {
 }
 
 class _AddtreksState extends State<Addtreks> {
+  late DateTime dateTime;
   final _formKey = GlobalKey<FormState>();
   List<File> selectedImages = [];
   final TextEditingController _nameController = TextEditingController();
@@ -26,7 +27,7 @@ class _AddtreksState extends State<Addtreks> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _overviewController = TextEditingController();
   final TextEditingController _itineraryController = TextEditingController();
-  final TextEditingController dobTextEditingController =
+  final TextEditingController dateTextEditingController =
       TextEditingController();
   final TextEditingController _recommendgearController =
       TextEditingController();
@@ -39,20 +40,35 @@ class _AddtreksState extends State<Addtreks> {
   final SingleValueDropDownController _locationController =
       SingleValueDropDownController();
 
-  void preview() {
+  void preview() async {
+    final helperServices = Provider.of<Helperservices>(context, listen: false);
+
+    // Compress images before previewing
+    List<File> compressedImages = [];
+    for (File file in selectedImages) {
+      File? compressed = await helperServices.compressImage(file);
+      if (compressed != null) {
+        compressedImages.add(compressed);
+      }
+    }
+
+    // Update selectedImages with compressed images
+    setState(() {
+      selectedImages = compressedImages;
+    });
+
     context.push(
       '/trekpreview',
       extra: {
         "trekName": _nameController.text.trim(),
         "trekLocation": _locationController.dropDownValue!.value.toString(),
-        "trekDate":
-            DateTime.now().toIso8601String(), // Convert to String for passing
+        "trekDate": DateTime.now().toIso8601String(),
         "trekOverview": Provider.of<Trekservices>(context, listen: false)
             .convertToMarkdownParagraph(_overviewController.text.trim()),
-        "trekImages": selectedImages, // List of image URLs
+        "trekImages": selectedImages, // Now contains compressed images
         "trekDuration": _durationController.text.trim(),
-        "trekDistance": _distanceController.text.trim(), // In kilometers
-        "trekElevation": _elevationController.text.trim(), // In feet
+        "trekDistance": _distanceController.text.trim(),
+        "trekElevation": _elevationController.text.trim(),
         "trekDifficulty": _difficultyController.dropDownValue!.value.toString(),
         "trekItinerary": Provider.of<Trekservices>(context, listen: false)
             .convertToMarkdown(_itineraryController.text.trim()),
@@ -63,6 +79,47 @@ class _AddtreksState extends State<Addtreks> {
                 .convertToMarkdown(_recommendessentialsController.text.trim()),
       },
     );
+  }
+
+  void addtreks() async {
+    final trekservice = Provider.of<Trekservices>(context, listen: false);
+    if (_formKey.currentState!.validate() && selectedImages.isNotEmpty) {
+      // Add trek logic
+      await trekservice.addTreks(
+        context: context,
+        trekName: _nameController.text.trim(),
+        trekLocation: _locationController.dropDownValue!.value.toString(),
+        trekDate: DateTime.now(),
+        trekOverview:
+            trekservice.convertToMarkdownParagraph(_overviewController.text),
+        trekImages: selectedImages,
+        trekRating: 0.0,
+        trekReviews: [],
+        trekAltitude: int.parse(_elevationController.text),
+        trekDifficulty: _difficultyController.dropDownValue!.value,
+        trekDuration: "${_durationController.text} hrs",
+        trekDistance: double.parse(_distanceController.text),
+        trekCost: double.parse(_priceController.text),
+        trekItinerary: trekservice.convertToMarkdown(_itineraryController.text),
+        recommendedGear:
+            trekservice.convertToMarkdown(_recommendgearController.text),
+        recommendedEssentials:
+            trekservice.convertToMarkdown(_recommendessentialsController.text),
+      );
+      _difficultyController.dropDownValue = null;
+      _locationController.dropDownValue = null;
+      _nameController.clear();
+      _overviewController.clear();
+      _durationController.clear();
+      _distanceController.clear();
+      _elevationController.clear();
+      _priceController.clear();
+      _itineraryController.clear();
+      _recommendgearController.clear();
+      _recommendessentialsController.clear();
+      selectedImages = [];
+      _formKey.currentState!.reset();
+    }
   }
 
   @override
@@ -163,7 +220,7 @@ class _AddtreksState extends State<Addtreks> {
                   SizedBox(height: 10.0),
                   CommonTextfield(
                     hintText: "DD/MM/YYYY",
-                    controller: dobTextEditingController,
+                    controller: dateTextEditingController,
                     readOnly: true,
                     obscureText: false,
                     keyboardType: TextInputType.datetime,
@@ -171,7 +228,7 @@ class _AddtreksState extends State<Addtreks> {
                       await helperServices.futureDatePicker(context);
                       setState(() {
                         if (helperServices.date != null) {
-                          dobTextEditingController.text =
+                          dateTextEditingController.text =
                               helperServices.formatDate(helperServices.date!);
                         }
                       });
@@ -253,12 +310,7 @@ class _AddtreksState extends State<Addtreks> {
                   SizedBox(height: 16.0),
                   LargeButton(
                     text: 'Add Trek',
-                    onPressed: () {
-                      // Handle add trek functionality
-                      debugPrint(_seasonController.dropDownValue!.value);
-                      debugPrint(_locationController.dropDownValue!.value);
-                      debugPrint(_difficultyController.dropDownValue!.value);
-                    },
+                    onPressed: addtreks,
                   ),
                 ],
               ),

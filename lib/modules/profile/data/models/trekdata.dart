@@ -7,6 +7,7 @@ class Trek {
   final DateTime trekDate;
   final Timestamp trekUploadTimestamp;
   final String trekOverview;
+  final bool isEvent;
   final List<String> trekImages;
   final double trekRating;
   final List<String> trekReviews;
@@ -41,6 +42,7 @@ class Trek {
     required this.recommendedEssentials,
     required this.trekOrganizer,
     required this.trekOrganizerContact,
+    required this.isEvent,
   });
 
   // Convert object to Map for Firestore
@@ -65,6 +67,7 @@ class Trek {
       'recommendedEssentials': recommendedEssentials,
       'trekOrganizer': trekOrganizer,
       'trekOrganizerContact': trekOrganizerContact,
+      'isEvent': isEvent
     };
   }
 
@@ -91,6 +94,7 @@ class Trek {
       recommendedEssentials: map['recommendedEssentials'] ?? '',
       trekOrganizer: map['trekOrganizer'] ?? '',
       trekOrganizerContact: map['trekOrganizerContact'] ?? '',
+      isEvent: map['isEvent'] ?? false,
     );
   }
 
