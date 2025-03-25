@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:offbeat_pravasi_v2/common/trek_ticket_screen.dart';
 
 import '../modules/module_exports.dart';
 
@@ -166,6 +167,12 @@ final GoRouter router = GoRouter(
       path: '/mytreks',
       pageBuilder: (context, state) => NoTransitionPage(
         child: const MyTreks(),
+      ),
+    ),
+    GoRoute(
+      path: '/trek-ticket',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const TrekTicketScreen(),
       ),
     ),
   ],

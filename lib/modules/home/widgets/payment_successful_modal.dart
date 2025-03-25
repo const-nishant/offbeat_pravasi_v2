@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PaymentSuccessModal extends StatelessWidget {
   const PaymentSuccessModal({super.key});
@@ -59,6 +60,8 @@ class PaymentSuccessModal extends StatelessWidget {
               ),
               onPressed: () {
                 // View ticket action here
+                context.pop();
+                context.push('/trek-ticket');
               },
               child: Text(
                 "View Ticket",
