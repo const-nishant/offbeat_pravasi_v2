@@ -14,6 +14,11 @@ class UserData {
   final String? notificationToken;
   final String? location;
   final bool? isOrganizer;
+  final double? userPoints;
+  final int? userDistanceTraveled;
+  final List<String>? userTrekIds;
+  final List<String>? userEventsIds;
+  final List<String>? friendsIds;
 
   UserData({
     required this.username,
@@ -23,8 +28,13 @@ class UserData {
     required this.authProvider,
     required this.isSignup,
     this.notificationToken,
+    this.userPoints,
     this.isOrganizer,
     this.location,
+    this.userDistanceTraveled,
+    this.userTrekIds,
+    this.userEventsIds,
+    this.friendsIds,
     required this.profileImage,
     required this.gender,
     required this.dob,
@@ -46,7 +56,12 @@ class UserData {
       'gender': gender,
       'dob': dob,
       'name': name,
-      'location': location
+      'location': location,
+      'userPoints': userPoints,
+      'userDistanceTraveled': userDistanceTraveled,
+      'userTrekIds': userTrekIds,
+      'userEventsIds': userEventsIds,
+      'friendsIds': friendsIds,
     };
   }
 
@@ -66,6 +81,11 @@ class UserData {
       notificationToken: map['notificationToken'] ?? '',
       isOrganizer: map['isOrganizer'] ?? false,
       location: map['location'] ?? '',
+      userPoints: map['userPoints'] ?? 0,
+      userDistanceTraveled: map['userDistanceTraveled'] ?? 0,
+      userTrekIds: List<String>.from(map['userTrekIds'] ?? []),
+      userEventsIds: List<String>.from(map['userEventsIds'] ?? []),
+      friendsIds: List<String>.from(map['friendsIds'] ?? []),
     );
   }
 

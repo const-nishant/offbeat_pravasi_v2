@@ -154,6 +154,11 @@ class OnboardingServices extends ChangeNotifier {
           location: '',
           notificationToken: '',
           username: existingData['username'],
+          friendsIds: [],
+          userDistanceTraveled: 0,
+          userPoints: 0,
+          userTrekIds: [],
+          userEventsIds: [],
         );
 
         await _firestore

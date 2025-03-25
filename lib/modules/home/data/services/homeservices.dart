@@ -17,8 +17,8 @@ class HomeServices extends ChangeNotifier {
   List<TrekData> get treks => _treks;
   TrekData? get singleTrek => _singleTrek;
   bool get isLoading => _isLoading;
-  bool get isSingleTrekLoading => _isSingleTrekLoading;
   UserData? get userData => _userData;
+  bool get isSingleTrekLoading => _isSingleTrekLoading;
 
   Future<void> fetchUserData() async {
     try {
