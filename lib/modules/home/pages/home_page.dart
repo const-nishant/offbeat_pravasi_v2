@@ -131,7 +131,9 @@ class _HomePageState extends State<HomePage> {
                                     width:
                                         MediaQuery.of(context).size.width / 6,
                                     child: IconButton(
-                                      onPressed: () {}, // SOS logic here
+                                      onPressed: () {
+                                        context.push("/sos-page");
+                                      }, // SOS logic here
                                       style: ButtonStyle(
                                         backgroundColor: WidgetStatePropertyAll(
                                           Theme.of(context)
@@ -185,6 +187,11 @@ class _HomePageState extends State<HomePage> {
                                   IconButton(
                                     onPressed: () {
                                       //filter here
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            const FilterPopup(),
+                                      );
                                     },
                                     iconSize: 24,
                                     style: ButtonStyle(
