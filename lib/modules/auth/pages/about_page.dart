@@ -108,24 +108,25 @@ class _AboutPageState extends State<AboutPage> {
                                 )
                               : null),
                       Positioned(
-                          right: 0,
-                          bottom: 0,
-                          child: IconButton(
-                            onPressed: () async {
-                              await helperServices.pickImage();
-                              setState(() {
-                                image = helperServices.image;
-                              });
-                            },
-                            icon: CircleAvatar(
-                                radius: 20,
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.onPrimary,
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                )),
-                          ))
+                        right: 0,
+                        bottom: 0,
+                        child: IconButton(
+                          onPressed: () async {
+                            await helperServices.pickImage();
+                            setState(() {
+                              image = helperServices.image;
+                            });
+                          },
+                          icon: CircleAvatar(
+                              radius: 20,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              )),
+                        ),
+                      ),
                     ],
                   ),
                 ),

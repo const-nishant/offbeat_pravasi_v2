@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
 import 'package:provider/provider.dart';
-
 import '../../../helpers/helper_exports.dart';
 
 class EditprofileScreen extends StatefulWidget {
@@ -16,13 +14,13 @@ class EditprofileScreen extends StatefulWidget {
 }
 
 class _EditprofileScreenState extends State<EditprofileScreen> {
-  final nameController = TextEditingController(text: "Ansh Jadhav");
-  final usernameController = TextEditingController(text: "JadhavAnsh");
-  final phoneController = TextEditingController(text: "8380948968");
-  final locationController = TextEditingController(text: "Mumbai, Maharashtra");
+  final nameController = TextEditingController();
+  final usernameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final locationController = TextEditingController();
 
-  File? _image;
-  File? get image => _image;
+  File? image;
+  File? bannerImage;
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +35,8 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
               Row(
                 children: [
                   IconButton(
-                    style: ButtonStyle(
-                      side: WidgetStateProperty.all(
-                        BorderSide(
-                          color: Theme.of(context).colorScheme.onInverseSurface,
-                          width: 2,
-                        ),
-                      ),
-                      iconColor: WidgetStateProperty.all(
-                        Theme.of(context).colorScheme.inversePrimary,
-                      ),
-                    ),
+                    iconSize: 28,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                     icon: const Icon(
                       Icons.chevron_left_rounded,
                       size: 28,
@@ -68,8 +57,11 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                   ),
                   const Spacer(),
                   ElevatedButton(
-                    onPressed: () {
-                      // Add banner logic
+                    onPressed: () async {
+                      await helperServices.pickImage();
+                      setState(() {
+                        bannerImage = helperServices.image;
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
@@ -100,13 +92,22 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.onInverseSurface,
                       borderRadius: BorderRadius.circular(12),
+                      image: bannerImage != null
+                          ? DecorationImage(
+                              image: FileImage(bannerImage!),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                     ),
-                    child: const Center(
-                      child: Text(
-                        'Banner Preview',
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                      ),
-                    ),
+                    child: bannerImage == null
+                        ? const Center(
+                            child: Text(
+                              'Banner Preview',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16),
+                            ),
+                          )
+                        : null,
                   ),
 
                   // Circular Avatar floating
@@ -119,36 +120,37 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
                         alignment: Alignment.bottomRight,
                         children: [
                           CircleAvatar(
-                            radius: 68,
+                            radius: 66,
                             backgroundColor: Colors.transparent,
-                            backgroundImage: helperServices.image != null
-                                ? FileImage(helperServices.image!)
-                                : null,
-                            child: helperServices.image == null
+                            backgroundImage:
+                                image != null ? FileImage(image!) : null,
+                            child: image == null
                                 ? Icon(
                                     LucideIcons.circleUserRound,
                                     color:
                                         Theme.of(context).colorScheme.primary,
-                                    size: 100,
+                                    size: 96,
                                   )
                                 : null,
                           ),
                           Positioned(
-                            bottom: 8,
-                            right: 12,
-                            child: GestureDetector(
-                              onTap: () async {
+                            right: 0,
+                            bottom: 0,
+                            child: IconButton(
+                              onPressed: () async {
                                 await helperServices.pickImage();
                                 setState(() {
-                                  _image = helperServices.image;
+                                  image = helperServices.image;
                                 });
                               },
-                              child: CircleAvatar(
+                              icon: CircleAvatar(
+                                radius: 20,
                                 backgroundColor:
                                     Theme.of(context).colorScheme.onPrimary,
-                                radius: 18,
-                                child: const Icon(Icons.edit,
-                                    color: Colors.white, size: 16),
+                                child: const Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -216,7 +218,10 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
       child: Text(
         text,
         style: const TextStyle(
-            fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
+          fontSize: 14,
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

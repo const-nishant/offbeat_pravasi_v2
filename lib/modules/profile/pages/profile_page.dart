@@ -29,6 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // Background Banner
               Container(
                 height: 460,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.onInverseSurface,
                   borderRadius: BorderRadius.vertical(
@@ -54,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      "${user!.userPoints ?? 0} ", // Replace with dynamic data if needed
+                      "${user!.userPoints ?? 0} ",
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.black,
