@@ -366,9 +366,17 @@ class _TrekdetailsState extends State<Trekdetails> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     // Navigate to Payment or Booking Flow
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      builder: (context) =>
+                                          const PaymentSuccessModal(),
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF8C3D0B),
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.onPrimary,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(24),
                                     ),

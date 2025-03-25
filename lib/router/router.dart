@@ -91,6 +91,24 @@ final GoRouter router = GoRouter(
       ),
     ),
     GoRoute(
+      path: '/sos-page',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const SosPage(),
+      ),
+    ),
+    GoRoute(
+      path: '/contactsScreen',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const ContactsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/addContactScreen',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const AddContactScreen(),
+      ),
+    ),
+    GoRoute(
       path: '/notificationscreen',
       pageBuilder: (context, state) => NoTransitionPage(
         child: const Notificationscreen(),
