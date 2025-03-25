@@ -1,23 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/helpers/helper_exports.dart';
+import 'package:provider/provider.dart';
+import '../community_exports.dart';
 
 class Postcard extends StatefulWidget {
-  final int index;
-  final String title;
+  final String postId;
   final String uid;
   final String description;
   final String imageUrl;
-  final String time;
+  final Timestamp time;
   final String location;
   final String username;
   final String userImageUrl;
-  final int likes;
+  final List<String> likes;
   final int comments;
 
   const Postcard({
     super.key,
-    required this.title,
+    required this.postId,
     required this.description,
     required this.imageUrl,
     required this.time,
@@ -27,7 +29,6 @@ class Postcard extends StatefulWidget {
     required this.likes,
     required this.comments,
     required this.uid,
-    required this.index,
   });
 
   @override
@@ -35,27 +36,37 @@ class Postcard extends StatefulWidget {
 }
 
 class _PostcardState extends State<Postcard> {
-  bool isLiked = false;
-  int likeCount = 0;
+  final helperServices = Helperservices();
+  late bool isLiked;
+  late int likeCount;
 
   @override
   void initState() {
     super.initState();
-    likeCount = widget.likes;
+    likeCount = widget.likes.length;
+    isLiked = widget.likes.contains(widget.uid);
   }
 
-  void toggleLike() {
-    setState(() {
-      isLiked = !isLiked;
-      likeCount += isLiked ? 1 : -1;
-    });
+  Future<void> toggleLike() async {
+    final communityServices =
+        Provider.of<Communityservices>(context, listen: false);
+
+    try {
+      await communityServices.toggleLike(widget.postId, widget.uid);
+      setState(() {
+        isLiked = !isLiked;
+        likeCount += isLiked ? 1 : -1;
+      });
+    } catch (e) {
+      debugPrint("Error toggling like: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
-      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(14.0),
@@ -71,12 +82,13 @@ class _PostcardState extends State<Postcard> {
                   child: CircleAvatar(
                     radius: 28,
                     backgroundImage: NetworkImage(widget.userImageUrl),
+                    onBackgroundImageError: (_, __) =>
+                        const Icon(Icons.person, size: 28),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     InkWell(
                       onTap: () {
@@ -100,7 +112,7 @@ class _PostcardState extends State<Postcard> {
                       ),
                     ),
                     Text(
-                      widget.time,
+                      helperServices.formatTimestamp(widget.time),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -111,7 +123,7 @@ class _PostcardState extends State<Postcard> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             // Post Content
             RichText(
@@ -120,7 +132,7 @@ class _PostcardState extends State<Postcard> {
                     widget.description, context),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             // Image
             ClipRRect(
@@ -130,9 +142,15 @@ class _PostcardState extends State<Postcard> {
                 height: MediaQuery.of(context).size.height * 0.32,
                 width: double.infinity,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  height: MediaQuery.of(context).size.height * 0.32,
+                  width: double.infinity,
+                  color: Colors.grey[300],
+                  child: const Icon(Icons.broken_image, size: 50),
+                ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
 
             // Likes & Comments
             Row(
@@ -144,11 +162,11 @@ class _PostcardState extends State<Postcard> {
                   ),
                   onPressed: toggleLike,
                 ),
-                SizedBox(width: 4),
+                const SizedBox(width: 4),
                 Text("$likeCount"),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     LucideIcons.messageSquare,
                     color: Colors.black,
                     size: 24,
@@ -157,7 +175,7 @@ class _PostcardState extends State<Postcard> {
                     // Add comment logic here
                   },
                 ),
-                SizedBox(width: 4),
+                const SizedBox(width: 4),
                 Text("${widget.comments}"),
               ],
             ),

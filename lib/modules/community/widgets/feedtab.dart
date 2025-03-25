@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:offbeat_pravasi_v2/modules/community/community_exports.dart';
+import 'package:provider/provider.dart';
 
 class Feedtab extends StatefulWidget {
   const Feedtab({super.key});
@@ -38,32 +39,50 @@ class _FeedtabState extends State<Feedtab> {
           SliverToBoxAdapter(
             child: SizedBox(height: 10),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 24.0,
-                  top: 6.0,
+          Consumer<Communityservices>(
+            builder: (context, communityProvider, child) {
+              if (communityProvider.isLoading) {
+                return SliverFillRemaining(
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              final posts = communityProvider.posts;
+
+              if (posts.isEmpty) {
+                return SliverFillRemaining(
+                  child: Center(child: Text("No posts available")),
+                );
+              }
+
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final post = posts[index];
+                    return Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 24.0,
+                          top: 6.0,
+                        ),
+                        child: Postcard(
+                          postId: post.postId,
+                          description: post.caption,
+                          imageUrl: post.imageUrl,
+                          time: post.uploadTimestamp,
+                          location: post.location.isEmpty
+                              ? 'location not found'
+                              : post.location,
+                          username: post.username,
+                          userImageUrl: post.userImageUrl,
+                          comments: post.comments,
+                          uid: post.userId,
+                          likes: post.likes,
+                        ));
+                  },
+                  childCount: posts.length,
                 ),
-                child: Postcard(
-                  index: index,
-                  uid: 'uid $index',
-                  title: 'Post $index',
-                  description:
-                      'After thorough testing, minor UI improvements were made, and performance was optimized by ensuring efficient API calls and memory management. #Flutter #Dart $index',
-                  imageUrl:
-                      'https://www.tothepoint.co.uk/wp-content/uploads/2015/11/temp-image.jpg',
-                  time: DateTime.now().toString(),
-                  location: 'location $index',
-                  username: 'username $index',
-                  userImageUrl:
-                      'https://www.tothepoint.co.uk/wp-content/uploads/2015/11/temp-image.jpg',
-                  comments: index + 1,
-                  likes: index + 1,
-                ),
-              ),
-              childCount: 5,
-            ),
+              );
+            },
           ),
         ],
       ),

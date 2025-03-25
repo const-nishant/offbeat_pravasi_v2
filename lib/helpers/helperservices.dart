@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:path_provider/path_provider.dart";
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import "package:path/path.dart";
+import 'package:intl/intl.dart';
+
 
 class Helperservices extends ChangeNotifier {
   File? _image;
@@ -99,4 +102,25 @@ class Helperservices extends ChangeNotifier {
         "${date.month.toString().padLeft(2, '0')}/"
         "${date.year}";
   }
+
+//time ago formater
+  String formatTimestamp(Timestamp timestamp) {
+  DateTime postDate = timestamp.toDate();
+  DateTime now = DateTime.now();
+  Duration difference = now.difference(postDate);
+
+  if (difference.inSeconds < 60) {
+    return "${difference.inSeconds}s ago";
+  } else if (difference.inMinutes < 60) {
+    return "${difference.inMinutes}m ago";
+  } else if (difference.inHours < 24) {
+    return "${difference.inHours}h ago";
+  } else if (difference.inDays < 7) {
+    return "${difference.inDays}d ago";
+  } else {
+    return DateFormat('dd MMM yyyy').format(postDate); // Example: 10 Mar 2025
+  }
+}
+
+
 }

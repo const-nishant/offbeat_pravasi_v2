@@ -1,6 +1,4 @@
-export 'data/models/trekdata.dart';
-export 'data/services/profileservices.dart';
-export 'data/services/trekservices.dart';
+export 'data/exports.dart';
 export 'pages/achivements_screen.dart';
 export 'pages/addposts.dart';
 export 'pages/addstory.dart';

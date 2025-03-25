@@ -1,8 +1,12 @@
 import 'dart:io';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
+
+import '../../../helpers/helper_exports.dart';
+import '../profile_exports.dart';
 
 class Createpostscreen extends StatefulWidget {
   final File imageFile;
@@ -15,11 +19,29 @@ class Createpostscreen extends StatefulWidget {
 class _CreatepostscreenState extends State<Createpostscreen> {
   final TextEditingController _captionController = TextEditingController();
 
-  void _post() {
-    // Handle the post logic here
-    // ignore: avoid_print
-    print("Posted with caption: ${_captionController.text}");
-    Navigator.pop(context);
+  @override
+  void dispose() {
+    _captionController.dispose();
+    widget.imageFile.delete();
+    super.dispose();
+  }
+
+  void _post() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final helpersevices = Provider.of<Helperservices>(context, listen: false);
+    if (_captionController.text.isNotEmpty) {
+      await context.read<ProfileService>().addpost(
+            // ignore: use_build_context_synchronously
+            context,
+            auth.currentUser!.uid,
+            _captionController.text,
+            await helpersevices.compressImage(widget.imageFile) ??
+                widget.imageFile,
+          );
+      _captionController.clear();
+      // ignore: use_build_context_synchronously
+      context.pop();
+    }
   }
 
   @override
@@ -78,26 +100,34 @@ class _CreatepostscreenState extends State<Createpostscreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.file(widget.imageFile,
-                  width: double.infinity, height: 450, fit: BoxFit.cover),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: _captionController,
-              maxLines: 3,
-              decoration: InputDecoration(
-                hintText: "Write a caption...",
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.file(widget.imageFile,
+                    width: double.infinity, height: 450, fit: BoxFit.cover),
               ),
-            ),
-          ],
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _captionController,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  hintText: "Write a caption...",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a caption';
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
