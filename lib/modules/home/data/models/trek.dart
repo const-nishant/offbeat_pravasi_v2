@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class TrekData{
+class TrekData {
   final String trekId;
   final String trekName;
+  final String trekStateLocation;
   final String trekLocation;
   final DateTime trekDate;
   final Timestamp trekUploadTimestamp;
@@ -26,6 +27,7 @@ class TrekData{
     required this.trekId,
     required this.trekName,
     required this.trekLocation,
+    required this.trekStateLocation,
     required this.trekDate,
     required this.trekUploadTimestamp,
     required this.trekOverview,
@@ -67,7 +69,8 @@ class TrekData{
       'recommendedEssentials': recommendedEssentials,
       'trekOrganizer': trekOrganizer,
       'trekOrganizerContact': trekOrganizerContact,
-      'isEvent': isEvent
+      'isEvent': isEvent,
+      'trekStateLocation': trekStateLocation,
     };
   }
 
@@ -77,6 +80,7 @@ class TrekData{
       trekId: map['trekId'] ?? '',
       trekName: map['trekName'] ?? '',
       trekLocation: map['trekLocation'] ?? '',
+      trekStateLocation: map['trekStateLocation'] ?? '',
       trekDate:
           DateTime.parse(map['trekDate'] ?? DateTime.now().toIso8601String()),
       trekUploadTimestamp: map['trekUploadTimestamp'] ?? Timestamp.now(),

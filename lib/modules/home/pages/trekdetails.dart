@@ -82,9 +82,7 @@ class _TrekdetailsState extends State<Trekdetails> {
                                     ),
                                   ),
                                   iconColor: WidgetStateProperty.all(
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .inversePrimary,
+                                    Theme.of(context).colorScheme.secondary,
                                   ),
                                 ),
                                 icon: Icon(
@@ -99,10 +97,9 @@ class _TrekdetailsState extends State<Trekdetails> {
                                 trek.trekName,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
+                                  fontSize: 22,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                               IconButton(
@@ -111,9 +108,8 @@ class _TrekdetailsState extends State<Trekdetails> {
                                 },
                                 icon: Icon(
                                   LucideIcons.bookmark,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ],

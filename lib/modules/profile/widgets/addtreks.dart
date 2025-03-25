@@ -37,7 +37,8 @@ class _AddtreksState extends State<Addtreks> {
       SingleValueDropDownController();
   final SingleValueDropDownController _seasonController =
       SingleValueDropDownController();
-  final SingleValueDropDownController _locationController =
+  final TextEditingController _locationController = TextEditingController();
+  final SingleValueDropDownController _stateLocationController =
       SingleValueDropDownController();
 
   void preview() async {
@@ -61,7 +62,7 @@ class _AddtreksState extends State<Addtreks> {
       '/trekpreview',
       extra: {
         "trekName": _nameController.text.trim(),
-        "trekLocation": _locationController.dropDownValue!.value.toString(),
+        "trekLocation": _locationController.text.trim(),
         "trekDate": DateTime.now().toIso8601String(),
         "trekOverview": Provider.of<Trekservices>(context, listen: false)
             .convertToMarkdownParagraph(_overviewController.text.trim()),
@@ -88,7 +89,9 @@ class _AddtreksState extends State<Addtreks> {
       await trekservice.addTreks(
         context: context,
         trekName: _nameController.text.trim(),
-        trekLocation: _locationController.dropDownValue!.value.toString(),
+        trekLocation: _locationController.text.trim(),
+        trekStateLocation:
+            _stateLocationController.dropDownValue!.value.toString(),
         trekDate: DateTime.now(),
         trekOverview:
             trekservice.convertToMarkdownParagraph(_overviewController.text),
@@ -107,7 +110,8 @@ class _AddtreksState extends State<Addtreks> {
             trekservice.convertToMarkdown(_recommendessentialsController.text),
       );
       _difficultyController.dropDownValue = null;
-      _locationController.dropDownValue = null;
+      _locationController.clear();
+      _stateLocationController.dropDownValue = null;
       _nameController.clear();
       _overviewController.clear();
       _durationController.clear();
@@ -234,6 +238,10 @@ class _AddtreksState extends State<Addtreks> {
                       });
                     },
                   ),
+                  SizedBox(height: 10.0), 
+                  _buildTextField(
+                      "Location:", "Enter trek Location", _locationController,
+                      keyboardType: TextInputType.streetAddress),
                   SizedBox(height: 10.0),
                   _buildLargeTextField(
                       "Overview:", "Enter trek overview", _overviewController),
@@ -257,8 +265,8 @@ class _AddtreksState extends State<Addtreks> {
                     ],
                   ),
                   CustomDropdown(
-                    labelText: 'Location',
-                    controller: _locationController,
+                    labelText: 'State of Location',
+                    controller: _stateLocationController,
                     dropDownList:
                         Provider.of<Trekservices>(context, listen: false)
                             .states

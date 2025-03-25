@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Trek {
   final String trekId;
   final String trekName;
+  final String trekStateLocation;
   final String trekLocation;
   final DateTime trekDate;
   final Timestamp trekUploadTimestamp;
@@ -25,6 +26,7 @@ class Trek {
   Trek({
     required this.trekId,
     required this.trekName,
+    required this.trekStateLocation,
     required this.trekLocation,
     required this.trekDate,
     required this.trekUploadTimestamp,
@@ -50,7 +52,7 @@ class Trek {
     return {
       'trekId': trekId,
       'trekName': trekName,
-      'trekLocation': trekLocation,
+      'trekStateLocation': trekStateLocation,
       'trekDate': trekDate.toIso8601String(),
       'trekUploadTimestamp': trekUploadTimestamp,
       'trekOverview': trekOverview,
@@ -67,7 +69,8 @@ class Trek {
       'recommendedEssentials': recommendedEssentials,
       'trekOrganizer': trekOrganizer,
       'trekOrganizerContact': trekOrganizerContact,
-      'isEvent': isEvent
+      'isEvent': isEvent,
+      'trekLocation': trekLocation,
     };
   }
 
@@ -76,7 +79,7 @@ class Trek {
     return Trek(
       trekId: map['trekId'] ?? '',
       trekName: map['trekName'] ?? '',
-      trekLocation: map['trekLocation'] ?? '',
+      trekStateLocation: map['trekStateLocation'] ?? '',
       trekDate:
           DateTime.parse(map['trekDate'] ?? DateTime.now().toIso8601String()),
       trekUploadTimestamp: map['trekUploadTimestamp'] ?? Timestamp.now(),
@@ -95,6 +98,7 @@ class Trek {
       trekOrganizer: map['trekOrganizer'] ?? '',
       trekOrganizerContact: map['trekOrganizerContact'] ?? '',
       isEvent: map['isEvent'] ?? false,
+      trekLocation: map['trekLocation'] ?? '',
     );
   }
 

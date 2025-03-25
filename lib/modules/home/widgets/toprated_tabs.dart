@@ -97,7 +97,7 @@ class _TopratedTabsState extends State<TopratedTabs> {
                               ),
                               SizedBox(width: 4),
                               Text(
-                                trek.trekLocation,
+                                trek.trekStateLocation,
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Theme.of(context).colorScheme.primary,

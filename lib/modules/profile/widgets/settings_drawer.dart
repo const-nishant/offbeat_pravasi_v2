@@ -152,6 +152,7 @@ class SettingsDrawer extends StatelessWidget {
               ),
               label: const Text('Sign Out'),
               onPressed: () {
+                context.pop();
                 Provider.of<AuthServices>(context, listen: false)
                     .logout(context);
               },

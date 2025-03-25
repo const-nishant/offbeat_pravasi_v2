@@ -19,6 +19,7 @@ class UploadPhotoField extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
+              readOnly: true,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Upload photo',

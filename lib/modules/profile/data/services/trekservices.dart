@@ -104,6 +104,7 @@ class Trekservices extends ChangeNotifier {
     required double trekDistance,
     required double trekCost,
     required String trekItinerary,
+    required String trekStateLocation,
     required String recommendedGear,
     required String recommendedEssentials,
   }) async {
@@ -116,7 +117,7 @@ class Trekservices extends ChangeNotifier {
       List<String> trekImagesUrls = [];
       for (File image in trekImages) {
         String fileId =
-            '${trekName.replaceAll(' ', '_')}_${DateTime.now().microsecondsSinceEpoch.toString().substring(0, 3)}_${image.path.split('/').last}';
+            '${trekName.replaceAll(' ', '_')}_${DateTime.now().microsecondsSinceEpoch.toString().substring(0, 1)}_${image.path.split('/').last}';
         await storage.createFile(
           bucketId: Configs.appWriteTrekImageStorageBucketId,
           fileId: fileId,
@@ -142,6 +143,7 @@ class Trekservices extends ChangeNotifier {
         trekId: trekId,
         trekName: trekName,
         trekLocation: trekLocation,
+        trekStateLocation: trekStateLocation,
         trekDate: trekDate,
         trekOverview: trekOverview,
         trekImages: trekImagesUrls,

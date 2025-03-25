@@ -16,7 +16,7 @@ class _PopularTabState extends State<PopularTab> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      //the query here 
+      //the query here
       // ignore: use_build_context_synchronously
       context.read<HomeServices>().listenToTreks(field: '', value: '');
     });
@@ -96,7 +96,7 @@ class _PopularTabState extends State<PopularTab> {
                               ),
                               SizedBox(width: 4),
                               Text(
-                                trek.trekLocation,
+                                trek.trekStateLocation,
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Theme.of(context).colorScheme.primary,
