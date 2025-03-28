@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       CircleAvatar(
-                                        radius: 28,
+                                        radius: 26,
                                         backgroundImage: user?.profileImage !=
                                                     null &&
                                                 user!.profileImage!.isNotEmpty
@@ -117,9 +117,10 @@ class _HomePageState extends State<HomePage> {
                                                   color: Theme.of(context)
                                                       .colorScheme
                                                       .tertiary,
-                                                  fontSize: 16,
+                                                  fontSize: 15,
                                                   fontWeight: FontWeight.w500,
                                                 ),
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                             ],
                                           ),
