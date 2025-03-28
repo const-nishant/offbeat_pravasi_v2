@@ -159,6 +159,7 @@ class OnboardingServices extends ChangeNotifier {
           userPoints: 0,
           userTrekIds: [],
           userEventsIds: [],
+          bannerImage: '',
         );
 
         await _firestore

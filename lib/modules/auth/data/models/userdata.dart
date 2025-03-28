@@ -8,6 +8,7 @@ class UserData {
   final String authProvider;
   final bool isSignup;
   final String? profileImage;
+  final String? bannerImage;
   final String? gender;
   final String? dob;
   final String? name;
@@ -34,6 +35,7 @@ class UserData {
     this.userDistanceTraveled,
     this.userTrekIds,
     this.userEventsIds,
+    this.bannerImage,
     this.friendsIds,
     required this.profileImage,
     required this.gender,
@@ -62,6 +64,7 @@ class UserData {
       'userTrekIds': userTrekIds,
       'userEventsIds': userEventsIds,
       'friendsIds': friendsIds,
+      'bannerImage': bannerImage,
     };
   }
 
@@ -86,6 +89,7 @@ class UserData {
       userTrekIds: List<String>.from(map['userTrekIds'] ?? []),
       userEventsIds: List<String>.from(map['userEventsIds'] ?? []),
       friendsIds: List<String>.from(map['friendsIds'] ?? []),
+      bannerImage: map['bannerImage'] ?? '',
     );
   }
 

@@ -275,7 +275,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               SizedBox(width: 12),
                               Expanded(
                                 child: Text(
-                                  "What’s on your mind?",
+                                  "What's on your mind?",
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.black),
                                 ),
@@ -316,6 +316,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       : null,
                 ),
               ),
+              //
             ],
           ),
         );

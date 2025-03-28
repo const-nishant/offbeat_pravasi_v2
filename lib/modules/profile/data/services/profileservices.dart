@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:offbeat_pravasi_v2/config/configs.dart';
 import 'package:offbeat_pravasi_v2/modules/profile/data/models/post.dart';
-
 import '../../../../main.dart';
 import '../../../auth/auth_exports.dart';
 
@@ -98,6 +97,88 @@ class ProfileService extends ChangeNotifier {
       );
 
       notifyListeners();
+    } catch (e) {
+      if (context.mounted) {
+        _showError(context, e.toString());
+      }
+    } finally {
+      if (_dialogContext != null && _dialogContext!.mounted) {
+        Navigator.pop(_dialogContext!); // Close the loader
+        _dialogContext = null; // Reset after closing
+      }
+    }
+  }
+
+//update user data
+  Future<void> updateUserData({
+    File? profileImage,
+    File? bannerImage,
+    required String location,
+    required String name,
+    required String username,
+    required String phone,
+    required BuildContext context,
+  }) async {
+    _showLoader(context);
+    try {
+      if (profileImage != null && bannerImage != null) {
+        //update userprofile image
+        await storage.deleteFile(
+          bucketId: Configs.appWriteUserProfileStorageBucketId,
+          fileId: _auth.currentUser!.uid,
+        );
+
+        await storage.createFile(
+          bucketId: Configs.appWriteUserProfileStorageBucketId,
+          fileId: _auth.currentUser!.uid,
+          file: InputFile.fromPath(path: profileImage.path),
+        );
+        String profileImageUrl =
+            'https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteUserProfileStorageBucketId}/files/${_auth.currentUser!.uid}/view?project=${Configs.appWriteProjectId}&mode=admin';
+
+        //update user banner image
+        if (userData!.bannerImage != '') {
+          await storage.deleteFile(
+            bucketId: Configs.appWriteUserBannerStorageBucketId,
+            fileId: _auth.currentUser!.uid,
+          );
+        }
+
+        await storage.createFile(
+          bucketId: Configs.appWriteUserBannerStorageBucketId,
+          fileId: _auth.currentUser!.uid,
+          file: InputFile.fromPath(path: bannerImage.path),
+        );
+        String bannerImageUrl =
+            'https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteUserBannerStorageBucketId}/files/${_auth.currentUser!.uid}/view?project=${Configs.appWriteProjectId}&mode=admin';
+
+        UserData updateduserdata = UserData(
+          name: name,
+          username: username,
+          location: location,
+          phone: phone,
+          profileImage: profileImageUrl,
+          authProvider: userData!.authProvider,
+          email: userData!.email,
+          dob: userData!.dob,
+          gender: userData!.gender,
+          isSignup: userData!.isSignup,
+          bannerImage: bannerImageUrl,
+          uid: userData!.uid,
+        );
+
+        await _firestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .update(updateduserdata.toMap());
+      }
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text('Profile updated successfully!'),
+        ),
+      );
     } catch (e) {
       if (context.mounted) {
         _showError(context, e.toString());

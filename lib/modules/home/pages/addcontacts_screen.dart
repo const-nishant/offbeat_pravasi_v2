@@ -18,6 +18,7 @@ class AddContactScreen extends StatefulWidget {
 class _AddContactScreenState extends State<AddContactScreen> {
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     File? image;
     final nameController = TextEditingController();
     final phoneController = TextEditingController();
