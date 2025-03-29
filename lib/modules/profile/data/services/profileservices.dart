@@ -17,12 +17,71 @@ class ProfileService extends ChangeNotifier {
 
   UserData? _userData;
   bool _isLoading = true;
+  List<Post> _posts = [];
 
   bool get isLoading => _isLoading;
   UserData? get userData => _userData;
+  List<Post> get userPosts => _posts;
 
   ProfileService() {
     fetchUserData();
+    fetchPosts();
+    _listenToUserUpdates();
+  }
+
+  void _listenToUserUpdates() {
+    if (_auth.currentUser == null) return;
+
+    _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.exists) {
+        _userData =
+            snapshot.data() != null ? UserData.fromDocument(snapshot) : null;
+        notifyListeners(); // 🔄 Trigger UI update
+      }
+    });
+  }
+
+//send organizer requests
+  Future<void> sendOrganizerRequest({
+    required String email,
+    required String message,
+    required BuildContext context,
+  }) async {
+    _showLoader(context);
+    try {
+      final requestData = {
+        'senderEmail': email,
+        'message': message,
+        'status': 'pending', // Can be 'pending', 'approved', or 'rejected'
+        'timestamp': FieldValue.serverTimestamp(),
+        'userId': _auth.currentUser!.uid,
+      };
+
+      await _firestore
+          .collection('organizer_requests')
+          .doc(_auth.currentUser!.uid)
+          .set(requestData);
+
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Request sent successfully!'),
+        ),
+      );
+    } catch (e) {
+      if (context.mounted) {
+        _showError(context, e.toString());
+      }
+    } finally {
+      if (_dialogContext != null && _dialogContext!.mounted) {
+        Navigator.pop(_dialogContext!); // Close the loader
+        _dialogContext = null; // Reset after closing
+      }
+    }
   }
 
   Future<void> fetchUserData() async {
@@ -106,6 +165,28 @@ class ProfileService extends ChangeNotifier {
         Navigator.pop(_dialogContext!); // Close the loader
         _dialogContext = null; // Reset after closing
       }
+    }
+  }
+
+//show user posts
+  Future<void> fetchPosts() async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      QuerySnapshot snapshot = await _firestore
+          .collection('posts')
+          .where('userId', isEqualTo: _auth.currentUser!.uid)
+          .orderBy('uploadTimestamp', descending: true)
+          .get();
+
+      _posts = snapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      debugPrint('Error fetching posts: $e');
     }
   }
 

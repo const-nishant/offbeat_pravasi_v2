@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
-
 import '../../auth/auth_exports.dart';
+import '../profile_exports.dart';
 
 class SettingsDrawer extends StatelessWidget {
   final BuildContext dialogContext;
@@ -68,96 +68,118 @@ class SettingsDrawer extends StatelessWidget {
             bottomLeft: Radius.circular(20),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 16),
-              child: Text(
-                'Settings',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 80),
-            buildListTile(
-              context,
-              LucideIcons.lockKeyhole,
-              'Change Password',
-              trailing: LucideIcons.chevronRight,
-              onTap: () {
-                dialogContext.push('/change_password');
-              },
-            ),
-            buildListTile(
-              context,
-              LucideIcons.bell,
-              'Notifications',
-              trailing: LucideIcons.chevronRight,
-              onTap: () {
-                dialogContext.push('/notificationscreen');
-              },
-            ),
-            buildListTile(
-              context,
-              LucideIcons.bookmark,
-              'Saved Treks',
-              trailing: LucideIcons.chevronRight,
-              onTap: () {
-                dialogContext.push('/savedtreks');
-              },
-            ),
-            buildListTile(
-              context,
-              LucideIcons.mountain,
-              'My Treks',
-              trailing: LucideIcons.chevronRight,
-              onTap: () {
-                dialogContext.push('/mytreks');
-              },
-            ),
-            buildListTile(
-              context,
-              LucideIcons.hammer,
-              'Become an organizer',
-              trailing: LucideIcons.chevronRight,
-              onTap: () {
-                dialogContext.push('/becometrekorganizer');
-              },
-            ),
-            buildListTile(
-              context,
-              LucideIcons.headset,
-              'Support',
-              trailing: LucideIcons.chevronRight,
-            ),
-            buildListTile(
-              context,
-              LucideIcons.clipboardList,
-              'Terms & Conditions',
-              trailing: LucideIcons.chevronRight,
-            ),
-            const Spacer(),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 237, 41, 27),
-                foregroundColor: Colors.white,
-                minimumSize: const Size.fromHeight(45),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+        child: Consumer<ProfileService>(
+          builder: (context, profileService, child) {
+            final user = profileService.userData;
+
+            if (user == null) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Text(
+                    'Settings',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              icon: const Icon(
-                LucideIcons.logOut,
-                color: Colors.white,
-              ),
-              label: const Text('Sign Out'),
-              onPressed: () {
-                context.pop();
-                Provider.of<AuthServices>(context, listen: false)
-                    .logout(context);
-              },
-            ),
-          ],
+                const SizedBox(height: 80),
+                user.authProvider != 'email'
+                    ? const SizedBox.shrink()
+                    : buildListTile(
+                        context,
+                        LucideIcons.lockKeyhole,
+                        'Change Password',
+                        trailing: LucideIcons.chevronRight,
+                        onTap: () {
+                          dialogContext.push('/change_password');
+                        },
+                      ),
+                buildListTile(
+                  context,
+                  LucideIcons.bell,
+                  'Notifications',
+                  trailing: LucideIcons.chevronRight,
+                  onTap: () {
+                    dialogContext.push('/notificationscreen');
+                  },
+                ),
+                buildListTile(
+                  context,
+                  LucideIcons.bookmark,
+                  'Saved Treks',
+                  trailing: LucideIcons.chevronRight,
+                  onTap: () {
+                    dialogContext.push('/savedtreks');
+                  },
+                ),
+                buildListTile(
+                  context,
+                  LucideIcons.mountain,
+                  'My Treks',
+                  trailing: LucideIcons.chevronRight,
+                  onTap: () {
+                    dialogContext.push('/mytreks');
+                  },
+                ),
+                user.isOrganizer == true
+                    ? buildListTile(
+                        context,
+                        LucideIcons.hammer,
+                        'Organizer a Trek',
+                        trailing: LucideIcons.chevronRight,
+                        onTap: () {
+                          dialogContext.push('/addtreks');
+                        },
+                      )
+                    : buildListTile(
+                        context,
+                        LucideIcons.hammer,
+                        'Become an organizer',
+                        trailing: LucideIcons.chevronRight,
+                        onTap: () {
+                          dialogContext.push('/becometrekorganizer');
+                        },
+                      ),
+                buildListTile(
+                  context,
+                  LucideIcons.headset,
+                  'Support',
+                  trailing: LucideIcons.chevronRight,
+                ),
+                buildListTile(
+                  context,
+                  LucideIcons.clipboardList,
+                  'Terms & Conditions',
+                  trailing: LucideIcons.chevronRight,
+                ),
+                const Spacer(),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 237, 41, 27),
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size.fromHeight(45),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  icon: const Icon(
+                    LucideIcons.logOut,
+                    color: Colors.white,
+                  ),
+                  label: const Text('Sign Out'),
+                  onPressed: () {
+                    context.pop();
+                    Provider.of<AuthServices>(context, listen: false)
+                        .logout(context);
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

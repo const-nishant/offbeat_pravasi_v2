@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
+import 'package:offbeat_pravasi_v2/modules/profile/data/exports.dart';
+import 'package:provider/provider.dart';
 
 class BecomeTrekOrganizerScreen extends StatefulWidget {
   const BecomeTrekOrganizerScreen({super.key});
@@ -25,11 +27,17 @@ class _BecomeTrekOrganizerScreenState extends State<BecomeTrekOrganizerScreen> {
 
   void _handleSubmit() {
     if (_formKey.currentState!.validate()) {
-      // Handle submission logic here
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Form submitted successfully!')),
+      final profileservices =
+          Provider.of<ProfileService>(context, listen: false);
+
+      profileservices.sendOrganizerRequest(
+        email: _emailController.text.trim(),
+        message: _messageController.text.trim(),
+        context: context,
       );
     }
+    _emailController.clear();
+    _messageController.clear();
   }
 
   @override
@@ -103,7 +111,6 @@ class _BecomeTrekOrganizerScreenState extends State<BecomeTrekOrganizerScreen> {
                       controller: _messageController,
                       readOnly: false,
                       obscureText: false,
-                      maxLength: 8,
                     ),
                     const SizedBox(height: 32),
                     SizedBox(
