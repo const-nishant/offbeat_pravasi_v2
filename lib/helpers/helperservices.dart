@@ -11,7 +11,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Helperservices extends ChangeNotifier {
-  late SharedPreferences _prefs;
+  late SharedPreferences prefs;
+
+  Future<void> initialization() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  Helperservices() {
+    initialization();
+  }
 
   File? _image;
   final List<File> _images = [];
@@ -34,11 +42,11 @@ class Helperservices extends ChangeNotifier {
       longitude = position.longitude.toString();
 
       //store lat and long in shared prefrences
-      if (_prefs.getString('latitude') == null &&
-          _prefs.getString('longitude') == null) {
-        _prefs = await SharedPreferences.getInstance();
-        _prefs.setString('latitude', latitude!);
-        _prefs.setString('longitude', longitude!);
+      if (prefs.getString('latitude') == null &&
+          prefs.getString('longitude') == null) {
+        prefs = await SharedPreferences.getInstance();
+        prefs.setString('latitude', latitude!);
+        prefs.setString('longitude', longitude!);
       }
 
       // Step 2: Get human-readable address
