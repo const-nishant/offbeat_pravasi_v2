@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import '../home_exports.dart';
 
 class TopratedTabs extends StatefulWidget {
-  const TopratedTabs({super.key});
+  final String state;
+  const TopratedTabs({super.key, required this.state});
 
   @override
   State<TopratedTabs> createState() => _TopratedTabsState();
@@ -18,8 +19,15 @@ class _TopratedTabsState extends State<TopratedTabs> {
     super.initState();
     Future.microtask(() {
       //the query here
-      // ignore: use_build_context_synchronously
-      context.read<HomeServices>().listenToTreks(field: '', value: '');
+      widget.state == ''
+          ?
+          // ignore: use_build_context_synchronously
+          context.read<HomeServices>().listenToTreks(field: '', value: '')
+          :
+          // ignore: use_build_context_synchronously
+          context
+              .read<HomeServices>()
+              .listenToTreks(field: 'trekStateLocation', value: widget.state);
     });
   }
 

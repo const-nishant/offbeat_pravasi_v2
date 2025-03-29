@@ -1,31 +1,37 @@
 import 'package:flutter/material.dart';
 
-class Statecard extends StatefulWidget {
+class Statecard extends StatelessWidget {
   final String state;
-  const Statecard({super.key, required this.state});
+  final bool isSelected;
+  final VoidCallback? onPressed;
 
-  @override
-  State<Statecard> createState() => _StatecardState();
-}
+  const Statecard(
+      {super.key,
+      required this.state,
+      required this.isSelected,
+      this.onPressed});
 
-class _StatecardState extends State<Statecard> {
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 6.0),
       child: TextButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: TextButton.styleFrom(
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           backgroundColor: Theme.of(context).colorScheme.secondary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18),
+            side: BorderSide(
+              color: isSelected ? Colors.black : Colors.transparent,
+              width: 2.0,
+            ),
           ),
         ),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
-            widget.state,
+            state,
             style: TextStyle(
               color: Theme.of(context).colorScheme.inversePrimary,
               fontSize: 16,

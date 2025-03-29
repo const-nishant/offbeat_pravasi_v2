@@ -5,7 +5,8 @@ import 'package:offbeat_pravasi_v2/modules/home/home_exports.dart';
 import 'package:provider/provider.dart';
 
 class PopularTab extends StatefulWidget {
-  const PopularTab({super.key});
+  final String state;
+  const PopularTab({super.key, required this.state});
 
   @override
   State<PopularTab> createState() => _PopularTabState();
@@ -17,8 +18,15 @@ class _PopularTabState extends State<PopularTab> {
     super.initState();
     Future.microtask(() {
       //the query here
-      // ignore: use_build_context_synchronously
-      context.read<HomeServices>().listenToTreks(field: '', value: '');
+      widget.state == ''
+          ?
+          // ignore: use_build_context_synchronously
+          context.read<HomeServices>().listenToTreks(field: '', value: '')
+          :
+          // ignore: use_build_context_synchronously
+          context
+              .read<HomeServices>()
+              .listenToTreks(field: 'trekStateLocation', value: widget.state);
     });
   }
 

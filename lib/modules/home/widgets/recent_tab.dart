@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import '../home_exports.dart';
 
 class RecentTab extends StatefulWidget {
-  const RecentTab({super.key});
+  final String state;
+  const RecentTab({super.key, required this.state});
 
   @override
   State<RecentTab> createState() => _RecentTabState();
@@ -18,8 +19,15 @@ class _RecentTabState extends State<RecentTab> {
     super.initState();
     Future.microtask(() {
       //the query here
-      // ignore: use_build_context_synchronously
-      context.read<HomeServices>().listenToTreks(field: '', value: '');
+      widget.state == ''
+          ?
+          // ignore: use_build_context_synchronously
+          context.read<HomeServices>().listenToTreks(field: '', value: '')
+          :
+          // ignore: use_build_context_synchronously
+          context
+              .read<HomeServices>()
+              .listenToTreks(field: 'trekStateLocation', value: widget.state);
     });
   }
 

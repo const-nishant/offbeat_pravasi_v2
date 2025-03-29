@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import '../home_exports.dart';
 
 class SeasonalTabs extends StatefulWidget {
-  const SeasonalTabs({super.key});
+  final String state;
+  const SeasonalTabs({super.key, required this.state});
 
   @override
   State<SeasonalTabs> createState() => _SeasonalTabsState();
@@ -18,8 +19,15 @@ class _SeasonalTabsState extends State<SeasonalTabs> {
     super.initState();
     Future.microtask(() {
       //the query here
-      // ignore: use_build_context_synchronously
-      context.read<HomeServices>().listenToTreks(field: '', value: '');
+      widget.state == ''
+          ?
+          // ignore: use_build_context_synchronously
+          context.read<HomeServices>().listenToTreks(field: '', value: '')
+          :
+          // ignore: use_build_context_synchronously
+          context
+              .read<HomeServices>()
+              .listenToTreks(field: 'trekStateLocation', value: widget.state);
     });
   }
 

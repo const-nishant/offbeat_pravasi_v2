@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import '../home_exports.dart';
 
 class NewtreksTabs extends StatefulWidget {
-  const NewtreksTabs({super.key});
+  final String state;
+  const NewtreksTabs({super.key, required this.state});
 
   @override
   State<NewtreksTabs> createState() => _NewtreksTabsState();
@@ -18,8 +19,15 @@ class _NewtreksTabsState extends State<NewtreksTabs> {
     super.initState();
     Future.microtask(() {
       //the query here
-      // ignore: use_build_context_synchronously
-      context.read<HomeServices>().listenToTreks(field: '', value: '');
+      widget.state == ''
+          ?
+          // ignore: use_build_context_synchronously
+          context.read<HomeServices>().listenToTreks(field: '', value: '')
+          :
+          // ignore: use_build_context_synchronously
+          context
+              .read<HomeServices>()
+              .listenToTreks(field: 'trekStateLocation', value: widget.state);
     });
   }
 

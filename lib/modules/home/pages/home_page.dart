@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TextEditingController searchController = TextEditingController();
+  String selectedState = '';
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -309,7 +310,19 @@ class _HomePageState extends State<HomePage> {
                             itemCount: ref.states.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              return Statecard(state: ref.states[index]);
+                              final state = ref.states[index];
+                              return Statecard(
+                                key: ValueKey(state),
+                                state: state,
+                                onPressed: () {
+                                  setState(() {
+                                    selectedState = state;
+                                    debugPrint(
+                                        "Selected state: $selectedState");
+                                  });
+                                },
+                                isSelected: selectedState == state,
+                              );
                             },
                           ),
                         );
@@ -360,15 +373,30 @@ class _HomePageState extends State<HomePage> {
                       child: TabBarView(
                         children: [
                           //popular
-                          PopularTab(),
+                          PopularTab(
+                            key: ValueKey('PopularTab-$selectedState'),
+                            state: selectedState,
+                          ),
                           //recent
-                          RecentTab(),
+                          RecentTab(
+                            key: ValueKey('RecentTab-$selectedState'),
+                            state: selectedState,
+                          ),
                           //top-rated
-                          TopratedTabs(),
+                          TopratedTabs(
+                            key: ValueKey('TopratedTabs-$selectedState'),
+                            state: selectedState,
+                          ),
                           //seasonal
-                          SeasonalTabs(),
+                          SeasonalTabs(
+                            key: ValueKey('SeasonalTabs-$selectedState'),
+                            state: selectedState,
+                          ),
                           //new
-                          NewtreksTabs(),
+                          NewtreksTabs(
+                            key: ValueKey('NewtreksTabs-$selectedState'),
+                            state: selectedState,
+                          ),
                         ],
                       ),
                     ),
