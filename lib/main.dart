@@ -39,6 +39,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => Trekservices()),
         ChangeNotifierProvider(create: (_) => ProfileService()),
         ChangeNotifierProvider(create: (_) => Communityservices()),
+        ChangeNotifierProvider(create: (_) => SOSService()),
       ],
       child: Phoenix(
         child: const MyApp(),
