@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:offbeat_pravasi_v2/modules/module_exports.dart';
 
@@ -20,6 +21,9 @@ class AuthServices with ChangeNotifier {
     _showLoader(context);
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+
+      // Update FCM token after login
+      await PushNotifications.getDeviceToken();
     } on FirebaseAuthException catch (e) {
       if (context.mounted) {
         _showError(context, e.message ?? 'An error occurred');
@@ -38,6 +42,8 @@ class AuthServices with ChangeNotifier {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
 
+      String? notificationToken = await FirebaseMessaging.instance.getToken();
+
       UserData userInfo = UserData(
         dob: '',
         gender: '',
@@ -48,8 +54,12 @@ class AuthServices with ChangeNotifier {
         uid: userCredential.user!.uid,
         authProvider: 'email',
         isSignup: true,
+        notificationToken: notificationToken,
         profileImage: '', // Add profile image if available
       );
+
+      // Start listening for token refresh
+      PushNotifications.listenForTokenRefresh();
 
       await _firestore
           .collection('users')
@@ -102,6 +112,8 @@ class AuthServices with ChangeNotifier {
       );
       await _auth.signInWithCredential(credential);
 
+      String? notificationToken = await FirebaseMessaging.instance.getToken();
+
       DocumentSnapshot userSnapshot = await _firestore
           .collection('users')
           .doc(_auth.currentUser?.uid ?? '')
@@ -116,6 +128,7 @@ class AuthServices with ChangeNotifier {
           phone: '', // Add phone if available
           uid: _auth.currentUser?.uid ?? '',
           authProvider: 'google',
+          notificationToken: notificationToken,
           profileImage:
               googleUser.photoUrl ?? '', // Add profile image if available
           isSignup: true,
