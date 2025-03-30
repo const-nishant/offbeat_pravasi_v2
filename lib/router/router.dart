@@ -175,6 +175,12 @@ final GoRouter router = GoRouter(
         child: const TrekTicketScreen(),
       ),
     ),
+    GoRoute(
+      path: '/other-user-profile',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const OtherUserProfile(),
+      ),
+    ),
   ],
 );
 

@@ -5,6 +5,7 @@ export 'pages/addstory.dart';
 export 'pages/becometrekorganizer.dart';
 export 'pages/editprofile_screen.dart';
 export 'pages/mytreks.dart';
+export 'pages/other_user_profile.dart';
 export 'pages/points_screen.dart';
 export 'pages/profile_page.dart';
 export 'pages/savedtreks.dart';
