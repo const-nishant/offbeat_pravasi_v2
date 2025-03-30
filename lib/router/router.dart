@@ -24,6 +24,11 @@ final GoRouter router = GoRouter(
           NoTransitionPage(child: const SignupPage()),
     ),
     GoRoute(
+      path: '/explore',
+      pageBuilder: (context, state) =>
+          NoTransitionPage(child: const HomePage()),
+    ),
+    GoRoute(
       path: '/about',
       pageBuilder: (context, state) =>
           NoTransitionPage(child: const AboutPage()),
