@@ -31,6 +31,41 @@ class Helperservices extends ChangeNotifier {
   DateTime? get date => _date;
   List<File> get images => _images;
 
+  //trek points calculator
+  double calculateTrekPoints({
+    required double trekAltitude,
+    required String trekDifficulty,
+    required double trekDuration,
+    required double trekDistance,
+    required double trekCost,
+  }) {
+    // Assign points based on difficulty level
+    Map<String, int> difficultyPoints = {
+      "Easy": 10,
+      "Moderate": 20,
+      "Difficult": 30,
+      "Extreme": 40,
+    };
+
+    int difficultyScore = difficultyPoints[trekDifficulty] ?? 0;
+
+    // Calculate points
+    double altitudeScore = trekAltitude / 100; // 1 point per 100m altitude
+    double durationScore = trekDuration * 2; // 2 points per day
+    double distanceScore = trekDistance * 1.5; // 1.5 points per km
+    double costScore =
+        (trekCost <= 5000) ? 10 : 5; // More points for budget treks
+
+    // Total points calculation
+    double totalPoints = altitudeScore +
+        difficultyScore +
+        durationScore +
+        distanceScore +
+        costScore;
+
+    return totalPoints;
+  }
+
 //get user location
   Future<String> getUserLocation() async {
     try {

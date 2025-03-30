@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:offbeat_pravasi_v2/modules/module_exports.dart';
 import '../../../../config/configs.dart';
+import '../../../../helpers/helper_exports.dart';
 import '../../../../main.dart';
 
 class Trekservices extends ChangeNotifier {
@@ -12,6 +13,7 @@ class Trekservices extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final storage = Storage(client);
   BuildContext? _dialogContext;
+  final Helperservices _helperservices = Helperservices();
 
   List<String> get states => _states;
 
@@ -137,6 +139,13 @@ class Trekservices extends ChangeNotifier {
 
       String trekOrganizer = userData?['name'] ?? 'Unknown';
       String trekOrganizerContact = userData?['contact'] ?? 'not available';
+      double trekPoints = _helperservices.calculateTrekPoints(
+        trekAltitude: trekAltitude.toDouble(),
+        trekDifficulty: trekDifficulty,
+        trekDuration: double.parse(trekDuration),
+        trekDistance: trekDistance,
+        trekCost: trekCost,
+      );
 
       Trek trek = Trek(
         isEvent: false,
@@ -160,6 +169,7 @@ class Trekservices extends ChangeNotifier {
         trekOrganizer: trekOrganizer,
         trekUploadTimestamp: Timestamp.now(),
         trekOrganizerContact: trekOrganizerContact,
+        trekPoints: trekPoints,
       );
 
       await _firestore.collection('treks').doc(trekId).set(trek.toMap());

@@ -22,6 +22,7 @@ class Trek {
   final String recommendedEssentials;
   final String trekOrganizer;
   final String trekOrganizerContact;
+  final double trekPoints;
 
   Trek({
     required this.trekId,
@@ -45,6 +46,7 @@ class Trek {
     required this.trekOrganizer,
     required this.trekOrganizerContact,
     required this.isEvent,
+    required this.trekPoints,
   });
 
   // Convert object to Map for Firestore
@@ -71,6 +73,7 @@ class Trek {
       'trekOrganizerContact': trekOrganizerContact,
       'isEvent': isEvent,
       'trekLocation': trekLocation,
+      'trekPoints': trekPoints,
     };
   }
 
@@ -99,6 +102,7 @@ class Trek {
       trekOrganizerContact: map['trekOrganizerContact'] ?? '',
       isEvent: map['isEvent'] ?? false,
       trekLocation: map['trekLocation'] ?? '',
+      trekPoints: (map['trekPoints'] ?? 0.0).toDouble(),
     );
   }
 
