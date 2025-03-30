@@ -238,7 +238,7 @@ class _AddtreksState extends State<Addtreks> {
                       });
                     },
                   ),
-                  SizedBox(height: 10.0), 
+                  SizedBox(height: 10.0),
                   _buildTextField(
                       "Location:", "Enter trek Location", _locationController,
                       keyboardType: TextInputType.streetAddress),
@@ -258,10 +258,9 @@ class _AddtreksState extends State<Addtreks> {
                     labelText: "Difficulty Level:",
                     controller: _difficultyController,
                     dropDownList: const [
-                      DropDownValueModel(name: 'Beginner', value: "Beginner"),
-                      DropDownValueModel(
-                          name: 'Intermediate', value: "Intermediate"),
-                      DropDownValueModel(name: 'Advanced', value: "Advanced"),
+                      DropDownValueModel(name: 'Easy', value: "Easy"),
+                      DropDownValueModel(name: 'Moderate', value: "Moderate"),
+                      DropDownValueModel(name: 'Hard', value: "Hard"),
                     ],
                   ),
                   CustomDropdown(

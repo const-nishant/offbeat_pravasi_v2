@@ -46,11 +46,40 @@ class HomeServices extends ChangeNotifier {
   HomeServices() {
     listenToTreks();
     fetchUserData();
+    fetchFilteredTreks();
   }
 
+//fetch filtered treks
+  void fetchFilteredTreks({Map<String, dynamic>? filters}) {
+    _isLoading = true;
+    Future.microtask(() => notifyListeners()); // Notify UI after the current build phase
+
+    Query query = _firestore.collection('treks');
+
+    // Apply multiple filters if provided
+    if (filters != null && filters.isNotEmpty) {
+      filters.forEach((field, value) {
+        if (field.isNotEmpty && value != null) {
+          query = query.where(field, isEqualTo: value);
+        }
+      });
+    }
+
+    query.snapshots().listen((snapshot) {
+      _treks = snapshot.docs.map((doc) => TrekData.fromDocument(doc)).toList();
+      _isLoading = false;
+      notifyListeners(); // Notify UI about the change
+    }, onError: (error) {
+      _isLoading = false;
+      notifyListeners(); // Ensure UI updates even on failure
+      debugPrint("Error fetching treks: $error");
+    });
+  }
+
+//listen to treks
   void listenToTreks({String? field, dynamic value}) {
     _isLoading = true;
-    notifyListeners(); // Notify UI before fetching data
+    Future.microtask(() => notifyListeners()); // Notify UI after the current build phase
 
     Query query = _firestore.collection('treks');
 

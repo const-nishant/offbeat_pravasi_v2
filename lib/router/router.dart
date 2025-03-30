@@ -31,7 +31,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/search',
       pageBuilder: (context, state) =>
-          NoTransitionPage(child: const Searchscreen()),
+          NoTransitionPage(child: const SearchScreen()),
     ),
     GoRoute(
         path: '/trekdetails',

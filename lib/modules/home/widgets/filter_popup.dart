@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:offbeat_pravasi_v2/modules/home/home_exports.dart';
 
 class FilterPopup extends StatefulWidget {
   const FilterPopup({super.key});
@@ -142,7 +143,17 @@ class _FilterPopupState extends State<FilterPopup> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  Navigator.pop(context);
+                  // Handle apply button action here
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SearchScreen(
+                            trekLength: trekLength,
+                            elevation: elevationGain,
+                            rating: rating,
+                            difficulty: difficultyLevels[selectedDifficulty],
+                          )));
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.secondary,
                   shape: RoundedRectangleBorder(
