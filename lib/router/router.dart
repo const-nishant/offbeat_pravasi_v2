@@ -176,11 +176,14 @@ final GoRouter router = GoRouter(
       ),
     ),
     GoRoute(
-      path: '/other-user-profile',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: const OtherUserProfile(),
-      ),
-    ),
+        path: '/other-user-profile',
+        pageBuilder: (context, state) {
+          return NoTransitionPage(
+            child: OtherUserProfile(
+              userId: state.extra as String,
+            ),
+          );
+        }),
   ],
 );
 
