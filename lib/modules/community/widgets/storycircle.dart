@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:offbeat_pravasi_v2/constants/images.dart';
 
+
 class StoryCircle extends StatelessWidget {
   final String name;
   final bool isYourStory;
@@ -19,12 +20,15 @@ class StoryCircle extends StatelessWidget {
         children: [
           Stack(
             children: [
-              CircleAvatar(
-                radius: 36,
-                backgroundColor: Theme.of(context).colorScheme.secondary,
+              GestureDetector(
+                onTap: () {},
                 child: CircleAvatar(
-                  radius: 34,
-                  backgroundImage: AssetImage(Images.google_logo),
+                  radius: 36,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  child: CircleAvatar(
+                    radius: 34,
+                    backgroundImage: AssetImage(Images.google_logo),
+                  ),
                 ),
               ),
               if (isYourStory)
@@ -32,15 +36,15 @@ class StoryCircle extends StatelessWidget {
                   bottom: 0,
                   right: 0,
                   child: CircleAvatar(
-                    radius: 10,
+                    radius: 12,
                     backgroundColor: Colors.white,
                     child: IconButton(
                       onPressed: () {
-                        // Handle add story functionality
+                        //add story action here
                       },
                       icon: Icon(
                         Icons.add,
-                        size: 14, // Adjust size for better fit
+                        size: 16, // Adjust size for better fit
                         color: Theme.of(context).colorScheme.primary,
                       ),
                       padding: EdgeInsets.zero, // Removes extra padding

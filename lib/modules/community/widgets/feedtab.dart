@@ -11,6 +11,12 @@ class Feedtab extends StatefulWidget {
 
 class _FeedtabState extends State<Feedtab> {
   @override
+  void initState() {
+    Provider.of<Communityservices>(context, listen: false).fetchPosts();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(

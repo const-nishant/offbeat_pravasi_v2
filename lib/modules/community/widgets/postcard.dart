@@ -1,19 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/helpers/helper_exports.dart';
 import 'package:provider/provider.dart';
 import '../community_exports.dart';
 
 class Postcard extends StatefulWidget {
+  final String description;
+  final String location;
   final String postId;
   final String uid;
-  final String description;
   final String imageUrl;
-  final Timestamp time;
-  final String location;
   final String username;
   final String userImageUrl;
+  final Timestamp time;
   final List<String> likes;
   final int comments;
 
@@ -37,6 +39,7 @@ class Postcard extends StatefulWidget {
 
 class _PostcardState extends State<Postcard> {
   final helperServices = Helperservices();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   late bool isLiked;
   late int likeCount;
 
@@ -95,6 +98,10 @@ class _PostcardState extends State<Postcard> {
                       InkWell(
                         onTap: () {
                           // Handle user profile navigation
+                          if (widget.uid != _auth.currentUser!.uid) {
+                            context.push('/other-user-profile',
+                                extra: widget.uid);
+                          }
                         },
                         child: Text(
                           widget.username,
@@ -175,6 +182,29 @@ class _PostcardState extends State<Postcard> {
                     ),
                     onPressed: () {
                       // Add comment logic here
+                      showModalBottomSheet(
+                        context: context,
+                        showDragHandle: true,
+                        isScrollControlled: true, // Allows full-screen modal
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(16)),
+                        ),
+                        builder: (context) => Container(
+                          height: MediaQuery.of(context).size.height * 0.56,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(22.0),
+                              topRight: Radius.circular(22.0),
+                            ),
+                            color: Colors.white,
+                          ),
+                          child: Commentscreen(
+                            postId: widget.postId,
+                          ),
+                        ),
+                      );
                     },
                   ),
                   const SizedBox(width: 4),

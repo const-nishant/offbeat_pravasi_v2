@@ -16,17 +16,46 @@ class ProfileService extends ChangeNotifier {
   BuildContext? _dialogContext;
 
   UserData? _userData;
+  UserData? _otherUserData;
+  List<Post> _otherUserPosts = [];
   bool _isLoading = true;
   List<Post> _posts = [];
 
   bool get isLoading => _isLoading;
   UserData? get userData => _userData;
+  UserData? get otherUserData => _otherUserData;
   List<Post> get userPosts => _posts;
+  List<Post> get otherUserPosts => _otherUserPosts;
 
   ProfileService() {
     fetchUserData();
     fetchPosts();
     _listenToUserUpdates();
+  }
+
+//fetch other user data
+  Future<void> fetchotherUserData(String userId) async {
+    final snapshot = await _firestore.collection('users').doc(userId).get();
+
+    if (snapshot.exists && snapshot.data() != null) {
+      _otherUserData = UserData.fromDocument(snapshot);
+    }
+  }
+
+  //fetch other user posts
+  Future<void> fetchOtherUserPosts(String userId) async {
+    _firestore
+        .collection('posts')
+        .where('userId', isEqualTo: userId)
+        .orderBy('uploadTimestamp', descending: true)
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        _otherUserPosts =
+            snapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
+        // 🔄 Trigger UI update
+      }
+    });
   }
 
   void _listenToUserUpdates() {

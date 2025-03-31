@@ -4,3 +4,6 @@ export 'widgets/eventtab.dart';
 export 'widgets/feedtab.dart';
 export 'widgets/storycircle.dart';
 export 'widgets/postcard.dart';
+export 'widgets/viewstory.dart';
+export 'widgets/commentcard.dart';
+export 'pages/commentscreen.dart';
