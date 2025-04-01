@@ -108,7 +108,7 @@ class _SosPageState extends State<SosPage> {
                         padding: const EdgeInsets.only(right: 10),
                         child: _contactCard(context, entry.key),
                       );
-                    }).toList(),
+                    }),
                     _addcontactCard(
                         title: 'Add New Contact'), // Add button back
                   ],

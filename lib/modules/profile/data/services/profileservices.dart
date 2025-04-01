@@ -230,9 +230,13 @@ class ProfileService extends ChangeNotifier {
     required BuildContext context,
   }) async {
     _showLoader(context);
+
     try {
-      if (profileImage != null && bannerImage != null) {
-        //update userprofile image
+      String? profileImageUrl = userData?.profileImage;
+      String? bannerImageUrl = userData?.bannerImage;
+
+      // Update profile image if provided
+      if (profileImage != null) {
         await storage.deleteFile(
           bucketId: Configs.appWriteUserProfileStorageBucketId,
           fileId: _auth.currentUser!.uid,
@@ -243,11 +247,14 @@ class ProfileService extends ChangeNotifier {
           fileId: _auth.currentUser!.uid,
           file: InputFile.fromPath(path: profileImage.path),
         );
-        String profileImageUrl =
-            'https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteUserProfileStorageBucketId}/files/${_auth.currentUser!.uid}/view?project=${Configs.appWriteProjectId}&mode=admin';
 
-        //update user banner image
-        if (userData!.bannerImage != '') {
+        profileImageUrl =
+            'https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteUserProfileStorageBucketId}/files/${_auth.currentUser!.uid}/view?project=${Configs.appWriteProjectId}&mode=admin';
+      }
+
+      // Update banner image if provided
+      if (bannerImage != null) {
+        if (userData != null && (userData!.bannerImage?.isNotEmpty ?? false)) {
           await storage.deleteFile(
             bucketId: Configs.appWriteUserBannerStorageBucketId,
             fileId: _auth.currentUser!.uid,
@@ -259,44 +266,50 @@ class ProfileService extends ChangeNotifier {
           fileId: _auth.currentUser!.uid,
           file: InputFile.fromPath(path: bannerImage.path),
         );
-        String bannerImageUrl =
-            'https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteUserBannerStorageBucketId}/files/${_auth.currentUser!.uid}/view?project=${Configs.appWriteProjectId}&mode=admin';
 
-        UserData updateduserdata = UserData(
+        bannerImageUrl =
+            'https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteUserBannerStorageBucketId}/files/${_auth.currentUser!.uid}/view?project=${Configs.appWriteProjectId}&mode=admin';
+      }
+
+      // Update Firestore only if userData exists
+      if (userData != null) {
+        UserData updatedUserData = UserData(
           name: name,
           username: username,
           location: location,
           phone: phone,
-          profileImage: profileImageUrl,
+          profileImage: profileImageUrl ?? userData!.profileImage,
           authProvider: userData!.authProvider,
           email: userData!.email,
           dob: userData!.dob,
           gender: userData!.gender,
           isSignup: userData!.isSignup,
-          bannerImage: bannerImageUrl,
+          bannerImage: bannerImageUrl ?? userData!.bannerImage,
           uid: userData!.uid,
         );
 
         await _firestore
             .collection('users')
             .doc(_auth.currentUser!.uid)
-            .update(updateduserdata.toMap());
+            .update(updatedUserData.toMap());
       }
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Text('Profile updated successfully!'),
-        ),
-      );
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text('Profile updated successfully!'),
+          ),
+        );
+      }
     } catch (e) {
       if (context.mounted) {
         _showError(context, e.toString());
       }
     } finally {
-      if (_dialogContext != null && _dialogContext!.mounted) {
-        Navigator.pop(_dialogContext!); // Close the loader
-        _dialogContext = null; // Reset after closing
+      if (_dialogContext?.mounted ?? false) {
+        Navigator.pop(_dialogContext!);
+        _dialogContext = null;
       }
     }
   }
