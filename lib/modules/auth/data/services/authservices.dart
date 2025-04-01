@@ -18,20 +18,22 @@ class AuthServices with ChangeNotifier {
 
   // Login function
   Future login(String email, String password, BuildContext context) async {
-    _showLoader(context);
+    _showSignupLoader(context);
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
 
       // Update FCM token after login
       await PushNotifications.getDeviceToken();
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       if (context.mounted) {
-        _showError(context, e.message ?? 'An error occurred');
+        _showError(context, e.toString());
       }
     } finally {
-      if (context.mounted) Navigator.pop(context); // Close the loader
+      if (_dialogContext != null && _dialogContext!.mounted) {
+        Navigator.pop(_dialogContext!); // Close the loader
+        _dialogContext = null; // Reset after closing
+      }
     }
-    notifyListeners();
   }
 
   // Signup function
