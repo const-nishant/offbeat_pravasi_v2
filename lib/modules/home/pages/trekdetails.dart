@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
-import '../home_exports.dart';
+import '../../module_exports.dart';
 
 class Trekdetails extends StatefulWidget {
   final String trekId;
@@ -368,6 +368,11 @@ class _TrekdetailsState extends State<Trekdetails> {
                                       backgroundColor: Colors.transparent,
                                       builder: (context) =>
                                           const PaymentSuccessModal(),
+                                    );
+                                    sendDirectNotification(
+                                      notificationTitle: 'Booking Confirmation',
+                                      notificationBody:
+                                          'Your booking for ${trek.trekName} has been confirmed!',
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(

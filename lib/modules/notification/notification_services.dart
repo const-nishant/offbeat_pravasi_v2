@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
 
 // Global navigator key
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -108,5 +111,71 @@ class PushNotifications {
 
     await _flutterLocalNotificationsPlugin
         .show(0, title, body, notificationDetails, payload: payload);
+  }
+}
+
+// Function to fetch the device token and send a notification
+Future<void> sendDirectNotification({
+  required String notificationTitle,
+  required String notificationBody,
+}) async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      debugPrint("User not logged in.");
+      return;
+    }
+
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid)
+        .get();
+
+    if (userDoc.exists) {
+      String? deviceToken = userDoc.get("notificationToken");
+
+      if (deviceToken != null && deviceToken.isNotEmpty) {
+        await sendNotification(
+          notificationTitle: notificationTitle,
+          notificationBody: notificationBody,
+          devicetoken: deviceToken,
+        );
+      } else {
+        debugPrint("Device token not found for user.");
+      }
+    } else {
+      debugPrint("User document does not exist.");
+    }
+  } catch (e) {
+    debugPrint("Failed to fetch device token: $e");
+  }
+}
+
+// Cloud function to send a push notification
+Future sendNotification({
+  required String notificationTitle,
+  required String notificationBody,
+  required String devicetoken,
+}) async {
+  try {
+    final Map<String, dynamic> body = {
+      "deviceToken": devicetoken,
+      "message": {
+        "title": notificationTitle,
+        "body": notificationBody,
+      },
+    };
+    final response = await http.post(
+      Uri.parse('https://67ed42f92ef655858b86.appwrite.global/'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(body),
+    );
+    if (response.statusCode == 200) {
+      debugPrint("Notification sent successfully");
+    }
+  } catch (e) {
+    debugPrint("Failed to send notification: $e");
   }
 }
