@@ -57,64 +57,70 @@ class _SosPageState extends State<SosPage> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Centers content vertically
-            crossAxisAlignment:
-                CrossAxisAlignment.center, // Centers horizontally
-            children: [
-              const Text(
-                'Emergency Help Needed?',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Just tap the button to call',
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.tertiary),
-              ),
-              const SizedBox(height: 60),
-              GestureDetector(
-                onTap: () {
-                  // Provider.of<SOSService>(context, listen: false)
-                  // .callFirstContact();
-                },
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 110,
-                      backgroundColor: Colors.red.shade300, // Outer lighter red
-                    ),
-                    CircleAvatar(
-                      radius: 80,
-                      backgroundColor: Colors.red.shade700, // Inner darker red
-                      child: const Icon(LucideIcons.phone,
-                          size: 50, color: Colors.white),
-                    ),
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment:
+                  MainAxisAlignment.center, // Centers content vertically
+              crossAxisAlignment:
+                  CrossAxisAlignment.center, // Centers horizontally
+              children: [
+                const Text(
+                  'Emergency Help Needed?',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-              ),
-              const SizedBox(height: 200),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center, // Keeps everything centered
-                  children: [
-                    ...contacts.asMap().entries.map((entry) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: _contactCard(context, entry.key),
-                      );
-                    }),
-                    _addcontactCard(
-                        title: 'Add New Contact'), // Add button back
-                  ],
+                const SizedBox(height: 8),
+                Text(
+                  'Just tap the button to call',
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.tertiary),
                 ),
-              ),
-            ],
+                const SizedBox(height: 60),
+                GestureDetector(
+                  onTap: () {
+                    Provider.of<SOSService>(context, listen: false)
+                        .callFirstContact();
+                    Provider.of<SOSService>(context, listen: false)
+                        .sendLocationMessage();
+                  },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 110,
+                        backgroundColor:
+                            Colors.red.shade300, // Outer lighter red
+                      ),
+                      CircleAvatar(
+                        radius: 80,
+                        backgroundColor:
+                            Colors.red.shade700, // Inner darker red
+                        child: const Icon(LucideIcons.phone,
+                            size: 50, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 200),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.center, // Keeps everything centered
+                    children: [
+                      ...contacts.asMap().entries.map((entry) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: _contactCard(context, entry.key),
+                        );
+                      }),
+                      _addcontactCard(
+                          title: 'Add New Contact'), // Add button back
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
