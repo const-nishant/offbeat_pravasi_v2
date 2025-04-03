@@ -84,7 +84,9 @@ class UserData {
       notificationToken: map['notificationToken'] ?? '',
       isOrganizer: map['isOrganizer'] ?? false,
       location: map['location'] ?? '',
-      userPoints: map['userPoints'] ?? 0,
+      userPoints: (map['userPoints'] != null)
+          ? (map['userPoints'] as num).toDouble()
+          : 0.0,
       userDistanceTraveled: map['userDistanceTraveled'] ?? 0,
       userTrekIds: List<String>.from(map['userTrekIds'] ?? []),
       userEventsIds: List<String>.from(map['userEventsIds'] ?? []),

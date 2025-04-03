@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:offbeat_pravasi_v2/modules/home/data/dataexports.dart';
+import 'package:provider/provider.dart';
 
 class NotificationTile extends StatelessWidget {
   final String username;
@@ -7,6 +9,7 @@ class NotificationTile extends StatelessWidget {
   final String messageId;
   final String timeAgo;
   final String avatarUrl;
+  final String senderId;
 
   const NotificationTile({
     super.key,
@@ -14,7 +17,8 @@ class NotificationTile extends StatelessWidget {
     required this.message,
     required this.timeAgo,
     this.avatarUrl = "",
-    required this.messageId, // Default empty for placeholder
+    required this.messageId,
+    required this.senderId,
   });
 
   @override
@@ -24,12 +28,22 @@ class NotificationTile extends StatelessWidget {
         motion: StretchMotion(),
         children: [
           SlidableAction(
-            label: 'Delete',
-            backgroundColor: Colors.red,
-            borderRadius: BorderRadius.circular(12),
-            icon: Icons.delete,
+            label: 'Accept',
+            backgroundColor: Colors.green,
+            icon: Icons.check,
             onPressed: (context) {
-              // Handle delete notification action here
+              Provider.of<HomeServices>(context, listen: false)
+                  .acceptFriendRequest(messageId, senderId);
+            },
+            autoClose: true,
+          ),
+          SlidableAction(
+            label: 'Decline',
+            backgroundColor: Colors.red,
+            icon: Icons.close,
+            onPressed: (context) {
+              Provider.of<HomeServices>(context, listen: false)
+                  .declineFriendRequest(messageId);
             },
             autoClose: true,
           ),
@@ -38,46 +52,23 @@ class NotificationTile extends StatelessWidget {
       child: ListTile(
         leading: CircleAvatar(
           radius: 28,
-          backgroundColor: Colors.grey[300], // Placeholder color
+          backgroundColor: Colors.grey[300],
           backgroundImage:
               avatarUrl.isNotEmpty ? NetworkImage(avatarUrl) : null,
           child: avatarUrl.isEmpty
-              ? Icon(
-                  Icons.person,
-                  color: Theme.of(context).colorScheme.primary,
-                )
+              ? Icon(Icons.person, color: Theme.of(context).colorScheme.primary)
               : null,
         ),
-        title: RichText(
-          text: TextSpan(
-            style: TextStyle(color: Colors.black, fontSize: 14),
-            children: [
-              TextSpan(
-                text: "$username ",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 14,
-                ),
-              ),
-              TextSpan(
-                text: message,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 14,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
+        title: Text(
+          "$username wants to be your friend",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
           ),
         ),
         subtitle: Text(
           timeAgo,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.tertiary,
-            fontSize: 12,
-          ),
+          style: TextStyle(color: Colors.grey),
         ),
       ),
     );

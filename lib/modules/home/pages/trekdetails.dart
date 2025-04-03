@@ -124,8 +124,8 @@ class _TrekdetailsState extends State<Trekdetails> {
                     child: Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(12),
-                          margin: EdgeInsets.all(4),
+                          padding: EdgeInsets.all(8),
+                          margin: EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             color: Colors.transparent,
                             borderRadius: BorderRadius.circular(12),
@@ -189,10 +189,10 @@ class _TrekdetailsState extends State<Trekdetails> {
                             ],
                           ),
                         ),
-                        Spacer(),
+                        SizedBox(width: 14),
                         Container(
-                          padding: EdgeInsets.all(12),
-                          margin: EdgeInsets.all(4),
+                          padding: EdgeInsets.all(8),
+                          margin: EdgeInsets.all(2),
                           decoration: BoxDecoration(
                             color: Colors.transparent,
                             borderRadius: BorderRadius.circular(12),
@@ -246,7 +246,10 @@ class _TrekdetailsState extends State<Trekdetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _infoIcon(Icons.timer, trek.trekDuration),
+                      _infoIcon(
+                        Icons.timer_outlined,
+                        trek.trekDuration,
+                      ),
                       _infoIcon(
                         Icons.directions_walk,
                         trek.trekDistance.toString(),
@@ -350,10 +353,11 @@ class _TrekdetailsState extends State<Trekdetails> {
 
                               // Feature
                               SizedBox(width: 16),
-                              Text('🔥 Limited Slots!',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
+                              Text(
+                                '🔥 Limited Slots!',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
                               const SizedBox(height: 16),
 
                               // Book Button

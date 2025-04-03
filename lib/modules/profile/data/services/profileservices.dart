@@ -33,6 +33,49 @@ class ProfileService extends ChangeNotifier {
     _listenToUserUpdates();
   }
 
+//send  friend request
+  Future<void> sendFriendRequest(String receiverId) async {
+    try {
+      String senderId = _auth.currentUser!.uid;
+
+      // Check if a request already exists
+      var requestSnapshot = await _firestore
+          .collection('friendRequests')
+          .where('senderId', isEqualTo: senderId)
+          .where('receiverId', isEqualTo: receiverId)
+          .get();
+
+      if (requestSnapshot.docs.isEmpty) {
+        await _firestore.collection('friendRequests').add({
+          'senderId': senderId,
+          'receiverId': receiverId,
+          'status': 'pending',
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+      }
+    } catch (e) {
+      debugPrint('Error sending friend request: $e');
+    }
+  }
+
+//remove friend
+  Future<void> removeFriend(String friendId) async {
+    try {
+      String currentUserId = _auth.currentUser!.uid;
+
+      // Remove from both users' friend lists
+      await _firestore.collection('users').doc(currentUserId).update({
+        'friendsIds': FieldValue.arrayRemove([friendId])
+      });
+
+      await _firestore.collection('users').doc(friendId).update({
+        'friendsIds': FieldValue.arrayRemove([currentUserId])
+      });
+    } catch (e) {
+      debugPrint('Error removing friend: $e');
+    }
+  }
+
 //fetch other user data
   Future<void> fetchotherUserData(String userId) async {
     final snapshot = await _firestore.collection('users').doc(userId).get();
