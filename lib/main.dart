@@ -6,7 +6,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:offbeat_pravasi_v2/config/configs.dart';
 import 'package:offbeat_pravasi_v2/firebase_options.dart';
 import 'package:offbeat_pravasi_v2/helpers/helper_exports.dart';
@@ -30,7 +29,7 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   //initialize stripe
-  Stripe.publishableKey = Configs.stripePublishableKey;
+  // Stripe.publishableKey = Configs.stripePublishableKey;
 
   // Ensure SharedPreferences is initialized before the app starts
   // ignore: unused_local_variable
