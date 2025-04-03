@@ -49,6 +49,10 @@ class HomeServices extends ChangeNotifier {
     fetchFilteredTreks();
   }
 
+
+//payment method 
+
+
 //fetch filtered treks
   void fetchFilteredTreks({Map<String, dynamic>? filters}) {
     _isLoading = true;

@@ -353,10 +353,11 @@ class _TrekdetailsState extends State<Trekdetails> {
 
                               // Feature
                               SizedBox(width: 16),
-                              Text('🔥 Limited Slots!',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
+                              Text(
+                                '🔥 Limited Slots!',
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
                               const SizedBox(height: 16),
 
                               // Book Button

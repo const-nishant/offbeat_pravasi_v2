@@ -190,6 +190,8 @@ final GoRouter router = GoRouter(
           );
         }),
   ],
+  initialLocation: '/',
+  debugLogDiagnostics: true,
 );
 
 class NoTransitionPage extends CustomTransitionPage {
