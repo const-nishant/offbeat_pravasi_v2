@@ -79,14 +79,13 @@ class _HomePageState extends State<HomePage> {
                                               )
                                             : null,
                                       ),
-                                      SizedBox(width: 14),
+                                      SizedBox(width: 10),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          SizedBox(height: 4),
                                           Text(
                                             "Hi !👋 , ${user!.name ?? 'Guest'}",
                                             style: TextStyle(
