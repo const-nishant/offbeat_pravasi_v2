@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
+import 'package:offbeat_pravasi_v2/config/configs.dart';
 
 // Global navigator key
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -166,7 +167,7 @@ Future sendNotification({
       },
     };
     final response = await http.post(
-      Uri.parse('https://67ed42f92ef655858b86.appwrite.global/'),
+      Uri.parse(Configs.appWriteSendNotificationEndpoint),
       headers: {
         'Content-Type': 'application/json',
       },
