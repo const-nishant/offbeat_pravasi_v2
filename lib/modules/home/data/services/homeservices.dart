@@ -13,7 +13,9 @@ class HomeServices extends ChangeNotifier {
   UserData? _userData;
   bool _isLoading = true;
   bool _isSingleTrekLoading = false;
+  List<DocumentSnapshot> _friendRequests = [];
 
+  List<DocumentSnapshot> get friendRequests => _friendRequests;
   List<TrekData> get treks => _treks;
   TrekData? get singleTrek => _singleTrek;
   bool get isLoading => _isLoading;
@@ -49,14 +51,53 @@ class HomeServices extends ChangeNotifier {
     fetchFilteredTreks();
   }
 
+//fetch friend requests
+  void fetchFriendRequests() {
+    _firestore
+        .collection('friendRequests')
+        .where('receiverId', isEqualTo: _auth.currentUser!.uid)
+        .where('status', isEqualTo: 'pending')
+        .snapshots()
+        .listen((snapshot) {
+      _friendRequests = snapshot.docs;
+      notifyListeners();
+    });
+  }
 
-//payment method 
+  Future<void> acceptFriendRequest(String requestId, String senderId) async {
+    try {
+      String receiverId = _auth.currentUser!.uid;
 
+      // Add each other as friends
+      await _firestore.collection('users').doc(receiverId).update({
+        'friendsIds': FieldValue.arrayUnion([senderId])
+      });
+      await _firestore.collection('users').doc(senderId).update({
+        'friendsIds': FieldValue.arrayUnion([receiverId])
+      });
+
+      // Remove friend request
+      await _firestore.collection('friendRequests').doc(requestId).delete();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error accepting friend request: $e');
+    }
+  }
+
+  Future<void> declineFriendRequest(String requestId) async {
+    try {
+      await _firestore.collection('friendRequests').doc(requestId).delete();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error declining friend request: $e');
+    }
+  }
 
 //fetch filtered treks
   void fetchFilteredTreks({Map<String, dynamic>? filters}) {
     _isLoading = true;
-    Future.microtask(() => notifyListeners()); // Notify UI after the current build phase
+    Future.microtask(
+        () => notifyListeners()); // Notify UI after the current build phase
 
     Query query = _firestore.collection('treks');
 
@@ -83,7 +124,8 @@ class HomeServices extends ChangeNotifier {
 //listen to treks
   void listenToTreks({String? field, dynamic value}) {
     _isLoading = true;
-    Future.microtask(() => notifyListeners()); // Notify UI after the current build phase
+    Future.microtask(
+        () => notifyListeners()); // Notify UI after the current build phase
 
     Query query = _firestore.collection('treks');
 
