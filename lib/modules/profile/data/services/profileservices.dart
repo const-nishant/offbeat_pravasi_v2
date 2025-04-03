@@ -33,6 +33,32 @@ class ProfileService extends ChangeNotifier {
     _listenToUserUpdates();
   }
 
+
+//add friend 
+  Future<void> addFriend(String userId) async {
+    try {
+      // Check if the user is already a friend
+
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .update({'friendsIds': FieldValue.arrayUnion([userId])});
+    } catch (e) {
+      debugPrint('Error adding friend: $e');
+    }
+  }
+//remove friend
+  Future<void> removeFriend(String userId) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .update({'friendsIds': FieldValue.arrayRemove([userId])});
+    } catch (e) {
+      debugPrint('Error removing friend: $e');
+    }
+  }
+
 //fetch other user data
   Future<void> fetchotherUserData(String userId) async {
     final snapshot = await _firestore.collection('users').doc(userId).get();

@@ -30,6 +30,7 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
       await Future.wait([
         profileService.fetchotherUserData(widget.userId),
         profileService.fetchOtherUserPosts(widget.userId),
+        profileService.fetchUserData(),
       ]);
     } catch (e) {
       debugPrint("Error fetching user data: $e");
@@ -55,6 +56,7 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
                   Provider.of<ProfileService>(context, listen: false);
               final user = userProvider.otherUserData;
               final post = userProvider.otherUserPosts;
+              final currentUser = userProvider.userData;
 
               if (user == null) {
                 return Center(child: Text("User data not found"));
@@ -180,9 +182,17 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
 
                             // Follow Button
                             OutlinedButton(
-                              onPressed: () {
-                                // Add your action here
-                              },
+                              onPressed: currentUser!.friendsIds!
+                                      .contains(user.uid)
+                                  ? null // Disable the button if already a friend
+                                  : () async {
+                                      final profileService =
+                                          Provider.of<ProfileService>(context,
+                                              listen: false);
+                                      await profileService.addFriend(user.uid);
+                                      setState(
+                                          () {}); // Refresh the UI after adding a friend
+                                    },
                               style: OutlinedButton.styleFrom(
                                 side: BorderSide(
                                   color:
@@ -198,7 +208,9 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
                                 ),
                               ),
                               child: Text(
-                                "Add as a Friend",
+                                currentUser.friendsIds!.contains(user.uid)
+                                    ? "Already a Friend" // Show this text if already a friend
+                                    : "Add as a Friend", // Show this text otherwise
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 16,
