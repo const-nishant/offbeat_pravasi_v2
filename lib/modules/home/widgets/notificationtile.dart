@@ -60,8 +60,11 @@ class NotificationTile extends StatelessWidget {
               : null,
         ),
         title: Text(
-          "$username $message",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          "$username wants to be your friend",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: 16,
+          ),
         ),
         subtitle: Text(
           timeAgo,

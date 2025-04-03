@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:offbeat_pravasi_v2/helpers/helperservices.dart';
 import 'package:offbeat_pravasi_v2/modules/home/data/dataexports.dart';
 import 'package:provider/provider.dart';
 import 'package:offbeat_pravasi_v2/common/common_exitbutton.dart';
@@ -52,12 +53,15 @@ class Notificationscreen extends StatelessWidget {
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
                       var doc = provider.friendRequests[index];
+                      final helperservices =
+                          Provider.of<Helperservices>(context, listen: false);
                       return NotificationTile(
                         senderId: doc['senderId'] ?? 'Unknown',
                         username: doc['username'] ?? 'User',
                         message: doc['message'] ?? 'New notification',
                         messageId: doc.id,
-                        timeAgo: 'Just now', // You can format timestamp here
+                        timeAgo: helperservices.formatTimestamp(
+                            doc['timestamp']), // You can format timestamp here
                         avatarUrl: doc['avatarUrl'] ?? '',
                       );
                     },

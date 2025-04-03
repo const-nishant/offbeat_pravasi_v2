@@ -49,6 +49,7 @@ class HomeServices extends ChangeNotifier {
     listenToTreks();
     fetchUserData();
     fetchFilteredTreks();
+    fetchFriendRequests();
   }
 
 //fetch friend requests
