@@ -57,7 +57,9 @@ class Notificationscreen extends StatelessWidget {
                           Provider.of<Helperservices>(context, listen: false);
                       return NotificationTile(
                         senderId: doc['senderId'] ?? 'Unknown',
-                        username: doc['senderUsername'] ?? 'User',
+                        username: (doc['senderUsername']?.isNotEmpty ?? false)
+                            ? doc['senderUsername']
+                            : 'User',
                         messageId: doc.id,
                         timeAgo: helperservices.formatTimestamp(
                             doc['timestamp']), // You can format timestamp here
