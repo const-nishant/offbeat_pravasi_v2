@@ -62,6 +62,7 @@ class _AddtreksState extends State<Addtreks> {
       '/trekpreview',
       extra: {
         "trekName": _nameController.text.trim(),
+        'trekCost': double.parse(_priceController.text.trim()),
         "trekLocation": _locationController.text.trim(),
         "trekDate": DateTime.now().toIso8601String(),
         "trekOverview": Provider.of<Trekservices>(context, listen: false)
@@ -82,9 +83,11 @@ class _AddtreksState extends State<Addtreks> {
     );
   }
 
-  void addtreks() async {
+  Future<void> addtreks() async {
     final trekservice = Provider.of<Trekservices>(context, listen: false);
     if (_formKey.currentState!.validate() && selectedImages.isNotEmpty) {
+      final helperServices =
+          Provider.of<Helperservices>(context, listen: false);
       // Add trek logic
       await trekservice.addTreks(
         context: context,
@@ -95,12 +98,12 @@ class _AddtreksState extends State<Addtreks> {
         trekDate: DateTime.now(),
         trekOverview:
             trekservice.convertToMarkdownParagraph(_overviewController.text),
-        trekImages: selectedImages,
+        trekImages: await helperServices.compressImages(selectedImages),
         trekRating: 0.0,
         trekReviews: [],
         trekAltitude: int.parse(_elevationController.text),
         trekDifficulty: _difficultyController.dropDownValue!.value,
-        trekDuration: "${_durationController.text} hrs",
+        trekDuration: _durationController.text,
         trekDistance: double.parse(_distanceController.text),
         trekCost: double.parse(_priceController.text),
         trekItinerary: trekservice.convertToMarkdown(_itineraryController.text),

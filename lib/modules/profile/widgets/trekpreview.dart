@@ -8,6 +8,7 @@ import 'package:offbeat_pravasi_v2/modules/module_exports.dart';
 
 class TrekPreview extends StatefulWidget {
   final String trekName;
+  final double trekCost;
   final String trekLocation;
   final DateTime trekDate;
   final String trekOverview;
@@ -33,6 +34,7 @@ class TrekPreview extends StatefulWidget {
     required this.trekDistance,
     required this.trekElevation,
     required this.trekDifficulty,
+    required this.trekCost,
   });
 
   @override
@@ -234,7 +236,7 @@ class _TrekdetailsState extends State<TrekPreview> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _infoIcon(Icons.timer, widget.trekDuration),
+                  _infoIcon(Icons.timer, "${widget.trekDuration} hrs"),
                   _infoIcon(
                       Icons.directions_walk, widget.trekDistance.toString()),
                   _infoIcon(Icons.terrain, widget.trekElevation.toString()),
@@ -285,63 +287,151 @@ class _TrekdetailsState extends State<TrekPreview> {
                 ),
               ),
               //payment widget
-              Container(
-                height: MediaQuery.of(context).size.height * 0.18,
-                margin: EdgeInsets.all(14),
-                padding: const EdgeInsets.all(18.0),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onInverseSurface,
-                  borderRadius: BorderRadius.all(Radius.circular(22)),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.onInverseSurface,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Stack(
+                    children: [
+                      // Main Content Column
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          const Text(
-                            "🔥 Limited Slots!",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          const Text(
-                            "Starting from ",
-                            style: TextStyle(
-                              fontSize: 20, // Slightly reduced font size
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
+                          // Title
                           Text(
-                            "{widget.trekprice}",
+                            widget.trekName,
                             style: TextStyle(
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16, // Slightly reduced font size
                               color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+
+                          // Price
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Starting from ',
+                                  style: TextStyle(color: Colors.black87),
+                                ),
+                                TextSpan(
+                                  text: '₹ ${widget.trekCost.toString()}',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                          const SizedBox(height: 12),
+
+                          // Feature
+                          SizedBox(width: 16),
+                          Text(
+                            '🔥 Limited Slots!',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Book Button
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // Navigate to Payment or Booking Flow
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.onPrimary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
+                              ),
+                              child: const Text(
+                                'Book a Trek Now',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    const VerticalDivider(
-                      color: Colors.white,
-                      thickness: 1,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [],
+
+                      // Positioned Action Buttons (Top-Right)
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Column(
+                          children: [
+                            _actionButton(
+                              icon: Icons.send,
+                              label: 'Share',
+                              onTap: () {
+                                // Handle share functionality
+                              },
+                            ),
+                            const SizedBox(height: 8),
+                            _actionButton(
+                              icon: Icons.call,
+                              label: 'Call Now',
+                              onTap: () {
+                                // Handle call functionality
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _actionButton({
+    required IconData icon,
+    required String label,
+    void Function()? onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.brown),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 18, color: Colors.brown),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.brown,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
       ),
     );

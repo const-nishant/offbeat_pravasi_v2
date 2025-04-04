@@ -248,7 +248,7 @@ class _TrekdetailsState extends State<Trekdetails> {
                     children: [
                       _infoIcon(
                         Icons.timer_outlined,
-                        trek.trekDuration,
+                        "${trek.trekDuration} hrs",
                       ),
                       _infoIcon(
                         Icons.directions_walk,

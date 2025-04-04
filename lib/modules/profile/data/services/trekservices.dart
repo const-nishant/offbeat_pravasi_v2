@@ -114,12 +114,15 @@ class Trekservices extends ChangeNotifier {
     try {
       // Generate a unique trekId
       String trekId =
-          '$trekLocation${DateTime.now().millisecondsSinceEpoch.toString()}';
+          '${trekLocation.substring(0, 1)}${DateTime.now().millisecondsSinceEpoch.toString()}';
       // Upload trek images
       List<String> trekImagesUrls = [];
       for (File image in trekImages) {
         String fileId =
-            '${trekName.replaceAll(' ', '_')}_${DateTime.now().microsecondsSinceEpoch.toString().substring(0, 1)}_${image.path.split('/').last}';
+            '${trekName.replaceAll(' ', '_')}_${DateTime.now().millisecondsSinceEpoch}_${image.path.split('/').last}'
+                .replaceAll(
+                    RegExp(r'[^a-zA-Z0-9._-]'), '') // Remove invalid characters
+                .substring(0, 36); // Truncate to 36 characters
         await storage.createFile(
           bucketId: Configs.appWriteTrekImageStorageBucketId,
           fileId: fileId,

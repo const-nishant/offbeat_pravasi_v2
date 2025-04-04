@@ -140,10 +140,33 @@ class Helperservices extends ChangeNotifier {
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path, // Input file path
       targetPath, // Output file path
-      quality: 70, // Adjust quality (0-100)
+      quality: 60, // Adjust quality (0-100)
     );
 
     return result != null ? File(result.path) : null;
+  }
+
+  /// Compress multiple images
+  Future<List<File>> compressImages(List<File> files) async {
+    final dir = await getTemporaryDirectory();
+    List<File> compressedFiles = [];
+
+    for (File file in files) {
+      final targetPath =
+          '${dir.absolute.path}/${basename(file.path)}_compressed.jpg';
+
+      final result = await FlutterImageCompress.compressAndGetFile(
+        file.absolute.path,
+        targetPath,
+        quality: 70,
+      );
+
+      if (result != null) {
+        compressedFiles.add(File(result.path));
+      }
+    }
+
+    return compressedFiles;
   }
 
   /// Pick up to 4 images

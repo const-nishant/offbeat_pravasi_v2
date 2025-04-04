@@ -74,6 +74,7 @@ final GoRouter router = GoRouter(
         final extra = state.extra as Map<String, dynamic>;
         return NoTransitionPage(
           child: TrekPreview(
+            trekCost: extra["trekCost"] as double,
             trekName: extra["trekName"] as String,
             trekLocation: extra["trekLocation"] as String,
             trekDate: DateTime.parse(extra["trekDate"] as String),
@@ -191,7 +192,7 @@ final GoRouter router = GoRouter(
         }),
   ],
   initialLocation: '/',
-  debugLogDiagnostics: true,
+  debugLogDiagnostics: false,
 );
 
 class NoTransitionPage extends CustomTransitionPage {
