@@ -93,9 +93,14 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/reviewscreen',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: const Reviewscreen(),
-      ),
+      pageBuilder: (context, state) {
+        final extra = state.extra;
+        return NoTransitionPage(
+          child: Reviewscreen(
+            trekId: extra as String,
+          ),
+        );
+      },
     ),
     GoRoute(
       path: '/sos-page',
@@ -178,8 +183,8 @@ final GoRouter router = GoRouter(
     GoRoute(
         path: '/trek-ticket',
         pageBuilder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>;
-         return NoTransitionPage(
+          final extra = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
             child: TrekTicketScreen(
               transactionId: extra["transactionId"] as String,
               trekCost: extra["trekCost"] as double,
@@ -191,7 +196,6 @@ final GoRouter router = GoRouter(
               trekName: extra["trekName"] as String,
               userId: extra["userId"] as String,
             ),
-            
           );
         }),
     GoRoute(

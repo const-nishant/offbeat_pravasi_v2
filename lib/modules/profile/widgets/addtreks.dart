@@ -100,7 +100,7 @@ class _AddtreksState extends State<Addtreks> {
             trekservice.convertToMarkdownParagraph(_overviewController.text),
         trekImages: await helperServices.compressImages(selectedImages),
         trekRating: 0.0,
-        trekReviews: [],
+        trekReviews: 0.0,
         trekAltitude: int.parse(_elevationController.text),
         trekDifficulty: _difficultyController.dropDownValue!.value,
         trekDuration: _durationController.text,

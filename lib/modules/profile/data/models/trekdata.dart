@@ -11,7 +11,7 @@ class Trek {
   final bool isEvent;
   final List<String> trekImages;
   final double trekRating;
-  final List<String> trekReviews;
+  final double trekReviews;
   final int trekAltitude;
   final String trekDifficulty;
   final String trekDuration;
@@ -89,7 +89,7 @@ class Trek {
       trekOverview: map['trekOverview'] ?? '',
       trekImages: List<String>.from(map['trekImages'] ?? []),
       trekRating: (map['trekRating'] ?? 0.0).toDouble(),
-      trekReviews: List<String>.from(map['trekReviews'] ?? []),
+      trekReviews: (map['trekReviews'] ?? 0.0).toDouble(),
       trekAltitude: map['trekAltitude'] ?? 0,
       trekDifficulty: map['trekDifficulty'] ?? '',
       trekDuration: map['trekDuration'] ?? '',

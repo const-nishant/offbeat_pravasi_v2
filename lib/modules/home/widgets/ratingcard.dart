@@ -55,14 +55,14 @@ class RatingCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 2.0),
                   child: Row(
                     children: [
-                      Text("${index + 1}"),
+                      Text("${5 - index}"),
                       const SizedBox(width: 5),
                       SizedBox(
-                        width: 150, // Adjust the width as needed
+                        width: 150,
                         child: LinearProgressIndicator(
-                          value: ratingDistribution[4 - index],
+                          value: ratingDistribution[index],
                           backgroundColor: Colors.grey[300],
-                          color: Colors.green,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ],

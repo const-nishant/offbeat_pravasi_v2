@@ -99,7 +99,7 @@ class Trekservices extends ChangeNotifier {
     required String trekOverview,
     required List<File> trekImages,
     required double trekRating,
-    required List<String> trekReviews,
+    required double trekReviews,
     required int trekAltitude,
     required String trekDifficulty,
     required String trekDuration,

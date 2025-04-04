@@ -177,7 +177,10 @@ class _TrekdetailsState extends State<Trekdetails> {
                               ),
                               SizedBox(width: 20),
                               IconButton(
-                                onPressed: () => context.push('/reviewscreen'),
+                                onPressed: () => context.push(
+                                  '/reviewscreen',
+                                  extra: trek.trekId,
+                                ),
                                 style: ButtonStyle(
                                   iconColor: WidgetStateProperty.all(
                                       Theme.of(context).colorScheme.primary),

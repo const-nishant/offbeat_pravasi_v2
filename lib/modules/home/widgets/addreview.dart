@@ -1,16 +1,53 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
+import 'package:provider/provider.dart';
+
+import '../data/dataexports.dart';
 
 class Addreview extends StatefulWidget {
-  const Addreview({super.key});
+  final String trekId;
+  final String userId;
+  final String username;
+  final String profileImage;
+  const Addreview({
+    super.key,
+    required this.trekId,
+    required this.userId,
+    required this.username,
+    required this.profileImage,
+  });
 
   @override
   State<Addreview> createState() => _AddreviewState();
 }
 
 class _AddreviewState extends State<Addreview> {
+  Future<void> addReview() async {
+    if (_formKey.currentState!.validate()) {
+      final review = ReviewModel(
+        profileImage: widget.profileImage,
+        username: widget.username,
+        rating: _rating,
+        review: _reviewController.text,
+        userId: widget.userId,
+        trekId: widget.trekId,
+        timestamp: Timestamp.now(),
+      );
+      await Provider.of<ReviewServices>(context, listen: false)
+          .addReview(widget.trekId, review, context);
+      _reviewController.clear();
+
+      setState(() {
+        _rating = 0.0;
+      });
+    }
+    // ignore: use_build_context_synchronously
+    Navigator.pop(context);
+  }
+
   double _rating = 0.0;
   final TextEditingController _reviewController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -77,7 +114,7 @@ class _AddreviewState extends State<Addreview> {
             ),
           ),
           SizedBox(height: 18),
-          LargeButton(onPressed: () {}, text: "Submit"),
+          LargeButton(onPressed: () => addReview(), text: "Submit"),
         ],
       ),
     );
