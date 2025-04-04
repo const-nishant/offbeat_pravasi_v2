@@ -116,8 +116,10 @@ class SOSService extends ChangeNotifier {
 
     // Get Current Location
     Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
+        locationSettings: LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 10,
+    ));
 
     // Generate Location Message
     String googleMapsLink =
