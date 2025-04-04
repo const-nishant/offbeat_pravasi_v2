@@ -57,12 +57,11 @@ class Notificationscreen extends StatelessWidget {
                           Provider.of<Helperservices>(context, listen: false);
                       return NotificationTile(
                         senderId: doc['senderId'] ?? 'Unknown',
-                        username: doc['username'] ?? 'User',
-                        message: doc['message'] ?? 'New notification',
+                        username: doc['senderUsername'] ?? 'User',
                         messageId: doc.id,
                         timeAgo: helperservices.formatTimestamp(
                             doc['timestamp']), // You can format timestamp here
-                        avatarUrl: doc['avatarUrl'] ?? '',
+                        avatarUrl: doc['senderUserImage'] ?? '',
                       );
                     },
                     childCount: provider.friendRequests.length,

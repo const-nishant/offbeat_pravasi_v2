@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 class NotificationTile extends StatelessWidget {
   final String username;
-  final String message;
   final String messageId;
   final String timeAgo;
   final String avatarUrl;
@@ -14,7 +13,6 @@ class NotificationTile extends StatelessWidget {
   const NotificationTile({
     super.key,
     required this.username,
-    required this.message,
     required this.timeAgo,
     this.avatarUrl = "",
     required this.messageId,

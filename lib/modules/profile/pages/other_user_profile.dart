@@ -190,7 +190,10 @@ class _OtherUserProfileState extends State<OtherUserProfile> {
                                           Provider.of<ProfileService>(context,
                                               listen: false);
                                       await profileService.sendFriendRequest(
-                                          user.uid); // Send friend request
+                                        user.uid,
+                                        currentUser.username!,
+                                        currentUser.profileImage!,
+                                      );
                                       setState(
                                           () {}); // Refresh the UI after adding a friend
                                     },

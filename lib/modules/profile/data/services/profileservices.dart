@@ -34,7 +34,11 @@ class ProfileService extends ChangeNotifier {
   }
 
 //send  friend request
-  Future<void> sendFriendRequest(String receiverId) async {
+  Future<void> sendFriendRequest(
+    String receiverId,
+    String senderUsername,
+    String senderUserImage,
+  ) async {
     try {
       String senderId = _auth.currentUser!.uid;
 
@@ -49,6 +53,8 @@ class ProfileService extends ChangeNotifier {
         await _firestore.collection('friendRequests').add({
           'senderId': senderId,
           'receiverId': receiverId,
+          'senderUsername': senderUsername,
+          'senderUserImage': senderUserImage,
           'status': 'pending',
           'timestamp': FieldValue.serverTimestamp(),
         });
