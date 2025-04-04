@@ -2,9 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 
 class TrekTicketScreen extends StatefulWidget {
-  const TrekTicketScreen({super.key});
+  final String userId;
+  final String trekName;
+  final String trekImage;
+  final String trekLocation;
+  final String trekId;
+  final double trekCost;
+  final DateTime trekDate;
+  final String trekDifficulty;
+  final String transactionId;
+
+  const TrekTicketScreen({
+    super.key,
+    required this.trekName,
+    required this.trekImage,
+    required this.trekLocation,
+    required this.trekId,
+    required this.trekCost,
+    required this.trekDate,
+    required this.trekDifficulty,
+    required this.transactionId,
+    required this.userId,
+  });
 
   @override
   State<TrekTicketScreen> createState() => _TrekTicketScreenState();
@@ -91,7 +113,7 @@ class _TrekTicketScreenState extends State<TrekTicketScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Image.network(
-                                'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
+                                widget.trekImage,
                                 width: 80,
                                 height: 80,
                                 fit: BoxFit.cover,
@@ -103,7 +125,7 @@ class _TrekTicketScreenState extends State<TrekTicketScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Kedarkantha Trek',
+                                    widget.trekName,
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -112,7 +134,7 @@ class _TrekTicketScreenState extends State<TrekTicketScreen> {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    'Uttarakhand, India',
+                                    widget.trekLocation,
                                     style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -122,7 +144,7 @@ class _TrekTicketScreenState extends State<TrekTicketScreen> {
                                   ),
                                   const SizedBox(height: 6),
                                   Text(
-                                    '₹1500.00',
+                                    '₹${widget.trekCost.toStringAsFixed(2)}',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -148,7 +170,7 @@ class _TrekTicketScreenState extends State<TrekTicketScreen> {
                               style: TextStyle(fontSize: 14),
                             ),
                             Text(
-                              'March 30, 2025',
+                              '${widget.trekDate.day}/${widget.trekDate.month}/${widget.trekDate.year}',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Theme.of(context).colorScheme.secondary,
@@ -166,7 +188,7 @@ class _TrekTicketScreenState extends State<TrekTicketScreen> {
                               style: TextStyle(fontSize: 14),
                             ),
                             Text(
-                              'Intermediate',
+                              widget.trekDifficulty,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
@@ -187,7 +209,7 @@ class _TrekTicketScreenState extends State<TrekTicketScreen> {
                               style: TextStyle(fontSize: 15),
                             ),
                             Text(
-                              '₹1380.00',
+                              '₹${widget.trekCost.toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: Theme.of(context).colorScheme.secondary,
@@ -226,7 +248,7 @@ class _TrekTicketScreenState extends State<TrekTicketScreen> {
                               ),
                             ),
                             Text(
-                              '₹1500.00',
+                              '₹${(widget.trekCost + 120).toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -242,18 +264,27 @@ class _TrekTicketScreenState extends State<TrekTicketScreen> {
                         Center(
                           child: Column(
                             children: [
-                              Container(
-                                height: 70,
-                                color: Colors.grey.shade200,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  '||||| || ||| | || ||||| | ||',
-                                  style: TextStyle(letterSpacing: 2),
+                              // Barcode Section
+                              Center(
+                                child: Column(
+                                  children: [
+                                    BarcodeWidget(
+                                      barcode: Barcode
+                                          .code128(), // Choose barcode type
+                                      data:
+                                          'Txn:${widget.transactionId}|User:${widget.userId}|Trek:${widget.trekId}',
+                                      width: 200,
+                                      height: 80,
+                                      drawText: false,
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  ],
                                 ),
                               ),
+
                               const SizedBox(height: 8),
                               Text(
-                                'TrekID-2345-PRAVASI',
+                                widget.transactionId,
                                 style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.onPrimary,

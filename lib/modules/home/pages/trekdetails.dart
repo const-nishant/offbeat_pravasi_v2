@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +21,7 @@ class Trekdetails extends StatefulWidget {
 }
 
 class _TrekdetailsState extends State<Trekdetails> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void initState() {
     super.initState();
@@ -370,13 +372,18 @@ class _TrekdetailsState extends State<Trekdetails> {
                                       context: context,
                                       isScrollControlled: true,
                                       backgroundColor: Colors.transparent,
-                                      builder: (context) =>
-                                          const PaymentSuccessModal(),
-                                    );
-                                    sendDirectNotification(
-                                      notificationTitle: 'Booking Confirmation',
-                                      notificationBody:
-                                          'Your booking for ${trek.trekName} has been confirmed!',
+                                      builder: (context) => PaymentMethodModal(
+                                        trekDate: trek.trekDate.toString(),
+                                        trekName: trek.trekName,
+                                        trekCost: trek.trekCost,
+                                        trekId: trek.trekId,
+                                        userId: _auth.currentUser!.uid,
+                                        trekDifficulty: trek.trekDifficulty,
+                                        trekImage: trek.trekImages.isNotEmpty
+                                            ? trek.trekImages[0]
+                                            : 'https://via.placeholder.com/236',
+                                        trekLocation: trek.trekLocation,
+                                      ),
                                     );
                                   },
                                   style: ElevatedButton.styleFrom(

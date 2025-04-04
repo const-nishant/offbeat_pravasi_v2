@@ -2,7 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PaymentSuccessModal extends StatelessWidget {
-  const PaymentSuccessModal({super.key});
+  final String userId;
+  final String trekName;
+  final String trekImage;
+  final String trekLocation;
+  final String trekId;
+  final double trekCost;
+  final String trekDate;
+  final String trekDifficulty;
+
+  const PaymentSuccessModal({
+    super.key,
+    required this.trekName,
+    required this.trekImage,
+    required this.trekLocation,
+    required this.trekId,
+    required this.trekCost,
+    required this.trekDate,
+    required this.trekDifficulty, required this.userId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +79,17 @@ class PaymentSuccessModal extends StatelessWidget {
               onPressed: () {
                 // View ticket action here
                 context.pop();
-                context.push('/trek-ticket');
+                context.push('/trek-ticket', extra: {
+                  "trekCost": trekCost,
+                  "trekDate": trekDate,
+                  "trekDifficulty": trekDifficulty,
+                  "trekId": trekId,
+                  "trekImage": trekImage,
+                  "trekLocation": trekLocation,
+                  "trekName": trekName,
+                  'userId': userId,
+                  'transactionId': '1234567890', // Example transaction ID
+                });
               },
               child: Text(
                 "View Ticket",

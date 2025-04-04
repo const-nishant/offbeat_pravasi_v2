@@ -176,11 +176,24 @@ final GoRouter router = GoRouter(
       ),
     ),
     GoRoute(
-      path: '/trek-ticket',
-      pageBuilder: (context, state) => NoTransitionPage(
-        child: const TrekTicketScreen(),
-      ),
-    ),
+        path: '/trek-ticket',
+        pageBuilder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>;
+         return NoTransitionPage(
+            child: TrekTicketScreen(
+              transactionId: extra["transactionId"] as String,
+              trekCost: extra["trekCost"] as double,
+              trekDate: DateTime.parse(extra["trekDate"] as String),
+              trekDifficulty: extra["trekDifficulty"] as String,
+              trekId: extra["trekId"] as String,
+              trekImage: extra["trekImage"] as String,
+              trekLocation: extra["trekLocation"] as String,
+              trekName: extra["trekName"] as String,
+              userId: extra["userId"] as String,
+            ),
+            
+          );
+        }),
     GoRoute(
         path: '/other-user-profile',
         pageBuilder: (context, state) {

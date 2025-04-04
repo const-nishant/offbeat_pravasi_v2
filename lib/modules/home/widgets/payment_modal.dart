@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:offbeat_pravasi_v2/modules/home/widgets/payment_successful_modal.dart';
+import '../../notification/notification_services.dart';
 
 class PaymentMethodModal extends StatelessWidget {
-  const PaymentMethodModal({super.key});
+  final String userId;
+  final String trekName;
+  final String trekImage;
+  final String trekLocation;
+  final String trekId;
+  final double trekCost;
+  final String trekDate;
+  final String trekDifficulty;
+
+  const PaymentMethodModal({
+    super.key,
+    required this.trekName,
+    required this.trekDate,
+    required this.trekCost,
+    required this.trekId,
+    required this.trekImage,
+    required this.trekLocation,
+    required this.trekDifficulty,
+    required this.userId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +85,26 @@ class PaymentMethodModal extends StatelessWidget {
               onPressed: () {
                 // Trigger payment action here
                 context.pop();
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => PaymentSuccessModal(
+                    trekCost: trekCost,
+                    trekDate: trekDate,
+                    trekDifficulty: trekDifficulty,
+                    trekId: trekId,
+                    trekImage: trekImage,
+                    trekLocation: trekLocation,
+                    trekName: trekName,
+                    userId: userId,
+                  ),
+                );
+                sendDirectNotification(
+                  notificationTitle: 'Booking Confirmation',
+                  notificationBody:
+                      'Your booking for $trekName has been confirmed!',
+                );
               },
               child: Text(
                 "Confirm payment",
