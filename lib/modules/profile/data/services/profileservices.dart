@@ -300,7 +300,6 @@ class ProfileService extends ChangeNotifier {
         profileImageUrl =
             'https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteUserProfileStorageBucketId}/files/${_auth.currentUser!.uid}/view?project=${Configs.appWriteProjectId}&mode=admin';
       }
-
       // Update banner image if provided
       if (bannerImage != null) {
         if (userData != null && (userData!.bannerImage?.isNotEmpty ?? false)) {
@@ -320,8 +319,10 @@ class ProfileService extends ChangeNotifier {
             'https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteUserBannerStorageBucketId}/files/${_auth.currentUser!.uid}/view?project=${Configs.appWriteProjectId}&mode=admin';
       }
 
+      await fetchUserData(); // Fetch updated user data
+
       // Update Firestore only if userData exists
-      if (userData != null) {
+      if (userData != null && userData!.toMap().isNotEmpty) {
         UserData updatedUserData = UserData(
           name: name,
           username: username,
@@ -335,6 +336,13 @@ class ProfileService extends ChangeNotifier {
           isSignup: userData!.isSignup,
           bannerImage: bannerImageUrl ?? userData!.bannerImage,
           uid: userData!.uid,
+          isOrganizer: userData!.isOrganizer,
+          userPoints: userData!.userPoints,
+          userDistanceTraveled: userData!.userDistanceTraveled,
+          userTrekIds: userData!.userTrekIds,
+          userEventsIds: userData!.userEventsIds,
+          friendsIds: userData!.friendsIds,
+          notificationToken: userData!.notificationToken,
         );
 
         await _firestore
