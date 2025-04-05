@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageSliderWithIndicators extends StatefulWidget {
@@ -40,9 +41,13 @@ class _ImageSliderWithIndicatorsState extends State<ImageSliderWithIndicators> {
               return SizedBox(
                 height: 300,
                 width: MediaQuery.of(context).size.width,
-                child: Image.network(
-                  widget.imageUrls[index],
+                child: CachedNetworkImage(
+                  imageUrl: widget.imageUrls[index],
                   fit: BoxFit.cover,
+                  placeholder: (context, url) => Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               );
             },

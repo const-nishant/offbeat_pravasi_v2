@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class StoryCircle extends StatelessWidget {
@@ -31,7 +32,7 @@ class StoryCircle extends StatelessWidget {
                   backgroundColor: Theme.of(context).colorScheme.secondary,
                   child: CircleAvatar(
                     radius: 34,
-                    backgroundImage: NetworkImage(imageUrl),
+                    backgroundImage: CachedNetworkImageProvider(imageUrl),
                   ),
                 ),
               ),

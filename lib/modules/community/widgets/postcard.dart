@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +87,8 @@ class _PostcardState extends State<Postcard> {
                     backgroundColor: Theme.of(context).colorScheme.secondary,
                     child: CircleAvatar(
                       radius: 28,
-                      backgroundImage: NetworkImage(widget.userImageUrl),
+                      backgroundImage:
+                          CachedNetworkImageProvider(widget.userImageUrl),
                       onBackgroundImageError: (_, __) =>
                           const Icon(Icons.person, size: 28),
                     ),
@@ -146,12 +148,20 @@ class _PostcardState extends State<Postcard> {
               // Image
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  widget.imageUrl,
+                child: CachedNetworkImage(
+                  imageUrl: widget.imageUrl,
                   height: MediaQuery.of(context).size.height * 0.32,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
+                  placeholder: (context, url) => Container(
+                    height: MediaQuery.of(context).size.height * 0.32,
+                    width: double.infinity,
+                    color: Colors.grey[300],
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
                     height: MediaQuery.of(context).size.height * 0.32,
                     width: double.infinity,
                     color: Colors.grey[300],
@@ -159,6 +169,7 @@ class _PostcardState extends State<Postcard> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 8),
 
               // Likes & Comments

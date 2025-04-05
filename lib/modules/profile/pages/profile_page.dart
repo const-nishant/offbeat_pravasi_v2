@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -37,7 +38,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Theme.of(context).colorScheme.onInverseSurface,
                     image: user?.bannerImage != null
                         ? DecorationImage(
-                            image: NetworkImage(user!.bannerImage!),
+                            image:
+                                CachedNetworkImageProvider(user!.bannerImage!),
                             fit: BoxFit.cover,
                             opacity: 2.0,
                           )
@@ -358,7 +360,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     radius: 60,
                     backgroundColor: Colors.white,
                     backgroundImage: user.profileImage != null
-                        ? NetworkImage(user.profileImage!)
+                        ? CachedNetworkImageProvider(user.profileImage!)
                         : null,
                     child: user.profileImage == null
                         ? Icon(

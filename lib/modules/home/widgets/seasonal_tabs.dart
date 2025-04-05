@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -76,11 +77,16 @@ class _SeasonalTabsState extends State<SeasonalTabs> {
                       Positioned.fill(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
-                          child: Image.network(
-                            trek.trekImages.isNotEmpty
-                                ? trek.trekImages.first
-                                : "https://via.placeholder.com/236", // Default placeholder
+                          child: CachedNetworkImage(
+                            imageUrl: trek.trekImages.first,
                             fit: BoxFit.cover,
+                            placeholder: (context, url) => Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) => Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            ),
                           ),
                         ),
                       ),

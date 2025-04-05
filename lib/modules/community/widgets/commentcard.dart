@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CommentCard extends StatelessWidget {
@@ -22,7 +23,7 @@ class CommentCard extends StatelessWidget {
       leading: userimage != null
           ? CircleAvatar(
               radius: 18,
-              backgroundImage: NetworkImage(userimage!),
+              backgroundImage: CachedNetworkImageProvider(userimage!),
             )
           : const CircleAvatar(
               radius: 18,
