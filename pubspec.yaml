@@ -47,7 +47,6 @@ dependencies:
   flutter_local_notifications: ^19.0.0
   direct_call_plus: ^1.0.4
   permission_handler: ^11.4.0
-  flutter_stripe: ^11.4.0
   barcode_widget: ^2.0.4
 
 dev_dependencies:
