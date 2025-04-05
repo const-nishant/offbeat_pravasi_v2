@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:offbeat_pravasi_v2/modules/home/widgets/payment_successful_modal.dart';
+
 import '../../notification/notification_services.dart';
 
 class PaymentMethodModal extends StatelessWidget {
@@ -82,7 +83,7 @@ class PaymentMethodModal extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16)),
               ),
-              onPressed: () {
+              onPressed: () async {
                 // Trigger payment action here
                 context.pop();
                 showModalBottomSheet(
@@ -100,7 +101,7 @@ class PaymentMethodModal extends StatelessWidget {
                     userId: userId,
                   ),
                 );
-                sendDirectNotification(
+                await sendDirectNotification(
                   notificationTitle: 'Booking Confirmation',
                   notificationBody:
                       'Your booking for $trekName has been confirmed!',

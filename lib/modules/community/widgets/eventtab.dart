@@ -22,7 +22,7 @@ class _EventtabState extends State<Eventtab> {
           ),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            Colors.black.withOpacity(0.4),
+            Colors.black54,
             BlendMode.darken,
           ),
         ),
@@ -157,7 +157,7 @@ class _EventtabState extends State<Eventtab> {
           ),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            Colors.black.withOpacity(0.4),
+            Colors.black54,
             BlendMode.darken,
           ),
         ),

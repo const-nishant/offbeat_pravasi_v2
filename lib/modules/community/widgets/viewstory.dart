@@ -1,60 +1,68 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:story_view/story_view.dart';
 
-import '../../../config/configs.dart';
+class ViewStory extends StatefulWidget {
+  final List<String> imageUrls;
+  final String username;
 
-class ViewStoryWidget extends StatefulWidget {
-  const ViewStoryWidget({super.key});
+  const ViewStory({
+    super.key,
+    required this.imageUrls,
+    required this.username,
+  });
 
   @override
-  State<ViewStoryWidget> createState() => _ViewStoryWidgetState();
+  State<ViewStory> createState() => _ViewStoryState();
 }
 
-class _ViewStoryWidgetState extends State<ViewStoryWidget> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+class _ViewStoryState extends State<ViewStory> {
   final StoryController _storyController = StoryController();
   List<StoryItem> _storyItems = [];
 
   @override
   void initState() {
     super.initState();
-    _loadDummyStories();
-  }
 
-  void _loadDummyStories() {
-    setState(() {
-      _storyItems = [
-        StoryItem.pageImage(
-          imageFit: BoxFit.contain,
-          loadingWidget: Center(
-            child: CircularProgressIndicator(),
-          ),
-          url:
-              "https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteUserProfileStorageBucketId}/files/${_auth.currentUser!.uid}/view?project=${Configs.appWriteProjectId}&mode=admin",
-          controller: _storyController,
-          duration: Duration(seconds: 8),
-        ),
-      ];
-    });
+    if (widget.imageUrls.isEmpty) {
+      // Show snackbar and immediately pop this screen
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No stories found')),
+        );
+        Navigator.pop(context); // Exit without showing anything
+      });
+    } else {
+      _storyItems = widget.imageUrls
+          .map(
+            (url) => StoryItem.pageImage(
+              url: url,
+              controller: _storyController,
+              duration: const Duration(seconds: 6),
+              imageFit: BoxFit.contain,
+              caption: Text(widget.username),
+              shown: false,
+            ),
+          )
+          .toList();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // If no stories, don't render anything (screen will pop immediately)
+    if (widget.imageUrls.isEmpty) return const SizedBox.shrink();
+
     return Scaffold(
       backgroundColor: Colors.black,
-      body: _storyItems.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : StoryView(
-              indicatorColor: Theme.of(context).colorScheme.onInverseSurface,
-              indicatorForegroundColor: Theme.of(context).colorScheme.secondary,
-              storyItems: _storyItems,
-              controller: _storyController,
-              repeat: false,
-              onComplete: () {
-                Navigator.pop(context);
-              },
-            ),
+      body: StoryView(
+        storyItems: _storyItems,
+        controller: _storyController,
+        repeat: false,
+        onComplete: () => Navigator.pop(context),
+        onVerticalSwipeComplete: (_) => Navigator.pop(context),
+        indicatorColor: Theme.of(context).colorScheme.onInverseSurface,
+        indicatorForegroundColor: Theme.of(context).colorScheme.secondary,
+      ),
     );
   }
 }

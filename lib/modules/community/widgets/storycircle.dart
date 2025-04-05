@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:offbeat_pravasi_v2/constants/images.dart';
-
 
 class StoryCircle extends StatelessWidget {
   final String name;
   final bool isYourStory;
+  final String imageUrl;
+  final String storyId;
+  final VoidCallback onTap;
 
   const StoryCircle({
     super.key,
     required this.name,
+    required this.imageUrl,
+    required this.storyId,
+    required this.onTap,
     this.isYourStory = false,
   });
 
@@ -21,13 +25,13 @@ class StoryCircle extends StatelessWidget {
           Stack(
             children: [
               GestureDetector(
-                onTap: () {},
+                onTap: onTap,
                 child: CircleAvatar(
                   radius: 36,
                   backgroundColor: Theme.of(context).colorScheme.secondary,
                   child: CircleAvatar(
                     radius: 34,
-                    backgroundImage: AssetImage(Images.google_logo),
+                    backgroundImage: NetworkImage(imageUrl),
                   ),
                 ),
               ),
@@ -40,29 +44,29 @@ class StoryCircle extends StatelessWidget {
                     backgroundColor: Colors.white,
                     child: IconButton(
                       onPressed: () {
-                        //add story action here
+                        // TODO: Add story action if user taps "+" instead of avatar
                       },
                       icon: Icon(
                         Icons.add,
-                        size: 16, // Adjust size for better fit
+                        size: 16,
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                      padding: EdgeInsets.zero, // Removes extra padding
-                      constraints:
-                          BoxConstraints(), // Ensures no extra constraints
+                      padding: EdgeInsets.zero,
+                      constraints: BoxConstraints(),
                     ),
                   ),
                 ),
             ],
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
-            name,
+            name.length > 10 ? '${name.substring(0, 9)}…' : name,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: Theme.of(context).colorScheme.primary,
             ),
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
