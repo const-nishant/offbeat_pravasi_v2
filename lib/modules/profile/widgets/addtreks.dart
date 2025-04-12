@@ -385,7 +385,7 @@ class _AddtreksState extends State<Addtreks> {
           readOnly: false,
           obscureText: false,
           keyboardType: TextInputType.multiline,
-          maxLength: 1000,
+            maxLength: TextField.noMaxLength,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter ${label.toLowerCase()}';
