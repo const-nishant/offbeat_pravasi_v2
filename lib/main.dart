@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -8,9 +9,11 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:offbeat_pravasi_v2/config/configs.dart';
 import 'package:offbeat_pravasi_v2/firebase_options.dart';
 import 'package:offbeat_pravasi_v2/helpers/helper_exports.dart';
+import 'package:offbeat_pravasi_v2/modules/leaderboard/data/services/leaderboard_services.dart';
 import 'package:offbeat_pravasi_v2/router/router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'modules/module_exports.dart';
 
 Client client = Client();
@@ -85,6 +88,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => Trekservices()),
         ChangeNotifierProvider(create: (_) => ProfileService()),
         ChangeNotifierProvider(create: (_) => Communityservices()),
+        ChangeNotifierProvider(create: (_) => LeaderboardServices()),
         ChangeNotifierProvider(create: (_) => SOSService()),
         ChangeNotifierProvider(create: (_) => ReviewServices()),
         ChangeNotifierProvider(create: (_) => Storyservices()),

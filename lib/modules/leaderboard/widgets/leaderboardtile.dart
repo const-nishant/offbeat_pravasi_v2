@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LeaderboardTile extends StatelessWidget {
-  final String userId;
   final int rank;
   final String username;
+  final String name;
+  final Function()? onTap;
   final int points;
-  final void Function()? onTap;
-  final String imageUrl; // User profile image
+  final String imageUrl;
 
   const LeaderboardTile({
     super.key,
@@ -14,60 +14,83 @@ class LeaderboardTile extends StatelessWidget {
     required this.username,
     required this.points,
     this.imageUrl = "",
-    required this.userId,
-    this.onTap, // Default empty
+    required this.name,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListTile(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
+      child: GestureDetector(
         onTap: onTap,
-        leading: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 26,
-              child: Text(
-                rank.toString(),
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.primary,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.onInverseSurface,
+            border: Border.all(color: Colors.grey[300]!),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            children: [
+              Text(
+                '$rank',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black,
                 ),
-                textAlign: TextAlign.center, // Center align the text
               ),
-            ),
-            const SizedBox(width: 16), // Spacing
-            CircleAvatar(
-              radius: 24, // Adjust size
-              backgroundColor: Colors.grey[300], // Placeholder color
-              backgroundImage:
-                  imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
-              child: imageUrl.isEmpty
-                  ? const Icon(Icons.person, color: Colors.white)
-                  : null,
-            ),
-          ],
-        ),
-        title: Text(
-          username,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.primary,
+              const SizedBox(width: 12),
+
+              // Profile Avatar
+              CircleAvatar(
+                radius: 22,
+                backgroundColor: Colors.grey[300],
+                backgroundImage:
+                    imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+                child: imageUrl.isEmpty
+                    ? const Icon(Icons.person, color: Colors.white)
+                    : null,
+              ),
+              const SizedBox(width: 16),
+
+              // Username & Name vertically
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      username,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      name,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Points
+              Text(
+                '$points pts',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
+              ),
+            ],
           ),
         ),
-        trailing: Text(
-          "$points pts",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
       ),
     );
   }
