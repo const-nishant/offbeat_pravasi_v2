@@ -118,11 +118,7 @@ class Trekservices extends ChangeNotifier {
       // Upload trek images
       List<String> trekImagesUrls = [];
       for (File image in trekImages) {
-        String fileId =
-            '${trekName.replaceAll(' ', '_')}_${DateTime.now().millisecondsSinceEpoch}_${image.path.split('/').last}'
-                .replaceAll(
-                    RegExp(r'[^a-zA-Z0-9._-]'), '') // Remove invalid characters
-                .substring(0, 36); // Truncate to 36 characters
+        String fileId = ID.unique(); // Truncate to 36 characters
         await storage.createFile(
           bucketId: Configs.appWriteTrekImageStorageBucketId,
           fileId: fileId,

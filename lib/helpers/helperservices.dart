@@ -158,7 +158,9 @@ class Helperservices extends ChangeNotifier {
       final result = await FlutterImageCompress.compressAndGetFile(
         file.absolute.path,
         targetPath,
-        quality: 70,
+        quality: 85,
+        minWidth: 800,
+        minHeight: 800,
       );
 
       if (result != null) {
