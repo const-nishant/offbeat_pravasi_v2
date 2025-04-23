@@ -42,7 +42,7 @@ jobs:
             --dart-define=APPWRITE_NOTIFICATION_ENDPOINT=${{ secrets.APPWRITE_NOTIFICATION_ENDPOINT }} \
             --dart-define=APPWRITE_USERSTORY_BUCKET=${{ secrets.APPWRITE_USERSTORY_BUCKET }} \
             --dart-define=STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }} \
-            --stacktrace
+            
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
