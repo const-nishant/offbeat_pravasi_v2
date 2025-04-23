@@ -77,10 +77,10 @@ class _SosPageState extends State<SosPage> {
                 ),
                 const SizedBox(height: 60),
                 GestureDetector(
-                  onTap: () {
-                    Provider.of<SOSService>(context, listen: false)
+                  onTap: () async {
+                    await Provider.of<SOSService>(context, listen: false)
                         .callFirstContact();
-                    Provider.of<SOSService>(context, listen: false)
+                    await Provider.of<SOSService>(context, listen: false)
                         .sendLocationMessage();
                   },
                   child: Stack(

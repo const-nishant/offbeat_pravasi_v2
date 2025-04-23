@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -19,13 +17,11 @@ class AddContactScreen extends StatefulWidget {
 class _AddContactScreenState extends State<AddContactScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  File? image;
 
   @override
   void dispose() {
     nameController.dispose();
     phoneController.dispose();
-    image = null; // Not strictly necessary, but ensures cleanup.
     super.dispose();
   }
 
@@ -39,12 +35,9 @@ class _AddContactScreenState extends State<AddContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    File? image;
-    final nameController = TextEditingController();
-    final phoneController = TextEditingController();
     final helperServices = Provider.of<Helperservices>(context);
     final sosService = Provider.of<SOSService>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -106,7 +99,13 @@ class _AddContactScreenState extends State<AddContactScreen> {
                       onPressed: () async {
                         await helperServices.pickImage();
                         setState(() {
-                          image = helperServices.image;
+                          // After picking the image, print the image path for debugging
+                          if (helperServices.image != null) {
+                            debugPrint(
+                                "Picked image path: ${helperServices.image!.path}");
+                          } else {
+                            debugPrint("No image selected.");
+                          }
                         });
                       },
                       icon: CircleAvatar(
@@ -165,7 +164,8 @@ class _AddContactScreenState extends State<AddContactScreen> {
                 sosService.addContact(
                   name: nameController.text,
                   phone: phoneController.text,
-                  image: image,
+                  image: helperServices
+                      .image, // Pass the image directly from helperServices
                 );
                 helperServices.resetImage(); // Reset the stored image
                 context.pop();

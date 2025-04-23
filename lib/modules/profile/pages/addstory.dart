@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+
+import '../../module_exports.dart';
 
 class AddStory extends StatefulWidget {
   const AddStory({super.key});
@@ -49,16 +53,33 @@ class _AddStoryState extends State<AddStory> {
   Future<void> _captureStory() async {
     if (_cameraController != null && _cameraController!.value.isInitialized) {
       final image = await _cameraController!.takePicture();
-      debugPrint('Captured Story: ${image.path}');
-      // uploadStory(File(image.path)) if needed
+      debugPrint('Captured Post: ${image.path}');
+
+      // Navigate to CreateStoryScreen with the captured image
+      Navigator.push(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(
+          builder: (context) => Createstoryscreen(imageFile: File(image.path)),
+        ),
+      );
     }
   }
 
   Future<void> _pickFromGallery() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      debugPrint('Gallery Story: ${pickedFile.path}');
-      // uploadStory(File(pickedFile.path)) if needed
+      debugPrint('Gallery Post: ${pickedFile.path}');
+      Navigator.push(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              Createstoryscreen(imageFile: File(pickedFile.path)),
+        ),
+      );
+    } else {
+      debugPrint('No image selected.');
     }
   }
 

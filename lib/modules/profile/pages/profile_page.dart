@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/modules/community/community_exports.dart';
 import 'package:provider/provider.dart';
+
 import '../profile_exports.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -140,6 +141,16 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   //add story
+                                  debugPrint("Add Story Pressed");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AddPostStorySwitcher(
+                                        startWithStory: true,
+                                      ),
+                                    ),
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.orange,

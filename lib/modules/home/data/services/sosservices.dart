@@ -41,6 +41,9 @@ class SOSService extends ChangeNotifier {
       "imagePath": image?.path ?? "",
     };
 
+    // Print the image path after picking it
+    debugPrint("Image Path: ${image?.path ?? 'No image selected'}");
+
     _contacts.add(newContact);
     List<String> encodedContacts =
         _contacts.map((contact) => jsonEncode(contact)).toList();
