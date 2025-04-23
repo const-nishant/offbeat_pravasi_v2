@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:offbeat_pravasi_v2/modules/module_exports.dart';
 
@@ -17,17 +18,22 @@ class AuthServices with ChangeNotifier {
 
   // Login function
   Future login(String email, String password, BuildContext context) async {
-    _showLoader(context);
+    _showSignupLoader(context);
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
+
+      // Update FCM token after login
+      await PushNotifications.getDeviceToken();
+    } catch (e) {
       if (context.mounted) {
-        _showError(context, e.message ?? 'An error occurred');
+        _showError(context, e.toString());
       }
     } finally {
-      if (context.mounted) Navigator.pop(context); // Close the loader
+      if (_dialogContext != null && _dialogContext!.mounted) {
+        Navigator.pop(_dialogContext!); // Close the loader
+        _dialogContext = null; // Reset after closing
+      }
     }
-    notifyListeners();
   }
 
   // Signup function
@@ -37,6 +43,8 @@ class AuthServices with ChangeNotifier {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
+
+      String? notificationToken = await FirebaseMessaging.instance.getToken();
 
       UserData userInfo = UserData(
         dob: '',
@@ -48,8 +56,12 @@ class AuthServices with ChangeNotifier {
         uid: userCredential.user!.uid,
         authProvider: 'email',
         isSignup: true,
+        notificationToken: notificationToken,
         profileImage: '', // Add profile image if available
       );
+
+      // Start listening for token refresh
+      PushNotifications.listenForTokenRefresh();
 
       await _firestore
           .collection('users')
@@ -102,6 +114,8 @@ class AuthServices with ChangeNotifier {
       );
       await _auth.signInWithCredential(credential);
 
+      String? notificationToken = await FirebaseMessaging.instance.getToken();
+
       DocumentSnapshot userSnapshot = await _firestore
           .collection('users')
           .doc(_auth.currentUser?.uid ?? '')
@@ -116,6 +130,7 @@ class AuthServices with ChangeNotifier {
           phone: '', // Add phone if available
           uid: _auth.currentUser?.uid ?? '',
           authProvider: 'google',
+          notificationToken: notificationToken,
           profileImage:
               googleUser.photoUrl ?? '', // Add profile image if available
           isSignup: true,
@@ -162,6 +177,30 @@ class AuthServices with ChangeNotifier {
             ),
           );
         }
+      }
+    }
+  }
+
+//change password
+  Future<void> changePassword(
+      String currentPassword, String newPassword, BuildContext context) async {
+    _showSignupLoader(context);
+    try {
+      if (user == null || user!.email == null) {
+        throw Exception('User not Found');
+      }
+
+      //re-authenticate user
+      final credential = EmailAuthProvider.credential(
+          email: user!.email!, password: currentPassword);
+      await user!.reauthenticateWithCredential(credential);
+      await _auth.currentUser?.updatePassword(newPassword);
+      if (context.mounted) Navigator.pop(context);
+      notifyListeners();
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.pop(context);
+        _showError(context, e.toString());
       }
     }
   }

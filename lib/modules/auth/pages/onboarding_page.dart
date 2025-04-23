@@ -26,29 +26,29 @@ class _OnboardingPageState extends State<OnboardingPage> {
               )),
         ),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: 70,
-              height: 34,
-              child: FloatingActionButton(
-                elevation: 1.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                onPressed: () {}, //skip logic here
-                backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
-                child: Text("Skip",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ),
-            ),
-          )
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: SizedBox(
+        //       width: 70,
+        //       height: 34,
+        //       child: FloatingActionButton(
+        //         elevation: 1.0,
+        //         shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(12),
+        //         ),
+        //         onPressed: () {}, //skip logic here
+        //         backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+        //         child: Text("Skip",
+        //             style: TextStyle(
+        //               color: Theme.of(context).colorScheme.primary,
+        //               fontSize: 14,
+        //               fontWeight: FontWeight.w400,
+        //             )),
+        //       ),
+        //     ),
+        //   ),
+        // ],
       ),
       body: Consumer<OnboardingServices>(
         builder: (context, provider, _) {
@@ -142,7 +142,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               title:
                                   provider.isLastQuestion ? "Submit" : "Next",
                               onPressed: provider.isLastQuestion
-                                  ? () => provider.saveAnswerToFirestore(context)
+                                  ? () =>
+                                      provider.saveAnswerToFirestore(context)
                                   : provider.nextQuestion),
                         ],
                       ),

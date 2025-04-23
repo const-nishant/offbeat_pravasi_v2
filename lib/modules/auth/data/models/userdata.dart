@@ -8,9 +8,18 @@ class UserData {
   final String authProvider;
   final bool isSignup;
   final String? profileImage;
+  final String? bannerImage;
   final String? gender;
   final String? dob;
   final String? name;
+  final String? notificationToken;
+  final String? location;
+  final bool? isOrganizer;
+  final double? userPoints;
+  final int? userDistanceTraveled;
+  final List<String>? userTrekIds;
+  final List<String>? userEventsIds;
+  final List<String>? friendsIds;
 
   UserData({
     required this.username,
@@ -19,7 +28,15 @@ class UserData {
     required this.uid,
     required this.authProvider,
     required this.isSignup,
-  
+    this.notificationToken,
+    this.userPoints,
+    this.isOrganizer,
+    this.location,
+    this.userDistanceTraveled,
+    this.userTrekIds,
+    this.userEventsIds,
+    this.bannerImage,
+    this.friendsIds,
     required this.profileImage,
     required this.gender,
     required this.dob,
@@ -35,10 +52,19 @@ class UserData {
       'uid': uid,
       'authProvider': authProvider,
       'isSignup': isSignup,
+      'isOrganizer': isOrganizer,
       'profileImage': profileImage,
+      'notificationToken': notificationToken,
       'gender': gender,
       'dob': dob,
       'name': name,
+      'location': location,
+      'userPoints': userPoints,
+      'userDistanceTraveled': userDistanceTraveled,
+      'userTrekIds': userTrekIds,
+      'userEventsIds': userEventsIds,
+      'friendsIds': friendsIds,
+      'bannerImage': bannerImage,
     };
   }
 
@@ -55,7 +81,17 @@ class UserData {
       gender: map['gender'] ?? '',
       dob: map['dob'] ?? '',
       name: map['name'] ?? '',
-      
+      notificationToken: map['notificationToken'] ?? '',
+      isOrganizer: map['isOrganizer'] ?? false,
+      location: map['location'] ?? '',
+      userPoints: (map['userPoints'] != null)
+          ? (map['userPoints'] as num).toDouble()
+          : 0.0,
+      userDistanceTraveled: map['userDistanceTraveled'] ?? 0,
+      userTrekIds: List<String>.from(map['userTrekIds'] ?? []),
+      userEventsIds: List<String>.from(map['userEventsIds'] ?? []),
+      friendsIds: List<String>.from(map['friendsIds'] ?? []),
+      bannerImage: map['bannerImage'] ?? '',
     );
   }
 

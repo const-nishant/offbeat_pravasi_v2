@@ -32,6 +32,7 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   progressIndicatorTheme: ProgressIndicatorThemeData(
+    refreshBackgroundColor: Colors.white,
     color: Color(0xFFff9800), // CircularProgressIndicator color
   ),
   radioTheme: RadioThemeData(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/common/common_exports.dart';
 import 'package:provider/provider.dart';
 
@@ -111,7 +112,7 @@ class _SignupPageState extends State<SignupPage> {
                     readOnly: false,
                     obscureText: obscureText,
                     keyboardType: TextInputType.visiblePassword,
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: Icon(LucideIcons.lockKeyholeOpen),
                     suffixIcon: IconButton(
                       color: Theme.of(context).colorScheme.primary,
                       onPressed: () {
@@ -142,7 +143,7 @@ class _SignupPageState extends State<SignupPage> {
                     readOnly: false,
                     obscureText: obscureTextConfirm,
                     keyboardType: TextInputType.visiblePassword,
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: Icon(LucideIcons.lockKeyhole),
                     suffixIcon: IconButton(
                       color: Theme.of(context).colorScheme.primary,
                       onPressed: () {

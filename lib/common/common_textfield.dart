@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class CommonTextfield extends StatelessWidget {
@@ -10,6 +11,7 @@ class CommonTextfield extends StatelessWidget {
   final bool obscureText;
   final int? maxLength;
   final Widget? suffixIcon;
+  final void Function(String)? onChanged;
   final Widget? prefixIcon;
   final FocusNode? focusNode;
   const CommonTextfield({
@@ -23,8 +25,9 @@ class CommonTextfield extends StatelessWidget {
     required this.obscureText,
     this.maxLength,
     this.suffixIcon,
-    this.focusNode,
+    this.onChanged,
     this.prefixIcon,
+    this.focusNode,
   });
 
   @override
@@ -42,6 +45,7 @@ class CommonTextfield extends StatelessWidget {
         fontSize: 16,
         fontWeight: FontWeight.w400,
       ),
+      onChanged: onChanged,
       readOnly: readOnly,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
