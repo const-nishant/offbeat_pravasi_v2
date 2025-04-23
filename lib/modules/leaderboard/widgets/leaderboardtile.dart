@@ -61,7 +61,7 @@ class LeaderboardTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      username,
+                      username.isEmpty ? 'Username not found' : username,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 16,
@@ -69,7 +69,7 @@ class LeaderboardTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      name,
+                      name.isEmpty ? 'Name not found' : name,
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.black54,
