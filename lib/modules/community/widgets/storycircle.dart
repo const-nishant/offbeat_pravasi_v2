@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../profile/profile_exports.dart';
+
 class StoryCircle extends StatelessWidget {
   final String name;
   final bool isYourStory;
@@ -45,7 +47,15 @@ class StoryCircle extends StatelessWidget {
                     backgroundColor: Colors.white,
                     child: IconButton(
                       onPressed: () {
-                        // TODO: Add story action if user taps "+" instead of avatar
+                        // Add story
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AddPostStorySwitcher(
+                              startWithStory: true,
+                            ),
+                          ),
+                        );
                       },
                       icon: Icon(
                         Icons.add,

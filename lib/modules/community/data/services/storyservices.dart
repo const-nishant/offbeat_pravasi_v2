@@ -18,7 +18,7 @@ class Storyservices extends ChangeNotifier {
   bool _isLoading = true;
   List<Story> _stories = [];
   List<String> _userIds = [];
-  UserData? _users ;
+  UserData? _users;
 
   List<String> get userIds => _userIds;
   bool get isLoading => _isLoading;
@@ -72,7 +72,6 @@ class Storyservices extends ChangeNotifier {
   /// Add a new story to Firestore
   Future<void> addStory({
     required String uid,
-    required String username,
     required File image,
     required BuildContext context,
   }) async {
@@ -91,14 +90,29 @@ class Storyservices extends ChangeNotifier {
       String fileUrl =
           "https://cloud.appwrite.io/v1/storage/buckets/${Configs.appWriteUserStoryStorageBucketId}/files/$fileId/view?project=${Configs.appWriteProjectId}&mode=admin";
 
+      final DocumentSnapshot userSnapshot = await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .get();
+      final userData = userSnapshot.data() as Map<String, dynamic>?;
+
       Story story = Story(
         uid: uid,
-        username: username,
+        username: userData?['username'] ?? userData?['name'] ?? 'Unknown',
         imageUrl: fileUrl,
         time: Timestamp.now(),
       );
 
       await _firestore.collection('stories').add(story.toMap());
+
+      _isLoading = false;
+
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Story added successfully'),
+        ),
+      );
       notifyListeners();
     } catch (e) {
       debugPrint('Error adding story: $e');
