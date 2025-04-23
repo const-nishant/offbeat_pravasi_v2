@@ -29,7 +29,7 @@ jobs:
         run: |
           flutter build apk \
             --dart-define=APPWRITE_ENDPOINT=${{ secrets.APPWRITE_ENDPOINT }} \
-            --dart-define=APPWRITE_PROJECT_ID=${{ secrets.APPWRITE_PROJECT_ID }} \
+            --dart-define=APPWRITE_PROJECT_ID=${{ secrets.APPWRITE_PROJECTID }} \
             --dart-define=APPWRITE_USERSTORAGE_BUCKET=${{ secrets.APPWRITE_USERSTORAGE_BUCKET }} \
             --dart-define=APPWRITE_TREKIMAGE_BUCKET=${{ secrets.APPWRITE_TREKIMAGE_BUCKET }} \
             --dart-define=APPWRITE_USERBANNER_BUCKET=${{ secrets.APPWRITE_USERBANNER_BUCKET }} \
