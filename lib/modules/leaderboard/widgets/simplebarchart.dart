@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../data/services/leaderboard_services.dart';
+import '../data/exports.dart';
 
 class SimpleBarChart extends StatelessWidget {
   final List<LeaderboardUser> topUsers;
@@ -16,9 +15,18 @@ class SimpleBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (topUsers.length < 3) {
+    if (topUsers.isEmpty) {
       return const Center(
-          child: Text('Not enough users to display leaderboard.'));
+          child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Text(''),
+      ));
+    } else if (topUsers.length < 3) {
+      return const Center(
+          child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Text('Not enough users to display leaderboard.'),
+      ));
     }
 
     // Display order: 2nd (left), 1st (center), 3rd (right)

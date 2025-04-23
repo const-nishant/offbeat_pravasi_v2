@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
 import '../../module_exports.dart';
 
 class Leaderboardscreen extends StatefulWidget {
@@ -48,11 +47,22 @@ class _LeaderboardscreenState extends State<Leaderboardscreen> {
 
             // Leaderboard List
             SliverPadding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(0.0),
               sliver: Consumer<LeaderboardServices>(
                 builder: (context, service, child) {
                   final users =
                       service.users.where((user) => user.rank > 3).toList();
+
+                  if (users.isEmpty) {
+                    return const SliverToBoxAdapter(
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(24.0),
+                          child: Text('No friends to display in leaderboard.'),
+                        ),
+                      ),
+                    );
+                  }
 
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
