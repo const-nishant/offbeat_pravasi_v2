@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:offbeat_pravasi_v2/modules/profile/widgets/savedtrekcard.dart';
+import 'package:provider/provider.dart';
+
+import '../../home/data/dataexports.dart';
+import '../data/exports.dart';
 
 class Savedtreks extends StatefulWidget {
   const Savedtreks({super.key});
@@ -12,7 +16,15 @@ class Savedtreks extends StatefulWidget {
 
 class _SavedtreksState extends State<Savedtreks> {
   @override
+  void initState() {
+    super.initState();
+    Provider.of<Bookmarkservices>(context, listen: false).fetchBookmarks();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final trekService = Provider.of<Trekservices>(context, listen: false);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -20,7 +32,7 @@ class _SavedtreksState extends State<Savedtreks> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Row
+              // Header
               Row(
                 children: [
                   IconButton(
@@ -55,17 +67,50 @@ class _SavedtreksState extends State<Savedtreks> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 20),
 
-              // ListView wrapped with Expanded
+              // List of saved treks
               Expanded(
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Savedtrekcard(),
-                  ),
+                child: Consumer<Bookmarkservices>(
+                  builder: (context, bookmarkservices, _) {
+                    final bookmarks = bookmarkservices.bookmarks;
+
+                    if (bookmarks.isEmpty) {
+                      return const Center(child: Text("No saved treks"));
+                    }
+
+                    return FutureBuilder<List<Map<String, dynamic>?>>(
+                      future: Future.wait(
+                        bookmarks.map((id) => trekService.getTrekById(id)),
+                      ),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+
+                        final treks = snapshot.data!
+                            .whereType<Map<String, dynamic>>()
+                            .toList();
+
+                        return ListView.builder(
+                          itemCount: treks.length,
+                          itemBuilder: (context, index) {
+                            final trek = treks[index];
+                            return SavedtrekCard(
+                              title: trek['trekName'],
+                              location: trek['trekStateLocation'],
+                              elevation: trek['trekAltitude'].toString(),
+                              rating: trek['trekRating'].toString(),
+                              trekId: trek['trekId'],
+                              trekImage: trek['trekImages'][0],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
             ],

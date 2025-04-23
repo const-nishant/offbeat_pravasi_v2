@@ -192,6 +192,12 @@ class Trekservices extends ChangeNotifier {
     }
   }
 
+//get trek by id
+  Future<Map<String, dynamic>?> getTrekById(String trekId) async {
+    final doc = await _firestore.collection('treks').doc(trekId).get();
+    return doc.exists ? doc.data() : null;
+  }
+
 // Loader
   void _showLoader(BuildContext context) {
     showDialog(

@@ -22,6 +22,7 @@ class Trekdetails extends StatefulWidget {
 
 class _TrekdetailsState extends State<Trekdetails> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +35,9 @@ class _TrekdetailsState extends State<Trekdetails> {
 
   @override
   Widget build(BuildContext context) {
+    final bookmarkServices =
+        Provider.of<Bookmarkservices>(context, listen: false);
+
     return Scaffold(
       body: SafeArea(
         child: Consumer<HomeServices>(
@@ -47,6 +51,8 @@ class _TrekdetailsState extends State<Trekdetails> {
             if (trek == null) {
               return Center(child: Text("Trek not found"));
             }
+
+            final isMarked = bookmarkServices.isBookmarked(trek.trekId);
 
             return SingleChildScrollView(
               child: Column(
@@ -106,10 +112,13 @@ class _TrekdetailsState extends State<Trekdetails> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  //bookmark action
+                                  bookmarkServices.toggleBookmark(trek.trekId);
+                                  setState(() {});
                                 },
                                 icon: Icon(
-                                  LucideIcons.bookmark,
+                                  isMarked
+                                      ? LucideIcons.bookmarkCheck
+                                      : LucideIcons.bookmark,
                                   color:
                                       Theme.of(context).colorScheme.secondary,
                                 ),
@@ -257,11 +266,11 @@ class _TrekdetailsState extends State<Trekdetails> {
                       ),
                       _infoIcon(
                         Icons.directions_walk,
-                        trek.trekDistance.toString(),
+                        "${trek.trekDistance.toString()} km",
                       ),
                       _infoIcon(
                         Icons.terrain,
-                        trek.trekAltitude.toString(),
+                        "${trek.trekAltitude.toString()} ft",
                       ),
                       _infoIcon(Icons.error_outline, trek.trekDifficulty),
                     ],
