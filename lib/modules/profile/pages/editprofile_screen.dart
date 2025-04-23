@@ -58,12 +58,12 @@ class _EditprofileScreenState extends State<EditprofileScreen> {
       void updateUserData() async {
         await profileservice.updateUserData(
           context: context,
-          name: nameController.text,
-          username: usernameController.text,
-          phone: phoneController.text,
+          name: nameController.text.trim(),
+          username: usernameController.text.trim(),
+          phone: phoneController.text.trim(),
           profileImage: profileImage,
           bannerImage: bannerImage,
-          location: locationController.text,
+          location: locationController.text.trim(),
         );
         nameController.clear();
         usernameController.clear();

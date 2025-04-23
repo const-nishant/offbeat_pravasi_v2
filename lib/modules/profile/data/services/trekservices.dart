@@ -77,6 +77,7 @@ class Trekservices extends ChangeNotifier {
     return markdownBuffer.toString().trim();
   }
 
+//convert to markdown paragraph
   String convertToMarkdownParagraph(String inputText) {
     final StringBuffer markdownBuffer = StringBuffer();
     final List<String> paragraphs = inputText.trim().split('\n');
@@ -91,6 +92,7 @@ class Trekservices extends ChangeNotifier {
     return markdownBuffer.toString().replaceAll('\n', '\n\n').trim();
   }
 
+//add trek
   Future<void> addTreks({
     required BuildContext context,
     required String trekName,

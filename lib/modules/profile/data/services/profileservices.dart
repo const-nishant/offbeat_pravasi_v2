@@ -162,6 +162,7 @@ class ProfileService extends ChangeNotifier {
     }
   }
 
+//fetch user data
   Future<void> fetchUserData() async {
     try {
       final user = _auth.currentUser;
@@ -185,6 +186,7 @@ class ProfileService extends ChangeNotifier {
     }
   }
 
+//add post
   Future<void> addpost(
     BuildContext context,
     String userId,
