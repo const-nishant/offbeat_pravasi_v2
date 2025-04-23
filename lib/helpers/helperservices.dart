@@ -68,10 +68,10 @@ class Helperservices extends ChangeNotifier {
   }
 
 //get user location
-  Future<String> getUserLocation() async {
+  Future<String> getUserLocation(BuildContext context) async {
     try {
       // Step 1: Get current position
-      Position position = await _getCurrentPosition();
+      Position position = await _getCurrentPosition(context);
 
       // Store lat/lng as string
       latitude = position.latitude.toString();
@@ -103,10 +103,16 @@ class Helperservices extends ChangeNotifier {
     }
   }
 
-  Future<Position> _getCurrentPosition() async {
+  Future<Position> _getCurrentPosition(BuildContext context) async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      throw Exception('Location services are disabled.');
+      serviceEnabled = await Geolocator.openLocationSettings();
+      if (!serviceEnabled) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                "Location service is disabled. Please enable it in settings.")));
+      }
     }
 
     LocationPermission permission = await Geolocator.checkPermission();

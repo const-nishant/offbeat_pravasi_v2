@@ -142,6 +142,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
               controller: phoneController,
               prefixIcon: const Icon(LucideIcons.phone),
               readOnly: false,
+              maxLength: 10,
               keyboardType: TextInputType.numberWithOptions(),
               obscureText: false,
               validator: (value) {

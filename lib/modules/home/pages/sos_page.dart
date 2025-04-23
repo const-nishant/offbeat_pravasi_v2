@@ -80,8 +80,8 @@ class _SosPageState extends State<SosPage> {
                   onTap: () async {
                     final sosprovider =
                         Provider.of<SOSService>(context, listen: false);
-                    await sosprovider.callFirstContact();
                     await sosprovider.sendLocationMessage();
+                    await sosprovider.callFirstContact();
                   },
                   child: Stack(
                     alignment: Alignment.center,
