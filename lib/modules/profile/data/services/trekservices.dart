@@ -137,7 +137,7 @@ class Trekservices extends ChangeNotifier {
       final userData = userSnapshot.data() as Map<String, dynamic>?;
 
       String trekOrganizer = userData?['name'] ?? 'Unknown';
-      String trekOrganizerContact = userData?['contact'] ?? 'not available';
+      String trekOrganizerContact = userData?['phone'] ?? 'not available';
       double trekPoints = _helperservices.calculateTrekPoints(
         trekAltitude: trekAltitude.toDouble(),
         trekDifficulty: trekDifficulty,

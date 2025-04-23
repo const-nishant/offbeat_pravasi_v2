@@ -165,7 +165,13 @@ class _TrekdetailsState extends State<TrekPreview> {
                           ),
                           SizedBox(width: 20),
                           IconButton(
-                            onPressed: () => context.push('/reviewscreen'),
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("This is a preview  screen"),
+                                ),
+                              );
+                            },
                             style: ButtonStyle(
                               iconColor: WidgetStateProperty.all(
                                   Theme.of(context).colorScheme.primary),
