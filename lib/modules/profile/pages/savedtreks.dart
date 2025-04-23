@@ -98,13 +98,16 @@ class _SavedtreksState extends State<Savedtreks> {
                           itemCount: treks.length,
                           itemBuilder: (context, index) {
                             final trek = treks[index];
-                            return SavedtrekCard(
-                              title: trek['trekName'],
-                              location: trek['trekStateLocation'],
-                              elevation: trek['trekAltitude'].toString(),
-                              rating: trek['trekRating'].toString(),
-                              trekId: trek['trekId'],
-                              trekImage: trek['trekImages'][0],
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SavedtrekCard(
+                                title: trek['trekName'],
+                                location: trek['trekStateLocation'],
+                                elevation: trek['trekAltitude'].toString(),
+                                rating: trek['trekRating'].toString(),
+                                trekId: trek['trekId'],
+                                trekImage: trek['trekImages'][0],
+                              ),
                             );
                           },
                         );
