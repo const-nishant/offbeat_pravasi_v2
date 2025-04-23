@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      
+
   pull_request:
     branches:
       - main
@@ -25,9 +25,21 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build app
-        env:
-          APPWRITE_ENDPOINT: ${{ secrets.APPWRITE_ENDPOINT }}
-          APPWRITE_PROJECTID: ${{ secrets.APPWRITE_PROJECTID }}
-          APPWRITE_USERSTORAGE_BUCKET: ${{ secrets.APPWRITE_USERSTORAGE_BUCKET }}
-        run: flutter build apk
+      - name: Build app with secrets
+        run: |
+          flutter build apk \
+            --dart-define=APPWRITE_ENDPOINT=${{ secrets.APPWRITE_ENDPOINT }} \
+            --dart-define=APPWRITE_PROJECT_ID=${{ secrets.APPWRITE_PROJECT_ID }} \
+            --dart-define=APPWRITE_USERSTORAGE_BUCKET=${{ secrets.APPWRITE_USERSTORAGE_BUCKET }} \
+            --dart-define=APPWRITE_TREKIMAGE_BUCKET=${{ secrets.APPWRITE_TREKIMAGE_BUCKET }} \
+            --dart-define=APPWRITE_USERBANNER_BUCKET=${{ secrets.APPWRITE_USERBANNER_BUCKET }} \
+            --dart-define=APPWRITE_USERPOSTS_BUCKET=${{ secrets.APPWRITE_USERPOSTS_BUCKET }} \
+            --dart-define=APPWRITE_NOTIFICATION_ENDPOINT=${{ secrets.APPWRITE_NOTIFICATION_ENDPOINT }} \
+            --dart-define=APPWRITE_USERSTORY_BUCKET=${{ secrets.APPWRITE_USERSTORY_BUCKET }} \
+            --dart-define=STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
