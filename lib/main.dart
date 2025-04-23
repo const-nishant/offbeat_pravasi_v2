@@ -9,7 +9,6 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:offbeat_pravasi_v2/config/configs.dart';
 import 'package:offbeat_pravasi_v2/firebase_options.dart';
 import 'package:offbeat_pravasi_v2/helpers/helper_exports.dart';
-import 'package:offbeat_pravasi_v2/modules/leaderboard/data/services/leaderboard_services.dart';
 import 'package:offbeat_pravasi_v2/router/router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

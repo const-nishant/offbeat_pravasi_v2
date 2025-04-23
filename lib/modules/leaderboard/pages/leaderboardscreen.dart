@@ -18,6 +18,7 @@ class _LeaderboardscreenState extends State<Leaderboardscreen> {
     super.initState();
     // Fetch leaderboard data on screen load
     Future.microtask(() {
+      // ignore: use_build_context_synchronously
       Provider.of<LeaderboardServices>(context, listen: false)
           .fetchAndRankUsers();
     });
