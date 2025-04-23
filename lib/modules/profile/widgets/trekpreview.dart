@@ -143,7 +143,7 @@ class _TrekdetailsState extends State<TrekPreview> {
                                   ),
                                   SizedBox(width: 4),
                                   Text(
-                                    "{4.8}",
+                                    "0.0",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
@@ -154,7 +154,7 @@ class _TrekdetailsState extends State<TrekPreview> {
                                 ],
                               ),
                               Text(
-                                "[reviews]",
+                                "0.0 reviews",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12,
