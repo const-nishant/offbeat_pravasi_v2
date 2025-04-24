@@ -1,0 +1,2 @@
+P:/vs code/Flutter dev/offbeat_pravasi_v2/android/app/.cxx/RelWithDebInfo/1652f5u6/arm64-v8a/CMakeFiles/edit_cache.dir
+P:/vs code/Flutter dev/offbeat_pravasi_v2/android/app/.cxx/RelWithDebInfo/1652f5u6/arm64-v8a/CMakeFiles/rebuild_cache.dir
