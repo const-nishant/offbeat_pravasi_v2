@@ -92,6 +92,14 @@ class Trekservices extends ChangeNotifier {
     return markdownBuffer.toString().replaceAll('\n', '\n\n').trim();
   }
 
+//add trekid to user
+  Future<void> addTrekIdToUser(String trekId) async {
+    final uid = _auth.currentUser!.uid;
+    await _firestore.collection('users').doc(uid).update({
+      'userTrekIds': FieldValue.arrayUnion([trekId]),
+    });
+  }
+
 //add trek
   Future<void> addTreks({
     required BuildContext context,
@@ -190,6 +198,12 @@ class Trekservices extends ChangeNotifier {
         _dialogContext = null; // Reset after closing
       }
     }
+  }
+
+//get trek by id
+  Future<Map<String, dynamic>?> getTrekById(String trekId) async {
+    final doc = await _firestore.collection('treks').doc(trekId).get();
+    return doc.exists ? doc.data() : null;
   }
 
 // Loader

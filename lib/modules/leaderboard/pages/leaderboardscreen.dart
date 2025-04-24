@@ -52,8 +52,16 @@ class _LeaderboardscreenState extends State<Leaderboardscreen> {
                 builder: (context, service, child) {
                   final users =
                       service.users.where((user) => user.rank > 3).toList();
-
-                  if (users.isEmpty) {
+                  if (users.length < 3) {
+                    return const SliverToBoxAdapter(
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(24.0),
+                          child: Text(''),
+                        ),
+                      ),
+                    );
+                  } else if (users.isEmpty) {
                     return const SliverToBoxAdapter(
                       child: Center(
                         child: Padding(
