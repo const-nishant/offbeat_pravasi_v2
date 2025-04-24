@@ -437,6 +437,8 @@ class _TrekdetailsState extends State<Trekdetails> {
                                   label: 'Call Now',
                                   onTap: () {
                                     // Handle call functionality
+                                    HomeServices()
+                                        .makePhoneCall('7709933317', context);
                                   },
                                 ),
                               ],
