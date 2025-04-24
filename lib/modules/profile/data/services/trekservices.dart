@@ -92,6 +92,14 @@ class Trekservices extends ChangeNotifier {
     return markdownBuffer.toString().replaceAll('\n', '\n\n').trim();
   }
 
+//add trekid to user
+  Future<void> addTrekIdToUser(String trekId) async {
+    final uid = _auth.currentUser!.uid;
+    await _firestore.collection('users').doc(uid).update({
+      'userTrekIds': FieldValue.arrayUnion([trekId]),
+    });
+  }
+
 //add trek
   Future<void> addTreks({
     required BuildContext context,

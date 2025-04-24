@@ -8,6 +8,7 @@ import 'package:offbeat_pravasi_v2/config/configs.dart';
 import 'package:offbeat_pravasi_v2/modules/profile/data/models/post.dart';
 import '../../../../main.dart';
 import '../../../auth/auth_exports.dart';
+import '../exports.dart';
 
 class ProfileService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -20,17 +21,52 @@ class ProfileService extends ChangeNotifier {
   List<Post> _otherUserPosts = [];
   bool _isLoading = true;
   List<Post> _posts = [];
+  List<String> _userTrekIds = [];
 
   bool get isLoading => _isLoading;
   UserData? get userData => _userData;
   UserData? get otherUserData => _otherUserData;
   List<Post> get userPosts => _posts;
   List<Post> get otherUserPosts => _otherUserPosts;
+  List<String> get userTrekIds => _userTrekIds;
 
   ProfileService() {
     fetchUserData();
     fetchPosts();
     _listenToUserUpdates();
+  }
+
+//get treks by ids
+  Future<List<Trek>> fetchTreksByIds(List<String> trekIds) async {
+    try {
+      if (trekIds.isEmpty) return [];
+
+      QuerySnapshot snapshot = await _firestore
+          .collection('treks')
+          .where(FieldPath.documentId, whereIn: trekIds)
+          .get();
+
+      return snapshot.docs.map((doc) => Trek.fromDocument(doc)).toList();
+    } catch (e) {
+      debugPrint('Error fetching treks by ids: $e');
+      return [];
+    }
+  }
+
+//get user trek ids
+  Future<void> fetchUserTrekIds() async {
+    try {
+      DocumentSnapshot userDoc = await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .get();
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        _userTrekIds = (userData['userTrekIds'] as List<dynamic>?)?.cast<String>() ?? [];
+      }
+    } catch (e) {
+      debugPrint('Error fetching user trek ids: $e');
+    }
   }
 
 //send  friend request
