@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:offbeat_pravasi_v2/modules/home/widgets/payment_successful_modal.dart';
+import 'package:provider/provider.dart';
 
 import '../../notification/notification_services.dart';
+import '../../profile/data/exports.dart';
 
 class PaymentMethodModal extends StatelessWidget {
   final String userId;
@@ -28,6 +30,7 @@ class PaymentMethodModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final trekservices = Provider.of<Trekservices>(context, listen: false);
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -106,6 +109,7 @@ class PaymentMethodModal extends StatelessWidget {
                   notificationBody:
                       'Your booking for $trekName has been confirmed!',
                 );
+                await trekservices.addTrekIdToUser(trekId);
               },
               child: Text(
                 "Confirm payment",
