@@ -101,13 +101,19 @@ class _TrekdetailsState extends State<Trekdetails> {
                                   context.pop();
                                 },
                               ),
-                              Text(
-                                trek.trekName,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 22,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
+                              Flexible(
+                                child: RichText(
+                                  overflow: TextOverflow.ellipsis,
+                                  text: TextSpan(
+                                    text: trek.trekName,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ),
+                                  ),
                                 ),
                               ),
                               IconButton(
