@@ -9,6 +9,8 @@ export 'pages/other_user_profile.dart';
 export 'pages/points_screen.dart';
 export 'pages/profile_page.dart';
 export 'pages/savedtreks.dart';
+export 'pages/support_screen.dart';
+export 'pages/terms_conditions.dart';
 export 'widgets/addtreks.dart';
 export 'widgets/createpostscreen.dart';
 export 'widgets/createstoryscreen.dart';

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -16,10 +17,10 @@ class PastTreksCard extends StatelessWidget {
             height: 200,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
-                    'https://images.unsplash.com/photo-1506744038136-46273834b3fb'),
-                fit: BoxFit.cover,
-              ),
+                  image: CachedNetworkImageProvider(
+                    'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
+                  ),
+                  fit: BoxFit.cover),
             ),
           ),
 

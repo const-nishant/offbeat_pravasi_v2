@@ -150,12 +150,18 @@ class SettingsDrawer extends StatelessWidget {
                   LucideIcons.headset,
                   'Support',
                   trailing: LucideIcons.chevronRight,
+                  onTap: () {
+                    dialogContext.push('/support-page');
+                  },
                 ),
                 buildListTile(
                   context,
                   LucideIcons.clipboardList,
                   'Terms & Conditions',
                   trailing: LucideIcons.chevronRight,
+                  onTap: () {
+                    dialogContext.push('/terms-conditions');
+                  },
                 ),
                 const Spacer(),
                 ElevatedButton.icon(

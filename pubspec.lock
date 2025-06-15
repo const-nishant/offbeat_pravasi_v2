@@ -109,10 +109,10 @@ packages:
     dependency: transitive
     description:
       name: camera_android_camerax
-      sha256: "26673643ed8f4a468a81ebd7ca760bc1d8c4c741df6d731cc958585ac1983126"
+      sha256: "71e7f3ad13adbf76299da91b7d711932aaded2236c0ea02f653410436eb70350"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.15"
+    version: "0.6.15+1"
   camera_avfoundation:
     dependency: transitive
     description:
@@ -1406,7 +1406,7 @@ packages:
     source: hosted
     version: "2.2.2"
   url_launcher:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: url_launcher
       sha256: "9d06212b1362abc2f0f0d78e6f09f726608c74e3b9462e8368bb03314aa8d603"

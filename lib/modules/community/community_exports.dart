@@ -7,3 +7,4 @@ export 'widgets/postcard.dart';
 export 'widgets/viewstory.dart';
 export 'widgets/commentcard.dart';
 export 'pages/commentscreen.dart';
+export 'widgets/trekcard.dart';

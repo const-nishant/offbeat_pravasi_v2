@@ -207,6 +207,18 @@ final GoRouter router = GoRouter(
             ),
           );
         }),
+    GoRoute(
+      path: '/terms-conditions',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const TermsAndConditionsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/support-page',
+      pageBuilder: (context, state) => NoTransitionPage(
+        child: const SupportScreen(),
+      ),
+    ),
   ],
   initialLocation: '/',
   debugLogDiagnostics: false,

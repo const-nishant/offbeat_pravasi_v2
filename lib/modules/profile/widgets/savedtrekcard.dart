@@ -1,8 +1,25 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-class Savedtrekcard extends StatelessWidget {
-  const Savedtrekcard({super.key});
+class SavedtrekCard extends StatelessWidget {
+  final String title;
+  final String location;
+  final String elevation;
+  final String rating;
+  final String trekId;
+  final String trekImage;
+
+  const SavedtrekCard({
+    super.key,
+    required this.title,
+    required this.location,
+    required this.elevation,
+    required this.rating,
+    required this.trekId,
+    required this.trekImage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,84 +32,78 @@ class Savedtrekcard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(16),
+          image: DecorationImage(
+            image: CachedNetworkImageProvider(trekImage),
+            fit: BoxFit.cover,
+          ),
         ),
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment:
-              MainAxisAlignment.end, // Align children at the bottom
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            // Top Row: Rating & Elevation
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
+                    _infoChip(LucideIcons.star, rating, true, context),
+                    const SizedBox(width: 10),
                     _infoChip(
-                      LucideIcons.star,
-                      "4.8",
-                      true,
-                      context,
-                    ),
-                    SizedBox(width: 10),
-                    _infoChip(
-                        LucideIcons.mountainSnow, "449 ft", false, context),
+                        LucideIcons.mountainSnow, elevation, false, context),
                   ],
                 ),
                 Icon(
-                  //add bookmark logic here and change the icon
                   LucideIcons.bookmarkCheck,
                   size: 20,
                   weight: 2,
                 ),
               ],
             ),
-            Spacer(),
-            // Title & Location
+            const Spacer(),
             Row(
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Raigad Fort",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           LucideIcons.mapPin,
                           size: 14,
                           color: Colors.grey,
                         ),
-                        SizedBox(width: 4),
+                        const SizedBox(width: 4),
                         Text(
-                          "Raigad, Maharashtra",
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                          location,
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                       ],
                     ),
                   ],
                 ),
-                Spacer(),
-                // Action Button
+                const Spacer(),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push("/trekdetails", extra: {
+                      'trekId': trekId,
+                    });
+                  },
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1,
-                      color: Colors.transparent,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(22),
-                    ),
+                    side: const BorderSide(width: 1, color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(22),
                   ),
                   elevation: 2,
                   mini: true,
-                  child: Icon(
+                  child: const Icon(
                     LucideIcons.moveRight,
                     color: Colors.black,
                     size: 18,
@@ -105,34 +116,34 @@ class Savedtrekcard extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget _infoChip(
-    IconData icon, String text, bool israting, BuildContext context) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Row(
-      children: [
-        Icon(
-          icon,
-          size: 16,
-          color:
-              israting ? Colors.amber : Theme.of(context).colorScheme.primary,
-        ),
-        SizedBox(width: 6),
-        Text(
-          text,
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 14,
-            color: Theme.of(context).colorScheme.primary,
+  Widget _infoChip(
+      IconData icon, String text, bool isRating, BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 16,
+            color:
+                isRating ? Colors.amber : Theme.of(context).colorScheme.primary,
           ),
-        ),
-      ],
-    ),
-  );
+          const SizedBox(width: 6),
+          Text(
+            text,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

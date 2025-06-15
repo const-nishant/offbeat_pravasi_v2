@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '../../../auth/auth_exports.dart';
 import '../../home_exports.dart';
 
@@ -63,6 +66,28 @@ class HomeServices extends ChangeNotifier {
       _friendRequests = snapshot.docs;
       notifyListeners();
     });
+  }
+
+  // make a call to trek owner
+  Future<void> makePhoneCall(String phoneNumber, BuildContext context) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+
+    if (await Permission.phone.request().isGranted) {
+      if (await canLaunchUrl(launchUri)) {
+        await launchUrl(launchUri);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not launch the phone dialer')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Phone call permission not granted')),
+      );
+    }
   }
 
   Future<void> acceptFriendRequest(String requestId, String senderId) async {
