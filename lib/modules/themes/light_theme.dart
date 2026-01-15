@@ -10,7 +10,7 @@ ThemeData lightTheme = ThemeData(
     tertiary: Color(0xFF939598), // Tertiary Color
     inversePrimary: Colors.white,
   ),
-  dialogTheme: DialogTheme(
+  dialogTheme: DialogThemeData(
     titleTextStyle: TextStyle(color: Colors.grey.shade500),
     contentTextStyle: TextStyle(color: Colors.grey.shade500),
   ),

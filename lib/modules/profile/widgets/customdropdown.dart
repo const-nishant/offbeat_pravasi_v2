@@ -30,7 +30,7 @@ class CustomDropdown extends StatelessWidget {
         ),
         SizedBox(height: 6.0),
         DropdownButtonFormField<DropDownValueModel>(
-          value: controller.dropDownValue,
+          initialValue: controller.dropDownValue,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),

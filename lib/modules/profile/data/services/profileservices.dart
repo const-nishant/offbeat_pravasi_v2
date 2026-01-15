@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:offbeat_pravasi_v2/config/configs.dart';
-import 'package:offbeat_pravasi_v2/modules/profile/data/models/post.dart';
 import '../../../../main.dart';
 import '../../../auth/auth_exports.dart';
 import '../exports.dart';
@@ -62,7 +61,8 @@ class ProfileService extends ChangeNotifier {
           .get();
       if (userDoc.exists) {
         Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
-        _userTrekIds = (userData['userTrekIds'] as List<dynamic>?)?.cast<String>() ?? [];
+        _userTrekIds =
+            (userData['userTrekIds'] as List<dynamic>?)?.cast<String>() ?? [];
       }
     } catch (e) {
       debugPrint('Error fetching user trek ids: $e');
