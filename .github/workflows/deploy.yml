@@ -19,13 +19,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.x"
+          channel: "stable"
+          cache: true
 
-      - name: Clean Flutter build
-        run: flutter clean
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Install dependencies
         run: flutter pub get
@@ -42,7 +57,7 @@ jobs:
           APPWRITE_USERSTORY_BUCKET: ${{ secrets.APPWRITE_USERSTORY_BUCKET }}
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
         run: |
-          flutter build apk \
+          flutter build apk --release --verbose \
             --dart-define=APPWRITE_ENDPOINT=$APPWRITE_ENDPOINT \
             --dart-define=APPWRITE_PROJECT_ID=$APPWRITE_PROJECT_ID \
             --dart-define=APPWRITE_USERSTORAGE_BUCKET=$APPWRITE_USERSTORAGE_BUCKET \
@@ -51,7 +66,7 @@ jobs:
             --dart-define=APPWRITE_USERPOSTS_BUCKET=$APPWRITE_USERPOSTS_BUCKET \
             --dart-define=APPWRITE_NOTIFICATION_ENDPOINT=$APPWRITE_NOTIFICATION_ENDPOINT \
             --dart-define=APPWRITE_USERSTORY_BUCKET=$APPWRITE_USERSTORY_BUCKET \
-            --dart-define=STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY \
+            --dart-define=STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
