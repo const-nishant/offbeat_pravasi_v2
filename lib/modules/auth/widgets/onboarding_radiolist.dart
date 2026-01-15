@@ -36,7 +36,9 @@ class _OnboardingRadioslistState extends State<OnboardingRadiolist> {
         value: widget.optionValue,
         activeColor: Theme.of(context).colorScheme.secondary,
         groupValue: widget.groupValue,
-        onChanged: widget.onChanged,
+        onChanged: (String? newValue) {
+          widget.onChanged(newValue);
+        },
       ),
     );
   }

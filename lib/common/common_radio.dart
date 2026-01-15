@@ -15,7 +15,9 @@ class CommonRadio extends StatelessWidget {
     return Radio<String>(
       value: value,
       groupValue: groupValue,
-      onChanged: onChanged,
+      onChanged: (String? newValue) {
+        onChanged(newValue);
+      },
       activeColor: Theme.of(context).colorScheme.secondary,
     );
   }
