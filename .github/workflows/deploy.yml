@@ -3,11 +3,11 @@ name: Flutter Build
 on:
   push:
     branches:
-      - main
+      - master
 
   pull_request:
     branches:
-      - main
+      - master
 
   workflow_dispatch:
 
@@ -31,21 +31,54 @@ jobs:
         run: flutter pub get
 
       - name: Build app with secrets
+        env:
+          APPWRITE_ENDPOINT: ${{ secrets.APPWRITE_ENDPOINT }}
+          APPWRITE_PROJECT_ID: ${{ secrets.APPWRITE_PROJECTID }}
+          APPWRITE_USERSTORAGE_BUCKET: ${{ secrets.APPWRITE_USERSTORAGE_BUCKET }}
+          APPWRITE_TREKIMAGE_BUCKET: ${{ secrets.APPWRITE_TREKIMAGE_BUCKET }}
+          APPWRITE_USERBANNER_BUCKET: ${{ secrets.APPWRITE_USERBANNER_BUCKET }}
+          APPWRITE_USERPOSTS_BUCKET: ${{ secrets.APPWRITE_USERPOSTS_BUCKET }}
+          APPWRITE_NOTIFICATION_ENDPOINT: ${{ secrets.APPWRITE_NOTIFICATION_ENDPOINT }}
+          APPWRITE_USERSTORY_BUCKET: ${{ secrets.APPWRITE_USERSTORY_BUCKET }}
+          STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
         run: |
           flutter build apk \
-            --dart-define=APPWRITE_ENDPOINT=${{ secrets.APPWRITE_ENDPOINT }} \
-            --dart-define=APPWRITE_PROJECT_ID=${{ secrets.APPWRITE_PROJECTID }} \
-            --dart-define=APPWRITE_USERSTORAGE_BUCKET=${{ secrets.APPWRITE_USERSTORAGE_BUCKET }} \
-            --dart-define=APPWRITE_TREKIMAGE_BUCKET=${{ secrets.APPWRITE_TREKIMAGE_BUCKET }} \
-            --dart-define=APPWRITE_USERBANNER_BUCKET=${{ secrets.APPWRITE_USERBANNER_BUCKET }} \
-            --dart-define=APPWRITE_USERPOSTS_BUCKET=${{ secrets.APPWRITE_USERPOSTS_BUCKET }} \
-            --dart-define=APPWRITE_NOTIFICATION_ENDPOINT=${{ secrets.APPWRITE_NOTIFICATION_ENDPOINT }} \
-            --dart-define=APPWRITE_USERSTORY_BUCKET=${{ secrets.APPWRITE_USERSTORY_BUCKET }} \
-            --dart-define=STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }} \
-            
+            --dart-define=APPWRITE_ENDPOINT=$APPWRITE_ENDPOINT \
+            --dart-define=APPWRITE_PROJECT_ID=$APPWRITE_PROJECT_ID \
+            --dart-define=APPWRITE_USERSTORAGE_BUCKET=$APPWRITE_USERSTORAGE_BUCKET \
+            --dart-define=APPWRITE_TREKIMAGE_BUCKET=$APPWRITE_TREKIMAGE_BUCKET \
+            --dart-define=APPWRITE_USERBANNER_BUCKET=$APPWRITE_USERBANNER_BUCKET \
+            --dart-define=APPWRITE_USERPOSTS_BUCKET=$APPWRITE_USERPOSTS_BUCKET \
+            --dart-define=APPWRITE_NOTIFICATION_ENDPOINT=$APPWRITE_NOTIFICATION_ENDPOINT \
+            --dart-define=APPWRITE_USERSTORY_BUCKET=$APPWRITE_USERSTORY_BUCKET \
+            --dart-define=STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY \
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Get current date
+        id: date
+        run: echo "DATE=$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: android-release-${{ steps.date.outputs.DATE }}
+          name: Android Release - ${{ steps.date.outputs.DATE }}
+          body: |
+            Flutter Android APK Release
+
+            Built on: ${{ github.event.head_commit.timestamp }}
+            Commit: ${{ github.event.head_commit.id }}
+            Author: ${{ github.event.head_commit.author.name }}
+
+            This is an automated release build of the Flutter app for Android.
+          files: build/app/outputs/flutter-apk/app-release.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
